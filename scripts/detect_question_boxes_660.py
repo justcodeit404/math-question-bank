@@ -1,4 +1,5 @@
-"""Detect colored question number boxes across all chapters."""
+"""Detect colored question-number boxes for 660 (高数 / 线代)."""
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -9,9 +10,26 @@ from PIL import Image
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-PDF_IMAGES = Path('660题/pdf_images')
-CROP_DIR = Path('temp/660_crops_v2')
-META_PATH = Path('temp/660_question_boxes_v2.json')
+CONFIG = {
+    'math': {
+        'pdf_images': Path('660题/pdf_images'),
+        'crop_dir': Path('temp/660_crops_v2'),
+        'meta_path': Path('temp/660_question_boxes_v2.json'),
+        'page_range': (16, 167),
+        'saturation_low': 25,
+        'x_max': 260,
+        'filter_labels': False,
+    },
+    'linear': {
+        'pdf_images': Path('660题/pdf_images_线代'),
+        'crop_dir': Path('temp/660_linear_crops'),
+        'meta_path': Path('temp/660_linear_question_boxes.json'),
+        'page_range': (4, 71),
+        'saturation_low': 35,
+        'x_max': 180,
+        'filter_labels': True,
+    },
+}
 
 
 def _read_image(image_path):
@@ -19,14 +37,8 @@ def _read_image(image_path):
     return cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR)
 
 
-def detect_number_boxes(image_path):
-    """Detect solid colored question-number boxes in the left margin.
-
-    Different chapters use different colors (pink/green/blue/etc.), so we
-    detect any reasonably saturated region and then pick the left-most box
-    at each vertical position to separate the number box from the UI labels
-    that sit to its right.
-    """
+def detect_number_boxes(image_path, cfg):
+    """Detect solid colored question-number boxes in the left margin."""
     img = _read_image(image_path)
     if img is None:
         return []
@@ -34,10 +46,8 @@ def detect_number_boxes(image_path):
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     h_img, w_img = img.shape[:2]
 
-    # Any reasonably saturated, bright colored region
-    mask = cv2.inRange(hsv, np.array([0, 25, 80]), np.array([179, 255, 255]))
+    mask = cv2.inRange(hsv, np.array([0, cfg['saturation_low'], 80]), np.array([179, 255, 255]))
 
-    # Clean up
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
     mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
     mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
@@ -47,7 +57,7 @@ def detect_number_boxes(image_path):
     for cnt in contours:
         x, y, w, h = cv2.boundingRect(cnt)
         aspect = w / h
-        if x < 20 or x > 260:
+        if x < 20 or x > cfg['x_max']:
             continue
         if w < 50 or w > 140:
             continue
@@ -65,8 +75,6 @@ def detect_number_boxes(image_path):
             continue
         candidates.append((x, y, w, h))
 
-    # The question-number box is the left-most colored rectangle at each y-level.
-    # Labels such as "难度" sit just to its right and are filtered out here.
     candidates.sort(key=lambda b: b[1])
     groups = []
     y_tol = 60
@@ -83,6 +91,21 @@ def detect_number_boxes(image_path):
 
     boxes = [min(g, key=lambda b: b[0]) for g in groups]
     boxes.sort(key=lambda b: b[1])
+
+    if cfg.get('filter_labels'):
+        # Drop UI labels that sit directly below a question number box (e.g., 难度条).
+        min_gap = 150
+        filtered = []
+        for b in boxes:
+            if not filtered:
+                filtered.append(b)
+                continue
+            _, y, _, h = b
+            _, prev_y, _, prev_h = filtered[-1]
+            if y - (prev_y + prev_h) >= min_gap:
+                filtered.append(b)
+        boxes = filtered
+
     return boxes
 
 
@@ -100,9 +123,7 @@ def crop_questions(image_path, boxes, page_num, out_dir):
     for i, (x, y, w, h) in enumerate(boxes):
         x1 = max(0, x - 20)
         x2 = min(w_img, w_img - 10)
-        # Start a bit above the current number box
         y1 = max(0, y - 80)
-        # End just before the next question's number box (minus a small gap)
         next_y = boxes_ext[i + 1][1]
         y2 = min(h_img, next_y - 15)
         if y2 <= y1:
@@ -122,32 +143,44 @@ def crop_questions(image_path, boxes, page_num, out_dir):
 
 
 def main():
-    PDF_IMAGES.mkdir(parents=True, exist_ok=True)
-    CROP_DIR.mkdir(parents=True, exist_ok=True)
+    parser = argparse.ArgumentParser(description='Detect 660 question boxes')
+    parser.add_argument('--subject', choices=list(CONFIG.keys()), default='math',
+                        help='高数 (math) 或 线代 (linear)')
+    args = parser.parse_args()
+
+    cfg = CONFIG[args.subject]
+    pdf_images = cfg['pdf_images']
+    crop_dir = cfg['crop_dir']
+    meta_path = cfg['meta_path']
+    page_min, page_max = cfg['page_range']
+
+    pdf_images.mkdir(parents=True, exist_ok=True)
+    crop_dir.mkdir(parents=True, exist_ok=True)
 
     all_crops = []
     stats = []
-    for img_path in sorted(PDF_IMAGES.glob('page_*.png')):
+    for img_path in sorted(pdf_images.glob('page_*.png')):
         m = img_path.stem.split('_')
         if len(m) != 2 or not m[1].isdigit():
             continue
         page_num = int(m[1])
-        # The question section ends around PDF page 167; beyond that are answers/ads.
-        if page_num < 16 or page_num > 167:
+        if page_num < page_min or page_num > page_max:
             continue
 
-        boxes = detect_number_boxes(img_path)
+        boxes = detect_number_boxes(img_path, cfg)
         if boxes:
             stats.append((page_num, len(boxes)))
-            crops = crop_questions(img_path, boxes, page_num, CROP_DIR)
+            crops = crop_questions(img_path, boxes, page_num, crop_dir)
             all_crops.extend(crops)
 
-    with open(META_PATH, 'w', encoding='utf-8') as f:
+    meta_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(meta_path, 'w', encoding='utf-8') as f:
         json.dump(all_crops, f, ensure_ascii=False, indent=2)
 
     print(f'Total crops: {len(all_crops)} across {len(stats)} pages')
-    print(f'Page range: {min(s[0] for s in stats)} - {max(s[0] for s in stats)}')
-    print(f'Questions per page min/max: {min(s[1] for s in stats)} / {max(s[1] for s in stats)}')
+    if stats:
+        print(f'Page range: {min(s[0] for s in stats)} - {max(s[0] for s in stats)}')
+        print(f'Questions per page min/max: {min(s[1] for s in stats)} / {max(s[1] for s in stats)}')
 
 
 if __name__ == '__main__':

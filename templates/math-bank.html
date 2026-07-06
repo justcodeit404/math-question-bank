@@ -797,7 +797,7 @@ body {
   </div>
 </div>
 
-<script src="data.js?v=223c6627&t=20260706231343"></script>
+<script src="data.js?v=b34024e1&t=20260706232408"></script>
 <script>
 // ========================
 // Data & State
@@ -1442,6 +1442,7 @@ function renderKatex(element) {
 }
 
 const katexCache = new Map();
+const KATEX_CACHE_LIMIT = 500;
 
 function renderMath(latex, displayMode) {
   const key = (displayMode ? 'D:' : 'I:') + latex;
@@ -1451,6 +1452,10 @@ function renderMath(latex, displayMode) {
     html = katex.renderToString(latex, {throwOnError: false, displayMode, strict: false});
   } catch (e) {
     html = `<span class="katex-error" title="${escapeHtml(e.message)}">${escapeHtml(latex)}</span>`;
+  }
+  if (katexCache.size >= KATEX_CACHE_LIMIT) {
+    const firstKey = katexCache.keys().next().value;
+    katexCache.delete(firstKey);
   }
   katexCache.set(key, html);
   return html;
@@ -1584,6 +1589,11 @@ function matchBrace(s, i) {
   let depth = 1;
   let j = i + 1;
   while (j < s.length && depth > 0) {
+    if (s[j] === '\\' && j + 1 < s.length && (s[j + 1] === open || s[j + 1] === close)) {
+      // Escaped brace: skip both characters
+      j += 2;
+      continue;
+    }
     if (s[j] === open) depth++;
     else if (s[j] === close) depth--;
     j++;

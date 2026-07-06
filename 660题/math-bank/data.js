@@ -9740,7 +9740,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 4,
-              cropped: "../../temp/660_linear_crops/page_004_q1.png",
+              cropped: "images/page_004_q1.png",
               note: null,
               original_page: null
             },
@@ -9758,7 +9758,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 4,
-              cropped: "../../temp/660_linear_crops/page_004_q2.png",
+              cropped: "images/page_004_q2.png",
               note: null,
               original_page: null
             },
@@ -9776,7 +9776,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 4,
-              cropped: "../../temp/660_linear_crops/page_004_q3.png",
+              cropped: "images/page_004_q3.png",
               note: null,
               original_page: null
             },
@@ -9794,7 +9794,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 5,
-              cropped: "../../temp/660_linear_crops/page_005_q1.png",
+              cropped: "images/page_005_q1.png",
               note: null,
               original_page: null
             },
@@ -9812,7 +9812,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 5,
-              cropped: "../../temp/660_linear_crops/page_005_q2.png",
+              cropped: "images/page_005_q2.png",
               note: null,
               original_page: null
             },
@@ -9830,7 +9830,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 5,
-              cropped: "../../temp/660_linear_crops/page_005_q3.png",
+              cropped: "images/page_005_q3.png",
               note: null,
               original_page: null
             },
@@ -10070,7 +10070,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 6,
-              cropped: "../../temp/660_linear_crops/page_006_q1.png",
+              cropped: "images/page_006_q1.png",
               note: null,
               original_page: null
             },
@@ -10088,7 +10088,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 6,
-              cropped: "../../temp/660_linear_crops/page_006_q2.png",
+              cropped: "images/page_006_q2.png",
               note: null,
               original_page: null
             },
@@ -10106,7 +10106,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 6,
-              cropped: "../../temp/660_linear_crops/page_006_q3.png",
+              cropped: "images/page_006_q3.png",
               note: null,
               original_page: null
             },
@@ -10124,7 +10124,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 7,
-              cropped: "../../temp/660_linear_crops/page_007_q1.png",
+              cropped: "images/page_007_q1.png",
               note: null,
               original_page: null
             },
@@ -10142,7 +10142,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 7,
-              cropped: "../../temp/660_linear_crops/page_007_q2.png",
+              cropped: "images/page_007_q2.png",
               note: null,
               original_page: null
             },
@@ -10160,7 +10160,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 7,
-              cropped: "../../temp/660_linear_crops/page_007_q3.png",
+              cropped: "images/page_007_q3.png",
               note: null,
               original_page: null
             },
@@ -10178,7 +10178,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 8,
-              cropped: "../../temp/660_linear_crops/page_008_q1.png",
+              cropped: "images/page_008_q1.png",
               note: null,
               original_page: null
             },
@@ -10196,7 +10196,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 8,
-              cropped: "../../temp/660_linear_crops/page_008_q2.png",
+              cropped: "images/page_008_q2.png",
               note: null,
               original_page: null
             },
@@ -10214,7 +10214,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 8,
-              cropped: "../../temp/660_linear_crops/page_008_q3.png",
+              cropped: "images/page_008_q3.png",
               note: null,
               original_page: null
             },
@@ -10232,7 +10232,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 9,
-              cropped: "../../temp/660_linear_crops/page_009_q1.png",
+              cropped: "images/page_009_q1.png",
               note: null,
               original_page: null
             },
@@ -10250,7 +10250,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 9,
-              cropped: "../../temp/660_linear_crops/page_009_q2.png",
+              cropped: "images/page_009_q2.png",
               note: null,
               original_page: null
             },
@@ -10268,7 +10268,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 9,
-              cropped: "../../temp/660_linear_crops/page_009_q3.png",
+              cropped: "images/page_009_q3.png",
               note: null,
               original_page: null
             },
@@ -10286,7 +10286,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 10,
-              cropped: "../../temp/660_linear_crops/page_010_q1.png",
+              cropped: "images/page_010_q1.png",
               note: null,
               original_page: null
             },
@@ -10304,7 +10304,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 10,
-              cropped: "../../temp/660_linear_crops/page_010_q2.png",
+              cropped: "images/page_010_q2.png",
               note: null,
               original_page: null
             },
@@ -10322,7 +10322,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 10,
-              cropped: "../../temp/660_linear_crops/page_010_q3.png",
+              cropped: "images/page_010_q3.png",
               note: null,
               original_page: null
             },
@@ -10340,7 +10340,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 11,
-              cropped: "../../temp/660_linear_crops/page_011_q1.png",
+              cropped: "images/page_011_q1.png",
               note: null,
               original_page: null
             },
@@ -10358,7 +10358,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 11,
-              cropped: "../../temp/660_linear_crops/page_011_q2.png",
+              cropped: "images/page_011_q2.png",
               note: null,
               original_page: null
             },
@@ -10376,7 +10376,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 11,
-              cropped: "../../temp/660_linear_crops/page_011_q3.png",
+              cropped: "images/page_011_q3.png",
               note: null,
               original_page: null
             },
@@ -10394,7 +10394,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 12,
-              cropped: "../../temp/660_linear_crops/page_012_q1.png",
+              cropped: "images/page_012_q1.png",
               note: null,
               original_page: null
             },
@@ -10412,7 +10412,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 12,
-              cropped: "../../temp/660_linear_crops/page_012_q2.png",
+              cropped: "images/page_012_q2.png",
               note: null,
               original_page: null
             },
@@ -10430,7 +10430,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 12,
-              cropped: "../../temp/660_linear_crops/page_012_q3.png",
+              cropped: "images/page_012_q3.png",
               note: null,
               original_page: null
             },
@@ -10448,7 +10448,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 13,
-              cropped: "../../temp/660_linear_crops/page_013_q1.png",
+              cropped: "images/page_013_q1.png",
               note: null,
               original_page: null
             },
@@ -10466,7 +10466,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 13,
-              cropped: "../../temp/660_linear_crops/page_013_q2.png",
+              cropped: "images/page_013_q2.png",
               note: null,
               original_page: null
             },
@@ -10484,7 +10484,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 13,
-              cropped: "../../temp/660_linear_crops/page_013_q3.png",
+              cropped: "images/page_013_q3.png",
               note: null,
               original_page: null
             },
@@ -11444,7 +11444,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 14,
-              cropped: "../../temp/660_linear_crops/page_014_q1.png",
+              cropped: "images/page_014_q1.png",
               note: null,
               original_page: null
             },
@@ -11462,7 +11462,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 14,
-              cropped: "../../temp/660_linear_crops/page_014_q2.png",
+              cropped: "images/page_014_q2.png",
               note: null,
               original_page: null
             },
@@ -11480,7 +11480,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 14,
-              cropped: "../../temp/660_linear_crops/page_014_q3.png",
+              cropped: "images/page_014_q3.png",
               note: null,
               original_page: null
             },
@@ -11498,7 +11498,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 15,
-              cropped: "../../temp/660_linear_crops/page_015_q1.png",
+              cropped: "images/page_015_q1.png",
               note: null,
               original_page: null
             },
@@ -11516,7 +11516,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 15,
-              cropped: "../../temp/660_linear_crops/page_015_q2.png",
+              cropped: "images/page_015_q2.png",
               note: null,
               original_page: null
             },
@@ -11534,7 +11534,7 @@ const QUESTION_BANK = {
           has_image: true,
           image_ref: {
               page: 15,
-              cropped: "../../temp/660_linear_crops/page_015_q3.png",
+              cropped: "images/page_015_q3.png",
               note: null,
               original_page: null
             },

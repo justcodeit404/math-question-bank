@@ -6,7 +6,10 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding='utf-8')
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common_660 import get_chapter, get_question_type, pdf_to_printed, generate_datajs
+from common_660 import SubjectContext
+from utils import write_json_atomic
+
+ctx = SubjectContext('math')
 
 META_PATH = Path('temp/660_question_boxes_v2.json')
 RESULTS_PATH = Path('temp/660_extracted_minimax.json')
@@ -56,7 +59,7 @@ def main():
     page_qnums = json.loads(PAGE_QNUMS_PATH.read_text(encoding='utf-8'))
 
     page_qnums = fill_missing_page_qnums(page_qnums)
-    PAGE_QNUMS_PATH.write_text(json.dumps(page_qnums, ensure_ascii=False, indent=2), encoding='utf-8')
+    write_json_atomic(PAGE_QNUMS_PATH, page_qnums, indent=2)
 
     results_by_key = {(r['page'], r['index']): r for r in results}
 
@@ -108,9 +111,9 @@ def main():
             'content': r['content'],
             'options': normalized if has_options else None,
             'page': r['page'],
-            'printed_page': pdf_to_printed(r['page']),
-            'chapter': get_chapter(r['page']),
-            'type': get_question_type(r['page']),
+            'printed_page': ctx.pdf_to_printed(r['page']),
+            'chapter': ctx.get_chapter(r['page']),
+            'type': ctx.get_question_type(r['page']),
             'has_image': bool(crop),
             'image_ref': {'cropped': crop} if crop else None,
         })
@@ -118,9 +121,9 @@ def main():
     for idx, q in enumerate(questions, start=1):
         q['id'] = idx
 
-    QUESTIONS_JSON.write_text(json.dumps(questions, ensure_ascii=False, indent=2), encoding='utf-8')
+    write_json_atomic(QUESTIONS_JSON, questions, indent=2)
     print(f'Saved {QUESTIONS_JSON} ({len(questions)} questions)')
-    generate_datajs(questions)
+    ctx.generate_datajs(questions)
 
 
 if __name__ == '__main__':

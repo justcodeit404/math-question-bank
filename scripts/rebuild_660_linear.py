@@ -6,7 +6,10 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding='utf-8')
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common_660_linear import get_chapter, get_question_type, pdf_to_printed, generate_datajs
+from common_660 import SubjectContext
+from utils import write_json_atomic
+
+ctx = SubjectContext('linear')
 
 META_PATH = Path('temp/660_linear_question_boxes.json')
 RESULTS_PATH = Path('temp/660_linear_extracted_minimax.json')
@@ -82,9 +85,9 @@ def main():
             'content': r['content'],
             'options': normalized if has_options else None,
             'page': r['page'],
-            'printed_page': pdf_to_printed(r['page']),
-            'chapter': get_chapter(r['page']),
-            'type': get_question_type(r['page']),
+            'printed_page': ctx.pdf_to_printed(r['page']),
+            'chapter': ctx.get_chapter(r['page']),
+            'type': ctx.get_question_type(r['page']),
             'has_image': bool(crop),
             'image_ref': {'cropped': crop} if crop else None,
         })
@@ -93,9 +96,9 @@ def main():
         q['id'] = idx
 
     QUESTIONS_JSON.parent.mkdir(parents=True, exist_ok=True)
-    QUESTIONS_JSON.write_text(json.dumps(questions, ensure_ascii=False, indent=2), encoding='utf-8')
+    write_json_atomic(QUESTIONS_JSON, questions, indent=2)
     print(f'Saved {QUESTIONS_JSON} ({len(questions)} questions)')
-    generate_datajs(questions)
+    ctx.generate_datajs(questions)
 
 
 if __name__ == '__main__':
