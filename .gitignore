@@ -1,0 +1,43 @@
+# Python / Node 环境
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+node_modules/
+
+# 虚拟环境（运行时生成，体积大）
+temp/packages/
+
+# 运行时缓存/日志
+.claude/
+.playwright-mcp/
+temp/
+
+# 中间产物
+*.bak
+*.bak.*
+
+# 大文件：PDF、原始页面图、裁剪图
+*.pdf
+*/pdf_images*/
+*/cropped_images/
+*/math-bank/images/
+*/math-bank/crops/
+
+# 提取中间产物与旧分册
+*/extracted*.json
+*/questions_高数.json
+*/questions_线代.json
+
+# 旧图备份
+*/math-bank/_old_images/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

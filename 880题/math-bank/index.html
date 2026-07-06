@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数学题库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricol+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<style>
+:root {
+  --bg: #fafaf8;
+  --surface: #ffffff;
+  --text: #1a1a18;
+  --muted: #6f6e69;
+  --border: #e4e3de;
+  --accent: #2d6a4f;
+  --accent-light: #40916c;
+  --accent-faint: #e9f5ef;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --warning: #d97706;
+  --radius: 10px;
+  font-size: 16px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Bricol Grotesque', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  overflow: hidden;
+}
+
+.app { display: flex; height: 100vh; overflow: hidden; }
+
+/* App header */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 60px;
+  background: rgb(250 250 248 / 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.app-header .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: var(--muted);
+  transition: color 0.15s;
+}
+.app-header .back-link:hover { color: var(--accent); }
+.app-header .app-brand {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-header h1 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.sidebar-header p {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.chapter-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.chapter-item {
+  padding: 10px 14px;
+  margin: 2px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: var(--text);
+  transition: background 0.15s;
+}
+
+.chapter-item:hover { background: #f4f4f1; }
+
+.chapter-item.active {
+  background: var(--accent-faint);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.chapter-item .count {
+  font-size: 0.75rem;
+  color: var(--muted);
+  background: #f4f4f1;
+  padding: 1px 8px;
+  border-radius: 20px;
+}
+
+.chapter-item.active .count {
+  background: #d8edd9;
+  color: var(--accent);
+}
+
+/* Main */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 220px;
+  position: relative;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px 14px 10px 36px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-box input:focus { border-color: var(--accent); }
+
+.search-box::before {
+  content: "🔍";
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+.filter-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.filter-group select, .filter-group button, .action-btn {
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.95rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.filter-group button, .action-btn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 500;
+}
+
+.filter-group button:hover, .action-btn:hover { background: var(--accent-light); }
+
+.toggle-sidebar {
+  display: none;
+  padding: 8px 11px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.stats-row {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  font-size: 1rem;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.stat-item:hover { background: #f4f4f1; }
+
+.stat-item strong {
+  color: var(--text);
+  font-size: 1.25rem;
+  margin-right: 4px;
+}
+
+.result-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 16px;
+}
+
+.question-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.question-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-faint), 0 8px 24px rgb(45 106 79 / 0.06);
+  transform: translateY(-1px);
+}
+
+.question-card:active { transform: translateY(0); }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.card-id {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.card-type {
+  font-size: 0.78rem;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: #f3f4f6;
+  color: var(--muted);
+}
+
+.card-type.choice { background: #dcfce7; color: var(--success); }
+.card-type.proof { background: #fef3c7; color: var(--warning); }
+.card-type.fill { background: #fee2e2; color: var(--danger); }
+
+.card-chapter {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.card-content {
+  font-size: 1rem;
+  color: var(--text);
+  line-height: 1.55;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.card-tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.card-tag {
+  font-size: 0.73rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: #f4f4f1;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  padding: 10px;
+}
+
+.pagination button {
+  padding: 9px 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.pagination button:hover { background: #f4f4f1; }
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination .page-info {
+  color: var(--muted);
+  font-size: 0.95rem;
+  min-width: 70px;
+  text-align: center;
+}
+
+.page-jump {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.page-jump input {
+  width: 55px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  text-align: center;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.page-jump input:focus { border-color: var(--accent); }
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 1100px;
+  max-height: 92vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-header h3 { font-size: 1.15rem; font-weight: 600; }
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 22px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-content .q-chapter {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.modal-content .q-id {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.modal-content .q-text {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  margin-bottom: 18px;
+  padding: 18px;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.modal-content .q-options {
+  margin-bottom: 18px;
+}
+
+.option-item {
+  padding: 12px 14px;
+  margin: 8px 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  font-size: 1.05rem;
+}
+
+.option-item:hover { border-color: var(--accent); }
+
+.option-item.selected {
+  border-color: var(--success);
+  background: #f0fdf4;
+}
+
+.modal-content .q-sub {
+  margin-bottom: 12px;
+}
+
+.sub-label {
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.sub-item {
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.sub-tag {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 0.95rem;
+  min-width: 38px;
+}
+
+.sub-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.q-image {
+  margin-bottom: 18px;
+  text-align: center;
+  background: #f3f4f6;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.q-image summary {
+  padding: 12px 18px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--accent);
+  user-select: none;
+  list-style: none;
+}
+
+.q-image summary:hover {
+  background: #e5e7eb;
+}
+
+.q-image[open] summary {
+  border-bottom: 1px solid var(--border);
+}
+
+.q-image-content {
+  padding: 12px;
+}
+
+.q-image img {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 4px;
+  cursor: zoom-in;
+}
+
+.q-image-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 22px;
+  border-top: 1px solid var(--border);
+  gap: 10px;
+}
+
+.modal-footer button {
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.modal-footer button:hover { background: var(--bg); }
+
+.modal-footer .btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.modal-footer .btn-primary:hover { background: var(--accent-light); }
+
+/* Practice */
+.practice-progress {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 14px;
+}
+
+.practice-question {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 22px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+
+.empty-state h3 { margin-bottom: 8px; color: var(--text); font-weight: 500; }
+.empty-state button {
+  margin-top: 16px;
+  padding: 10px 20px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.empty-state button:hover { background: var(--accent-light); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* KaTeX */
+.katex { font-size: 1.15em; }
+.q-text .katex, .sub-item .katex, .option-item .katex { font-size: 1.18em; }
+.card-content .katex { font-size: 1.1em; }
+
+/* 字体统一：让 .q-text、.opt-math、.sub-text 与 KaTeX 数学环境字体一致 */
+.q-text, .opt-math, .sub-text,
+.modal-content .q-text,
+.modal-content .opt-math,
+.modal-content .sub-text {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Latin Modern Math", "KaTeX_Main", "STIX Two Math", serif;
+}
+
+/* 调整中文与数学公式基线对齐 */
+.q-text, .modal-content .q-text {
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+.katex-error { color: var(--danger); font-size: 0.95em; }
+
+/* Search highlight */
+.search-mark { background: #fde047; color: #1f2937; border-radius: 2px; }
+
+/* Zoom overlay */
+.zoom-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+.zoom-overlay img {
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 998;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar.open ~ .sidebar-overlay { display: block; }
+  .toggle-sidebar { display: block; }
+  .question-grid { grid-template-columns: 1fr; }
+  .topbar { padding: 10px 14px; }
+  .search-box { min-width: 140px; }
+  .modal-body { overflow-x: auto; }
+  .page-jump input { width: 50px; }
+}
+
+/* Focus visible */
+.question-card:focus-visible, .chapter-item:focus-visible, .option-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1 id="bankTitle">数学题库</h1>
+      <p>交互式题库</p>
+    </div>
+    <div class="chapter-list" id="chapterList"></div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main">
+    <div class="app-header">
+      <a class="back-link" href="../../index.html">
+        <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 14L4 9l5-5"/>
+          <path d="M4 9h10"/>
+        </svg>
+        返回首页
+      </a>
+      <span class="app-brand">考研数学题库</span>
+    </div>
+    <div class="topbar">
+      <button class="toggle-sidebar" id="toggleSidebar">☰</button>
+      <div class="search-box">
+        <input type="search" id="searchInput" placeholder="搜索题目内容、公式、章节...">
+      </div>
+      <div class="filter-group">
+        <select id="typeFilter">
+          <option value="">全部题型</option>
+          <option value="选择题">选择题</option>
+          <option value="计算题">计算题</option>
+          <option value="证明题">证明题</option>
+          <option value="填空题">填空题</option>
+        </select>
+        <select id="featureFilter">
+          <option value="">全部题目</option>
+          <option value="sub">有子问</option>
+          <option value="image">有图片</option>
+        </select>
+        <button id="btnPractice">练习模式</button>
+      </div>
+    </div>
+
+    <div class="content" id="content">
+      <div class="stats-row" id="statsRow"></div>
+      <div class="result-info">
+        <span id="resultText">加载中...</span>
+        <button class="action-btn" id="btnRandom">随机一题</button>
+      </div>
+      <div class="question-grid" id="questionGrid"></div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>题目详情</h3>
+      <button class="modal-close" onclick="closeModal()" aria-label="关闭">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+    <div class="modal-footer">
+      <button onclick="prevQuestion()">上一题</button>
+      <button class="btn-primary" onclick="nextQuestion()">下一题</button>
+    </div>
+  </div>
+</div>
+
+<!-- Practice Modal -->
+<div class="modal-overlay" id="practiceModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>练习模式</h3>
+      <button class="modal-close" onclick="closePractice()" aria-label="关闭">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div id="practiceContent"></div>
+    </div>
+    <div class="modal-footer">
+      <button onclick="closePractice()">退出</button>
+      <button onclick="prevPractice()">上一题</button>
+      <button class="btn-primary" onclick="nextPractice()">下一题</button>
+    </div>
+  </div>
+</div>
+
+<script src="data.js?v=50&t=20260704"></script>
+<script>
+// ========================
+// Data & State
+// ========================
+const bank = QUESTION_BANK;
+if (!bank || !bank.chapters) {
+  document.getElementById('resultText').textContent = '数据加载失败，请检查 data.js 文件';
+  throw new Error('QUESTION_BANK not loaded');
+}
+// 动态设置题库标题
+document.title = bank.title || '数学题库';
+const bankTitleEl = document.getElementById('bankTitle');
+if (bankTitleEl) bankTitleEl.textContent = bank.title || '数学题库';
+let allQuestions = [];
+let filteredQuestions = [];
+let currentPage = 1;
+const pageSize = 20;
+let currentModalIndex = -1;
+let practiceQueue = [];
+let practiceIndex = 0;
+let selectedChapter = '';
+let randomHistory = [];
+let lastRandomIdx = -1;
+
+function questionKey(q) { return q.chapter + '::' + q.id; }
+function getTotalPages() { return Math.ceil(filteredQuestions.length / pageSize) || 1; }
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function debounce(fn, ms) {
+  let timer;
+  return function(...args) { clearTimeout(timer); timer = setTimeout(() => fn.apply(this, args), ms); };
+}
+
+function resetAndFilter() { currentPage = 1; applyFilters(); }
+
+function openModal(id) {
+  document.getElementById(id).classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModalById(id) {
+  document.getElementById(id).classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function init() {
+  allQuestions = [];
+  bank.chapters.forEach(ch => {
+    ch.questions.forEach(q => {
+      const entry = {...q, chapter: ch.name};
+      entry._searchText = (q.content + ' ' + (q.sub_questions || []).join(' ') + ' ' + ch.name + ' ' + q.id)
+        .toLowerCase()
+        // 去掉 LaTeX 命令反斜杠、括号、下标等符号，只保留字母、数字、中文和空格
+        .replace(/[^a-z0-9\u4e00-\u9fa5\s]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+      allQuestions.push(entry);
+    });
+  });
+
+  renderChapters();
+  renderStats();
+  applyFilters();
+  setupEvents();
+}
+
+// ========================
+// Sidebar
+// ========================
+function renderChapters() {
+  const container = document.getElementById('chapterList');
+  container.innerHTML = '';
+
+  const allItem = document.createElement('div');
+  allItem.className = 'chapter-item active';
+  allItem.innerHTML = `<span>全部章节</span><span class="count">${allQuestions.length}</span>`;
+  allItem.onclick = () => selectChapter('');
+  container.appendChild(allItem);
+
+  bank.chapters.forEach(ch => {
+    const el = document.createElement('div');
+    el.className = 'chapter-item';
+    el.innerHTML = `<span>${escapeHtml(ch.name)}</span><span class="count">${ch.question_count}</span>`;
+    el.onclick = () => selectChapter(ch.name);
+    container.appendChild(el);
+  });
+}
+
+function selectChapter(name) {
+  selectedChapter = name;
+  document.querySelectorAll('.chapter-item').forEach((el, i) => {
+    el.classList.toggle('active', (i === 0 && !name) || (i > 0 && bank.chapters[i-1].name === name));
+  });
+  currentPage = 1;
+  applyFilters();
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.remove('open');
+  }
+}
+
+// ========================
+// Stats
+// ========================
+function renderStats() {
+  const types = {};
+  const counts = {sub: 0, image: 0};
+  allQuestions.forEach(q => {
+    types[q.type] = (types[q.type] || 0) + 1;
+    if (q.sub_questions) counts.sub++;
+    if (q.has_image) counts.image++;
+  });
+
+  const stats = [
+    {label: '总题数', value: allQuestions.length, action: 'all'},
+    {label: '选择题', value: types['选择题'] || 0, action: '选择题'},
+    {label: '计算题', value: types['计算题'] || 0, action: '计算题'},
+    {label: '证明题', value: types['证明题'] || 0, action: '证明题'},
+    {label: '填空题', value: types['填空题'] || 0, action: '填空题'},
+    {label: '含子问', value: counts.sub, action: 'sub'},
+    {label: '有图片', value: counts.image, action: 'image'},
+  ];
+
+  const container = document.getElementById('statsRow');
+  container.innerHTML = stats.map(s => `
+    <div class="stat-item" data-stat="${s.action}"><strong>${s.value}</strong>${s.label}</div>
+  `).join('');
+
+  container.querySelectorAll('.stat-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const action = item.dataset.stat;
+      // 统计标签是“全局快捷筛选”，点击时先清空其他条件，保证结果数与标签一致
+      document.getElementById('typeFilter').value = '';
+      document.getElementById('featureFilter').value = '';
+      document.getElementById('searchInput').value = '';
+      selectChapter('');
+      if (action === 'sub') {
+        document.getElementById('featureFilter').value = 'sub';
+      } else if (action === 'image') {
+        document.getElementById('featureFilter').value = 'image';
+      } else if (action !== 'all') {
+        document.getElementById('typeFilter').value = action;
+      }
+      currentPage = 1;
+      applyFilters();
+    });
+  });
+}
+
+// ========================
+// Filtering & Search
+// ========================
+function filterQuestions(source, opts) {
+  const searchTokens = opts.search ? opts.search.split(/\s+/).filter(Boolean) : [];
+  return source.filter(q => {
+    if (opts.chapter && q.chapter !== opts.chapter) return false;
+    if (opts.type && q.type !== opts.type) return false;
+    if (opts.feature === 'sub' && !q.sub_questions) return false;
+    if (opts.feature === 'image' && !q.has_image) return false;
+    if (searchTokens.length && !searchTokens.every(t => q._searchText.includes(t))) return false;
+    return true;
+  });
+}
+
+function applyFilters() {
+  const rawSearch = document.getElementById('searchInput').value.trim().toLowerCase();
+  const search = rawSearch
+    .replace(/[^a-z0-9\u4e00-\u9fa5\s]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const type = document.getElementById('typeFilter').value;
+  const feature = document.getElementById('featureFilter').value;
+
+  filteredQuestions = filterQuestions(allQuestions, {chapter: selectedChapter, type, feature, search});
+
+  document.getElementById('resultText').textContent =
+    `共 ${filteredQuestions.length} 道题目${selectedChapter ? ' · ' + selectedChapter : ''}`;
+
+  currentPage = Math.min(currentPage, Math.max(1, getTotalPages()));
+  renderGrid(search);
+  renderPagination();
+}
+
+function clearAllFilters() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('typeFilter').value = '';
+  document.getElementById('featureFilter').value = '';
+  selectChapter('');
+}
+
+// ========================
+// Grid Rendering
+// ========================
+function renderGrid(search) {
+  const grid = document.getElementById('questionGrid');
+  const start = (currentPage - 1) * pageSize;
+  const pageQs = filteredQuestions.slice(start, start + pageSize);
+
+  if (pageQs.length === 0) {
+    const hasFilter = selectedChapter || document.getElementById('typeFilter').value || document.getElementById('featureFilter').value || document.getElementById('searchInput').value.trim();
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column: 1 / -1;">
+        <h3>未找到题目</h3>
+        <p>当前筛选组合下没有题目</p>
+        ${hasFilter ? '<button onclick="clearAllFilters()">清除全部筛选</button>' : ''}
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = pageQs.map((q, i) => {
+    const typeClass = q.type === '选择题' ? 'choice' : q.type === '证明题' ? 'proof' : q.type === '填空题' ? 'fill' : '';
+    const tags = [];
+    if (q.sub_questions) tags.push(`${q.sub_questions.length} 个子问`);
+    if (q.has_image) tags.push('含图片');
+    if (q.options) tags.push('有选项');
+
+    return `
+      <div class="question-card" tabindex="0" role="button" aria-label="${q.id} ${q.type}" data-index="${start + i}">
+        <div class="card-header">
+          <span class="card-id">${q.chapter} · ${q.id}</span>
+          <span class="card-type ${typeClass}">${q.type}</span>
+        </div>
+        <div class="card-chapter">第 ${q.page} 页</div>
+        <div class="card-content" id="card-text-${start+i}"></div>
+        <div class="card-tags">${tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
+      </div>
+    `;
+  }).join('');
+
+  pageQs.forEach((q, i) => {
+    const el = document.getElementById(`card-text-${start+i}`);
+    if (el) {
+      const preview = (!q.content || q.content.startsWith('（本题无主题干') || q.content.trim() === '')
+        && q.sub_questions && q.sub_questions.length > 0
+          ? q.sub_questions[0]
+          : q.content;
+      el.textContent = preview;
+      renderKatex(el);
+      if (search) highlightText(el, search);
+    }
+  });
+}
+
+function renderPagination() {
+  const totalPages = getTotalPages();
+  const p = document.getElementById('pagination');
+
+  p.innerHTML = `
+    <button onclick="changePage(1)" ${currentPage <= 1 ? 'disabled' : ''}>首页</button>
+    <button onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>上一页</button>
+    <span class="page-info">${currentPage} / ${totalPages}</span>
+    <button onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>下一页</button>
+    <button onclick="changePage(${totalPages})" ${currentPage >= totalPages ? 'disabled' : ''}>末页</button>
+    <span class="page-jump">跳转 <input type="number" min="1" max="${totalPages}" value="${currentPage}" onkeydown="if(event.key==='Enter')changePage(+this.value)"> 页</span>
+  `;
+}
+
+function changePage(p) {
+  if (p < 1 || p > getTotalPages()) return;
+  currentPage = p;
+  const search = document.getElementById('searchInput').value.trim().toLowerCase();
+  renderGrid(search);
+  renderPagination();
+  document.getElementById('content').scrollTop = 0;
+}
+
+// ========================
+// Shared Rendering
+// ========================
+function renderOptionsHtml(q) {
+  if (!q.options) return '';
+  const opts = Object.entries(q.options).map(([k, v]) => `
+    <div class="option-item" data-key="${k}">
+      <strong>${k}.</strong> <span class="opt-math"></span>
+    </div>
+  `).join('');
+  return `<div class="q-options">${opts}</div>`;
+}
+
+function renderSubHtml(q) {
+  if (!q.sub_questions) return '';
+  // 检测是否题组（如"求下列极限:"）—— sub_questions 总是数组
+  const isGroup = q.sub_questions.length >= 2;
+  // 若子问题字符串已自带 (I)/(1) 等前缀，则不再自动添加标签
+  const hasAutoPrefix = q.sub_questions.some(s => /[(（][IVXivx0-9]+[)）]/.test(String(s)));
+  return `
+    <div class="q-sub">
+      ${isGroup ? '<div class="sub-label">子问题：</div>' : ''}
+      ${q.sub_questions.map((s, i) => {
+        if (hasAutoPrefix) {
+          return `<div class="sub-item"><span class="sub-text" data-role="sub"></span></div>`;
+        }
+        // 罗马数字标签
+        const labels = ['(I)', '(II)', '(III)', '(IV)', '(V)', '(VI)', '(VII)', '(VIII)'];
+        const label = labels[i] || `(${i + 1})`;
+        return `<div class="sub-item"><span class="sub-tag">${label}</span><span class="sub-text" data-role="sub"></span></div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+function questionBodyHtml(q) {
+  return `
+    ${q.has_image && q.image_ref ? imageHtml(q.image_ref) : ''}
+    <div class="q-text" data-role="qtext"></div>
+    ${renderOptionsHtml(q)}
+    ${renderSubHtml(q)}
+  `;
+}
+
+function renderQuestionBody(container, q) {
+  const qid = q.id;
+  const qtext = container.querySelector('[data-role="qtext"]');
+  if (qtext) { qtext.textContent = q.content; renderKatex(qtext); }
+
+  if (q.options) {
+    const optMathEls = container.querySelectorAll('.opt-math');
+    const entries = Object.entries(q.options);
+    optMathEls.forEach((el, i) => {
+      if (entries[i]) { el.textContent = entries[i][1]; renderKatex(el); }
+    });
+  }
+
+  if (q.sub_questions) {
+    const subEls = container.querySelectorAll('[data-role="sub"]');
+    q.sub_questions.forEach((s, i) => {
+      if (subEls[i]) { subEls[i].textContent = s; renderKatex(subEls[i]); }
+    });
+  }
+
+  // 记录此题目中的渲染错误
+  recordKatexErrors(container, qid);
+}
+
+// ========================
+// Detail Modal
+// ========================
+function openDetail(index) {
+  currentModalIndex = index;
+  renderModalContent(filteredQuestions[index]);
+  openModal('detailModal');
+}
+
+function closeModal() { closeModalById('detailModal'); }
+
+function prevQuestion() {
+  if (currentModalIndex > 0) {
+    currentModalIndex--;
+    renderModalContent(filteredQuestions[currentModalIndex]);
+    document.querySelector('#detailModal .modal-body').scrollTop = 0;
+  }
+}
+
+function nextQuestion() {
+  if (currentModalIndex < filteredQuestions.length - 1) {
+    currentModalIndex++;
+    renderModalContent(filteredQuestions[currentModalIndex]);
+    document.querySelector('#detailModal .modal-body').scrollTop = 0;
+  }
+}
+
+function imageHtml(imageRef) {
+  if (!imageRef) return '';
+  // cropped 路径相对于 math-bank/ 目录；pdf_images 回退需要 ../
+  const imgPath = imageRef.cropped
+    ? imageRef.cropped
+    : `../pdf_images/page_${String(imageRef.page).padStart(3, '0')}.png`;
+  const note = escapeHtml(imageRef.note);
+  return `
+    <details class="q-image">
+      <summary>📷 查看原图（第 ${imageRef.page} 页）</summary>
+      <div class="q-image-content">
+        <img src="${imgPath}" alt="第 ${imageRef.page} 页原图" loading="lazy" onerror="this.parentNode.parentNode.style.display='none'" onclick="zoomImage(this.src)">
+        <div class="q-image-note">${note} <span style="color:#3b82f6">（点击图片放大）</span></div>
+      </div>
+    </details>
+  `;
+}
+
+function zoomImage(src) {
+  const overlay = document.createElement('div');
+  overlay.className = 'zoom-overlay';
+  overlay.onclick = () => overlay.remove();
+  const img = document.createElement('img');
+  img.src = src;
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+}
+
+function renderModalContent(q) {
+  const container = document.getElementById('modalContent');
+  container.innerHTML = `
+    <div class="q-chapter">${escapeHtml(q.chapter)} · 第 ${q.page} 页</div>
+    <div class="q-id">${escapeHtml(q.id)} <span class="card-type">${q.type}</span></div>
+    ${questionBodyHtml(q)}
+  `;
+  renderQuestionBody(container, q);
+}
+
+// ========================
+// Practice Mode
+// ========================
+function startPractice() {
+  const saved = loadProgress();
+  if (saved && saved.ids && saved.ids.length > 0) {
+    const choice = confirm(`发现上次未完成的练习（${saved.ids.length} 道题，进度 ${saved.index + 1}/${saved.ids.length}）。\n\n确定 = 继续上次练习\n取消 = 开始新练习`);
+    if (choice) {
+      if (resumePractice(saved)) return;
+    } else {
+      clearProgress();
+    }
+  }
+
+  const type = document.getElementById('typeFilter').value;
+  const feature = document.getElementById('featureFilter').value;
+  const pool = filterQuestions(allQuestions, {chapter: selectedChapter, type, feature});
+
+  if (pool.length === 0) {
+    alert('当前筛选条件下没有题目，请先调整筛选条件');
+    return;
+  }
+
+  practiceQueue = shuffleArray([...pool]);
+  practiceIndex = 0;
+  saveProgress();
+  renderPractice();
+  openModal('practiceModal');
+}
+
+function renderPractice() {
+  const q = practiceQueue[practiceIndex];
+  const container = document.getElementById('practiceContent');
+  const progress = `${practiceIndex + 1} / ${practiceQueue.length}`;
+
+  container.innerHTML = `
+    <div class="practice-progress">${escapeHtml(q.chapter)} · ${escapeHtml(q.id)} · ${progress}</div>
+    <div class="practice-question">
+      <div class="q-id">${q.type} · 第 ${q.page} 页</div>
+      ${questionBodyHtml(q)}
+    </div>
+  `;
+
+  renderQuestionBody(container, q);
+  saveProgress();
+}
+
+function nextPractice() {
+  if (practiceIndex < practiceQueue.length - 1) {
+    practiceIndex++;
+    renderPractice();
+  } else {
+    clearProgress();
+    alert('练习完成！共完成 ' + practiceQueue.length + ' 道题。');
+    closePractice();
+  }
+}
+
+function closePractice() { closeModalById('practiceModal'); }
+
+function prevPractice() {
+  if (practiceIndex > 0) {
+    practiceIndex--;
+    renderPractice();
+  }
+}
+
+function resumePractice(saved) {
+  const idMap = new Map(allQuestions.map(q => [questionKey(q), q]));
+  practiceQueue = saved.ids.map(k => idMap.get(k)).filter(Boolean);
+  if (practiceQueue.length === 0) return false;
+  practiceIndex = Math.min(saved.index, practiceQueue.length - 1);
+  renderPractice();
+  openModal('practiceModal');
+  return true;
+}
+
+// Practice Progress Persistence
+let PRACTICE_KEY = 'mathbank_practice_' + (bank.title || document.title || 'default');
+function saveProgress() { try { localStorage.setItem(PRACTICE_KEY, JSON.stringify({ids: practiceQueue.map(questionKey), index: practiceIndex})); } catch(e) {} }
+function loadProgress() { try { const r = localStorage.getItem(PRACTICE_KEY); return r ? JSON.parse(r) : null; } catch(e) { return null; } }
+function clearProgress() { try { localStorage.removeItem(PRACTICE_KEY); } catch(e) {} }
+
+function randomQuestion() {
+  if (filteredQuestions.length === 0) return;
+  let idx = Math.floor(Math.random() * filteredQuestions.length);
+  if (filteredQuestions.length > 1 && idx === lastRandomIdx) idx = (idx + 1) % filteredQuestions.length;
+  lastRandomIdx = idx;
+  openDetail(idx);
+}
+
+// ========================
+// Text Highlight
+// ========================
+function highlightText(element, term) {
+  if (!term || !element) return;
+  if (!element.textContent.toLowerCase().includes(term.toLowerCase())) return;
+  const lower = term.toLowerCase();
+  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+  const textNodes = [];
+  let node;
+  while ((node = walker.nextNode())) {
+    if (!node.parentElement || node.parentElement.closest('.katex')) continue;
+    textNodes.push(node);
+  }
+  textNodes.forEach(textNode => {
+    const text = textNode.textContent;
+    const indices = [];
+    let pos = 0;
+    while ((pos = text.toLowerCase().indexOf(lower, pos)) !== -1) {
+      indices.push(pos);
+      pos += lower.length;
+    }
+    if (indices.length === 0) return;
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    indices.forEach(idx => {
+      frag.appendChild(document.createTextNode(text.slice(last, idx)));
+      const mark = document.createElement('mark');
+      mark.className = 'search-mark';
+      mark.textContent = text.slice(idx, idx + lower.length);
+      frag.appendChild(mark);
+      last = idx + lower.length;
+    });
+    frag.appendChild(document.createTextNode(text.slice(last)));
+    textNode.parentNode.replaceChild(frag, textNode);
+  });
+}
+
+// ========================
+// KaTeX Rendering
+// ========================
+function renderKatex(element) {
+  if (!element || !window.katex) return;
+  let text = element.textContent;
+  if (!text) return;
+
+  // Data stores literal \n as a separator, not an actual newline
+  // Use negative lookbehind/lookahead to avoid matching \nu, \nabla, etc.
+  text = text.replace(/\\n(?![a-zA-Z])/g, '\n');
+
+  let html = '';
+  let i = 0;
+
+  while (i < text.length) {
+    const c = text[i];
+
+    if (c === '\n') {
+      html += '<br>';
+      i++;
+      continue;
+    }
+
+    // $$ display math
+    if (c === '$' && i + 1 < text.length && text[i + 1] === '$') {
+      const end = text.indexOf('$$', i + 2);
+      if (end !== -1) {
+        html += renderMath(text.slice(i + 2, end), true);
+        i = end + 2;
+        continue;
+      }
+    }
+
+    // $ inline math (auto display mode for \begin{...} environments)
+    if (c === '$') {
+      const end = text.indexOf('$', i + 1);
+      if (end !== -1) {
+        const mathContent = text.slice(i + 1, end);
+        const isDisplay = mathContent.includes('\\begin{');
+        html += renderMath(mathContent, isDisplay);
+        i = end + 1;
+        continue;
+      }
+    }
+
+    // \[...\] display math
+    if (c === '\\' && text[i + 1] === '[') {
+      const end = text.indexOf('\\]', i + 2);
+      if (end !== -1) {
+        html += renderMath(text.slice(i + 2, end), true);
+        i = end + 2;
+        continue;
+      }
+    }
+
+    // \(...\) inline math
+    if (c === '\\' && text[i + 1] === '(') {
+      const end = text.indexOf('\\)', i + 2);
+      if (end !== -1) {
+        html += renderMath(text.slice(i + 2, end), false);
+        i = end + 2;
+        continue;
+      }
+    }
+
+    // \\ (double backslash) = line break in LaTeX
+    if (c === '\\' && i + 1 < text.length && text[i + 1] === '\\') {
+      html += '<br>';
+      i += 2;
+      continue;
+    }
+
+    // raw latex command
+    if (c === '\\') {
+      const seg = parseLatexSegment(text, i);
+      html += renderMath(seg.latex, false);
+      i = seg.end;
+      continue;
+    }
+
+    html += escapeHtml(c);
+    i++;
+  }
+
+  element.innerHTML = html;
+}
+
+const katexCache = new Map();
+
+function renderMath(latex, displayMode) {
+  const key = (displayMode ? 'D:' : 'I:') + latex;
+  if (katexCache.has(key)) return katexCache.get(key);
+  let html;
+  try {
+    html = katex.renderToString(latex, {throwOnError: false, displayMode, strict: false});
+  } catch (e) {
+    html = `<span class="katex-error" title="${escapeHtml(e.message)}">${escapeHtml(latex)}</span>`;
+  }
+  katexCache.set(key, html);
+  return html;
+}
+
+
+// ========================
+// 渲染错误检测器
+// ========================
+const katexErrorMap = new Map();  // question_id → error_count
+
+function recordKatexErrors(container, qid) {
+  const errors = container.querySelectorAll('.katex-error');
+  if (errors.length > 0) {
+    katexErrorMap.set(qid, errors.length);
+    errors.forEach(err => {
+      err.style.cursor = 'help';
+      err.title = '渲染错误：' + (err.title || 'LaTeX 语法无法识别');
+    });
+  }
+}
+
+function showKatexErrorSummary() {
+  if (katexErrorMap.size === 0) return;
+  const total = [...katexErrorMap.values()].reduce((a, b) => a + b, 0);
+  const ids = [...katexErrorMap.keys()];
+  const banner = document.createElement('div');
+  banner.style.cssText = `
+    position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+    background: var(--danger); color: #fff; padding: 12px 18px;
+    border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-size: 0.9rem; max-width: 360px; cursor: pointer;
+  `;
+  banner.innerHTML = `⚠️ 检测到 <strong>${total}</strong> 处渲染错误（${katexErrorMap.size} 道题）
+    <br><small>点击查看题目列表</small>`;
+  banner.onclick = () => {
+    const list = ids.slice(0, 30).map(id => `Q${id} (${katexErrorMap.get(id)} 处)`).join(', ');
+    alert('存在渲染错误的题目（前 30 道）：\n' + list);
+  };
+  document.body.appendChild(banner);
+}
+
+function parseLatexSegment(s, start) {
+  let i = start;
+
+  // \left...\right pair
+  if (s.startsWith('\\left', i)) {
+    i += 5;
+    while (i < s.length && /\s/.test(s[i])) i++;
+    const leftDelim = s[i] || '';
+    i++;
+
+    let depth = 1;
+    let j = i;
+    while (j < s.length && depth > 0) {
+      if (s.startsWith('\\left', j)) { depth++; j += 5; continue; }
+      if (s.startsWith('\\right', j)) {
+        depth--;
+        j += 6;
+        if (depth === 0) {
+          while (j < s.length && /\s/.test(s[j])) j++;
+          if (j < s.length) j++; // right delimiter
+          break;
+        }
+        continue;
+      }
+      j++;
+    }
+
+    const end = collectTrailingArgs(s, j);
+    return {latex: s.slice(start, end), end};
+  }
+
+  // \begin{env}...\end{env}
+  if (s.startsWith('\\begin', i)) {
+    i += 6;
+    while (i < s.length && s[i] !== '{') i++;
+    const envEnd = matchBrace(s, i);
+    const env = s.slice(i + 1, envEnd - 1);
+    i = envEnd;
+
+    let depth = 1;
+    let j = i;
+    const beginToken = `\\begin{${env}}`;
+    const endToken = `\\end{${env}}`;
+    while (j < s.length && depth > 0) {
+      if (s.startsWith(beginToken, j)) { depth++; j += beginToken.length; continue; }
+      if (s.startsWith(endToken, j)) {
+        depth--;
+        if (depth === 0) { j += endToken.length; break; }
+        j += endToken.length;
+        continue;
+      }
+      j++;
+    }
+
+    const end = collectTrailingArgs(s, j);
+    return {latex: s.slice(start, end), end};
+  }
+
+  // normal command
+  i++; // skip \
+  if (i < s.length && /[a-zA-Z]/.test(s[i])) {
+    while (i < s.length && /[a-zA-Z]/.test(s[i])) i++;
+  } else if (i < s.length) {
+    i++; // single-char command like \, \[ etc.
+  }
+
+  i = collectTrailingArgs(s, i);
+  return {latex: s.slice(start, i), end: i};
+}
+
+function collectTrailingArgs(s, i) {
+  while (i < s.length) {
+    if (s[i] === '^' || s[i] === '_') {
+      i++;
+      if (s[i] === '{') i = matchBrace(s, i);
+      else i++;
+    } else if (s[i] === '{' || s[i] === '[') {
+      i = matchBrace(s, i);
+    } else {
+      break;
+    }
+  }
+  return i;
+}
+
+function matchBrace(s, i) {
+  const open = s[i];
+  const close = open === '{' ? '}' : ']';
+  let depth = 1;
+  let j = i + 1;
+  while (j < s.length && depth > 0) {
+    if (s[j] === open) depth++;
+    else if (s[j] === close) depth--;
+    j++;
+  }
+  return j;
+}
+
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// ========================
+// Events
+// ========================
+function setupEvents() {
+  document.getElementById('searchInput').addEventListener('input', debounce(resetAndFilter, 200));
+  document.getElementById('typeFilter').addEventListener('change', resetAndFilter);
+  document.getElementById('featureFilter').addEventListener('change', resetAndFilter);
+
+  document.getElementById('btnPractice').addEventListener('click', startPractice);
+  document.getElementById('btnRandom').addEventListener('click', randomQuestion);
+  document.getElementById('toggleSidebar').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('open');
+  });
+  document.getElementById('sidebarOverlay').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+  });
+
+  // Card click/keyboard delegation
+  function handleCardActivation(e) {
+    if (e.type === 'keydown' && e.key !== 'Enter') return;
+    const card = e.target.closest('.question-card');
+    if (card) openDetail(Number(card.dataset.index));
+  }
+  document.getElementById('questionGrid').addEventListener('click', handleCardActivation);
+  document.getElementById('questionGrid').addEventListener('keydown', handleCardActivation);
+
+  // Option click delegation (detail modal + practice modal)
+  ['detailModal', 'practiceModal'].forEach(id => {
+    document.getElementById(id).addEventListener('click', (e) => {
+      const opt = e.target.closest('.option-item');
+      if (opt) {
+        const container = opt.closest('.q-options');
+        if (container) {
+          container.querySelectorAll('.option-item').forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+        }
+      }
+    });
+  });
+
+  // Close modals on overlay click
+  ['detailModal', 'practiceModal'].forEach(id => {
+    document.getElementById(id).addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) closeModalById(id);
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModalById('detailModal');
+      closeModalById('practiceModal');
+    }
+    const detailActive = document.getElementById('detailModal').classList.contains('active');
+    if (detailActive) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prevQuestion(); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); nextQuestion(); }
+    }
+  });
+}
+
+// Initialize
+init();
+
+// 渲染完成后弹出错误汇总（1.5s 延迟，等用户看到题卡）
+setTimeout(showKatexErrorSummary, 1500);
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+PyMuPDF
+Pillow
+dashscope
+requests
+opencv-python
+numpy
+easyocr
+paddleocr
+pix2tex
