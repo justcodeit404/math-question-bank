@@ -9,8 +9,11 @@ Usage:
     python scripts/generate_data_js.py --all
 """
 import argparse
+import hashlib
 import json
+import re
 import sys
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -133,6 +136,9 @@ def generate_data_js(bank_name, questions_path, data_js_path):
     text = '\n'.join(lines)
     write_text_atomic(data_js_path, text)
 
+    # 同步更新 viewer 里的缓存戳，避免浏览器加载旧 data.js
+    update_data_js_cache_stamp(data_js_path, text)
+
     q_count = sum(len(ch.get('questions', [])) for ch in data.get('chapters', []))
     ch_count = len(data.get('chapters', []))
     print(f'Generated {data_js_path}: {len(text)} chars, {q_count} questions, '
@@ -142,6 +148,24 @@ def generate_data_js(bank_name, questions_path, data_js_path):
         'total': q_count,
         'chapters': ch_count,
     }
+
+
+def update_data_js_cache_stamp(data_js_path: Path, text: str):
+    """Update the data.js query string in the viewer HTML based on content hash."""
+    h = hashlib.sha256(text.encode('utf-8')).hexdigest()[:8]
+    stamp = f'data.js?v={h}&t={datetime.now():%Y%m%d%H%M%S}'
+
+    def refresh(path: Path):
+        if not path.exists():
+            return
+        html = path.read_text(encoding='utf-8')
+        new_html = re.sub(r'data\.js\?[^"\']*', stamp, html)
+        if new_html != html:
+            write_text_atomic(path, new_html)
+            print(f'  updated cache stamp in {path}')
+
+    refresh(data_js_path.with_name('index.html'))
+    refresh(ROOT / 'templates' / 'math-bank.html')
 
 
 def write_stats_js(stats: dict):

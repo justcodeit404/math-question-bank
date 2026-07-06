@@ -7,8 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricol+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<link rel="stylesheet" href="../../vendor/katex/katex.min.css">
+<script src="../../vendor/katex/katex.min.js"></script>
 <style>
 :root {
   --bg: #fafaf8;
@@ -729,19 +729,19 @@ body {
       <span class="app-brand">考研数学题库</span>
     </div>
     <div class="topbar">
-      <button class="toggle-sidebar" id="toggleSidebar">☰</button>
+      <button class="toggle-sidebar" id="toggleSidebar" aria-label="切换章节侧边栏">☰</button>
       <div class="search-box">
-        <input type="search" id="searchInput" placeholder="搜索题目内容、公式、章节...">
+        <input type="search" id="searchInput" placeholder="搜索题目内容、公式、章节..." aria-label="搜索题目内容、公式、章节">
       </div>
       <div class="filter-group">
-        <select id="typeFilter">
+        <select id="typeFilter" aria-label="按题型筛选">
           <option value="">全部题型</option>
           <option value="选择题">选择题</option>
           <option value="计算题">计算题</option>
           <option value="证明题">证明题</option>
           <option value="填空题">填空题</option>
         </select>
-        <select id="featureFilter">
+        <select id="featureFilter" aria-label="按特征筛选">
           <option value="">全部题目</option>
           <option value="sub">有子问</option>
           <option value="image">有图片</option>
@@ -763,10 +763,10 @@ body {
 </div>
 
 <!-- Detail Modal -->
-<div class="modal-overlay" id="detailModal">
+<div class="modal-overlay" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-box">
     <div class="modal-header">
-      <h3>题目详情</h3>
+      <h3 id="modalTitle">题目详情</h3>
       <button class="modal-close" onclick="closeModal()" aria-label="关闭">&times;</button>
     </div>
     <div class="modal-body">
@@ -780,10 +780,10 @@ body {
 </div>
 
 <!-- Practice Modal -->
-<div class="modal-overlay" id="practiceModal">
+<div class="modal-overlay" id="practiceModal" role="dialog" aria-modal="true" aria-labelledby="practiceTitle">
   <div class="modal-box">
     <div class="modal-header">
-      <h3>练习模式</h3>
+      <h3 id="practiceTitle">练习模式</h3>
       <button class="modal-close" onclick="closePractice()" aria-label="关闭">&times;</button>
     </div>
     <div class="modal-body">
@@ -797,7 +797,7 @@ body {
   </div>
 </div>
 
-<script src="data.js?v=50&t=20260704"></script>
+<script src="data.js?v=223c6627&t=20260706231343"></script>
 <script>
 // ========================
 // Data & State
@@ -840,14 +840,27 @@ function debounce(fn, ms) {
 
 function resetAndFilter() { currentPage = 1; applyFilters(); }
 
+let modalFocusReturn = null;
+
 function openModal(id) {
-  document.getElementById(id).classList.add('active');
+  const modal = document.getElementById(id);
+  modal.classList.add('active');
   document.body.style.overflow = 'hidden';
+  modalFocusReturn = document.activeElement;
+  // 焦点移到关闭按钮，方便键盘操作
+  const closeBtn = modal.querySelector('.modal-close');
+  if (closeBtn) closeBtn.focus();
 }
 
 function closeModalById(id) {
-  document.getElementById(id).classList.remove('active');
+  const modal = document.getElementById(id);
+  if (!modal.classList.contains('active')) return;
+  modal.classList.remove('active');
   document.body.style.overflow = '';
+  if (modalFocusReturn && modal.contains(document.activeElement)) {
+    modalFocusReturn.focus();
+  }
+  modalFocusReturn = null;
 }
 
 function init() {
@@ -1186,11 +1199,19 @@ function imageHtml(imageRef) {
 function zoomImage(src) {
   const overlay = document.createElement('div');
   overlay.className = 'zoom-overlay';
+  overlay.tabIndex = 0;
+  overlay.setAttribute('role', 'button');
+  overlay.setAttribute('aria-label', '放大图片，按 Esc 或点击关闭');
   overlay.onclick = () => overlay.remove();
+  overlay.onkeydown = (e) => {
+    if (e.key === 'Escape') overlay.remove();
+  };
   const img = document.createElement('img');
   img.src = src;
+  img.alt = '放大图片';
   overlay.appendChild(img);
   document.body.appendChild(overlay);
+  overlay.focus();
 }
 
 function renderModalContent(q) {
@@ -1596,7 +1617,10 @@ function setupEvents() {
   function handleCardActivation(e) {
     if (e.type === 'keydown' && e.key !== 'Enter') return;
     const card = e.target.closest('.question-card');
-    if (card) openDetail(Number(card.dataset.index));
+    if (card) {
+      card.focus();
+      openDetail(Number(card.dataset.index));
+    }
   }
   document.getElementById('questionGrid').addEventListener('click', handleCardActivation);
   document.getElementById('questionGrid').addEventListener('keydown', handleCardActivation);
