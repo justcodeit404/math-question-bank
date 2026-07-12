@@ -31,13 +31,18 @@ scripts/archive/
 */cropped_images/
 */math-bank/images/
 */math-bank/crops/
+*/math-bank/answer_crops/
 
 # 提取中间产物与旧分册
 */extracted*.json
 */questions_高数.json
 */questions_线代.json
+*/questions_linear_minimax.json
 */answer_*.json
 大学深埋/做题本*题目.json
+
+# 临时调试截图（仓库根目录）
+/*.png
 
 # 构建产物（由 scripts/generate_data_js.py + generate_viewer.py 生成）
 */math-bank/data.js
