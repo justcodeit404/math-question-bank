@@ -11,11 +11,15 @@ node_modules/
 
 # 虚拟环境（运行时生成，体积大）
 temp/packages/
+.venv/
 
 # 运行时缓存/日志
 .claude/
 .playwright-mcp/
 temp/
+
+# 归档的临时/调试脚本
+scripts/archive/
 
 # 中间产物
 *.bak
@@ -32,6 +36,13 @@ temp/
 */extracted*.json
 */questions_高数.json
 */questions_线代.json
+*/answer_*.json
+大学深埋/做题本*题目.json
+
+# 构建产物（由 scripts/generate_data_js.py + generate_viewer.py 生成）
+*/math-bank/data.js
+*/math-bank/index.html
+stats.js
 
 # 旧图备份
 */math-bank/_old_images/
