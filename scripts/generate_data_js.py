@@ -41,7 +41,7 @@ BANK_CONFIG = {
     },
     '大学深埋': {
         'name': '大学深埋',
-        'questions': ROOT / '大学深埋' / '做题本（高数）_题目.json',
+        'questions': ROOT / '大学深埋' / 'questions.json',
         'data_js': ROOT / '大学深埋' / 'math-bank' / 'data.js',
     },
 }
@@ -50,8 +50,19 @@ BANK_CONFIG = {
 VIEWER_FIELDS = [
     'uid', 'id', 'qnum', 'type', 'content', 'options',
     'sub_questions', 'page', 'printed_page', 'chapter',
-    'section', 'has_image', 'image_ref', 'source',
+    'section', 'has_image', 'image_ref', 'answer_ref', 'source', 'quality_hold',
 ]
+
+
+def load_quality_holds(questions_path: Path) -> set[str]:
+    manifest_path = questions_path.with_name('quality-hold.json')
+    if not manifest_path.is_file():
+        raise RuntimeError(f'缺少质量隔离清单: {manifest_path}')
+    manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+    actual = hashlib.sha256(questions_path.read_bytes()).hexdigest()
+    if str(manifest.get('source_sha256') or '') != actual:
+        raise RuntimeError('质量隔离清单已过期，请先运行 enhanced_quality_audit.py')
+    return {str(uid) for uid in manifest.get('source_uids', []) if uid}
 
 
 def escape_js_str(val):
@@ -61,6 +72,8 @@ def escape_js_str(val):
     s = s.replace('"', '\\"')
     s = s.replace('\n', '\\n')
     s = s.replace('\r', '')
+    # Prevent </script> inside string literals from closing the script tag.
+    s = s.replace('</script>', '<\\/script>')
     return s
 
 
@@ -106,6 +119,13 @@ def write_question(q, lines, indent=8):
 def generate_data_js(bank_name, questions_path, data_js_path):
     with open(questions_path, encoding='utf-8') as f:
         data = json.load(f)
+    held_uids = load_quality_holds(questions_path)
+
+    # Load optional answer-pages mapping (e.g. 1000题/answer_pages.json)
+    answer_pages_path = questions_path.with_name('answer_pages.json')
+    answer_pages = {}
+    if answer_pages_path.exists():
+        answer_pages = json.loads(answer_pages_path.read_text(encoding='utf-8'))
 
     lines = []
     lines.append('const QUESTION_BANK = {')
@@ -116,15 +136,29 @@ def generate_data_js(bank_name, questions_path, data_js_path):
         lines.append(f'  content_pages: {data["content_pages"]},')
     if data.get('total_questions') is not None:
         lines.append(f'  total_questions: {data["total_questions"]},')
+    if answer_pages:
+        lines.append(f'  has_answer_images: true,')
     lines.append('  chapters: [')
 
     for ch in data.get('chapters', []):
         q_count = len(ch.get('questions', []))
+        ch_answer = answer_pages.get(ch.get('name'))
         lines.append('    {')
         lines.append(f'      name: "{escape_js_str(ch["name"])}",')
         lines.append(f'      question_count: {q_count},')
+        if ch_answer:
+            if 'sub_ranges' in ch_answer:
+                starts = [r['start'] for r in ch_answer['sub_ranges']]
+                ends = [r['end'] for r in ch_answer['sub_ranges']]
+                lines.append(f'      answer_start: {min(starts)},')
+                lines.append(f'      answer_end: {max(ends)},')
+                lines.append(f'      answer_sub_ranges: {ch_answer["sub_ranges"]},')
+            else:
+                lines.append(f'      answer_start: {ch_answer["start"]},')
+                lines.append(f'      answer_end: {ch_answer["end"]},')
         lines.append('      questions: [')
         for q in ch.get('questions', []):
+            q['quality_hold'] = str(q.get('uid') or '') in held_uids
             write_question(q, lines, indent=8)
         lines.append('      ],')
         lines.append('    },')

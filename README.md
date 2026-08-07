@@ -47,20 +47,20 @@ Windows 用户也可以直接双击：
 ├── 1000题/                         # 《张宇1000题》
 ├── 大学深埋/                        # 《大学深埋做题本》
 │   └── math-bank/
-│       ├── index.html              # 交互式题库 viewer
-│       └── data.js                 # 题库数据（由脚本生成）
+│       ├── data.js                 # 题库数据（由脚本生成）
+│       └── images/                 # 题目/答案图片
+├── templates/
+│   └── math-bank.html              # 统一 viewer 模板（唯一源码）
 ├── scripts/                        # 核心脚本
 │   ├── normalize_schema.py         # 统一 questions.json schema
 │   ├── generate_data_js.py         # 生成 math-bank/data.js
-│   ├── generate_viewer.py          # 生成 math-bank/index.html
+│   ├── generate_viewer.py          # 从模板生成 math-bank/index.html（静态部署用）
 │   ├── quality_check.py            # 生成质量报告
 │   ├── migrate_660_images.py       # 迁移 660 图片到题库目录
 │   ├── detect_question_boxes_660.py# 检测 660 题号色块
 │   ├── extract_660_minimax.py      # 用 MiniMax 视觉模型提取题目
 │   ├── fix_quality_issues.py       # 批量修复数据质量问题
-│   └── server.py                   # 本地 HTTP 服务器
-├── templates/
-│   └── math-bank.html              # 题库 viewer 模板
+│   └── server.py                   # 本地 HTTP 服务器（运行时从模板渲染 viewer）
 ├── schemas/
 │   └── question-v1.md              # 统一 JSON schema 说明
 ├── vendor/katex/                   # 本地 KaTeX（离线可用）
@@ -86,13 +86,13 @@ python scripts/generate_data_js.py --bank all
 
 从 `questions.json` 生成各题库的 `math-bank/data.js`，并自动更新缓存戳。
 
-### 生成 viewer 页面
+### 生成 viewer 页面（静态部署用）
 
 ```bash
 python scripts/generate_viewer.py --bank all
 ```
 
-从 `templates/math-bank.html` 生成各题库的 `math-bank/index.html`。
+本地使用 `scripts/server.py` 时，viewer 会从 `templates/math-bank.html` 动态渲染，无需运行本脚本。只有在 GitHub Pages 等静态托管场景才需要生成 `math-bank/index.html`。
 
 ### 质量检查
 
@@ -117,11 +117,11 @@ python scripts/quality_check.py --book 大学深埋
 2. 准备 `新题库/questions.json`，格式见 `schemas/question-v1.md`
 3. 如有原图，放入 `新题库/pdf_images/`；如有裁剪图，放入 `新题库/math-bank/images/`
 4. 在 `scripts/generate_data_js.py` 的 `BANK_CONFIG` 里添加配置
-5. 生成数据与页面：
+5. 生成数据（本地 server 会自动渲染 viewer）：
    ```bash
    python scripts/generate_data_js.py --bank 新题库
-   python scripts/generate_viewer.py --bank 新题库
    ```
+   如需静态部署，再运行 `python scripts/generate_viewer.py --bank 新题库`。
 6. 更新 `index.html` 首页中的书卡片
 7. 更新 `stats.js`（由 `generate_data_js.py --bank all` 自动生成）
 

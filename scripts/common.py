@@ -22,6 +22,12 @@ CHAPTER_NAMES = [
     '第四章 多元函数微分学',
     '第五章 二重积分',
     '第六章 微分方程',
+    '第七章 行列式',
+    '第八章 矩阵',
+    '第九章 向量',
+    '第十章 线性方程组',
+    '第十一章 相似矩阵',
+    '第十二章 二次型',
 ]
 
 # Printed page ranges (single source of truth)
@@ -346,7 +352,7 @@ def generate_datajs(questions, output_path=DATAJS):
     total = sum(len(ch['questions']) for ch in chapters)
     max_page = max(q['page'] for q in questions) if questions else 0
     bank = {
-        'title': '李林880数二高数篇',
+        'title': '李林880数二',
         'total_pages': max_page,
         'total_questions': total,
         'chapters': chapters,

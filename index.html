@@ -1,53 +1,119 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>考研数学题库</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricol+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
+<title>考研题库 · 数学</title>
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('mathbank_theme');
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+</script>
+<!-- 不用 Google Fonts：国内常被墙/超时，阻塞首屏导致白屏 -->
 <style>
-:root {
-  --bg: #fafaf8;
-  --surface: #ffffff;
-  --text: #1a1a18;
-  --muted: #6f6e69;
-  --border: #e4e3de;
-  --accent: #2d6a4f;
-  --accent-light: #40916c;
-  --accent-faint: #e9f5ef;
-  --radius: 10px;
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e100f;
+  --bg-elevated: #151816;
+  --surface: #1a1e1c;
+  --surface-hover: #212624;
+  --text: #e9e7e2;
+  --text-dim: #a8a69f;
+  --muted: #6e716c;
+  --border: #2a2f2c;
+  --border-strong: #3a423d;
+  --accent: #5cb88a;
+  --accent-hover: #6fc897;
+  --accent-dim: #3d7a5c;
+  --accent-faint: rgb(92 184 138 / 0.12);
+  --accent-glow: rgb(92 184 138 / 0.18);
+  --on-accent: #0a120e;
+  --nav-bg: rgb(14 16 15 / 0.82);
+  --grid-line: rgb(255 255 255 / 0.015);
+  --shadow-card: 0 16px 40px rgb(0 0 0 / 0.28);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --font: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
   font-size: 16px;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f3f4f2;
+  --bg-elevated: #ffffff;
+  --surface: #ffffff;
+  --surface-hover: #f0f2ef;
+  --text: #141614;
+  --text-dim: #4f544f;
+  --muted: #7a807a;
+  --border: #e0e4df;
+  --border-strong: #c5cbc4;
+  --accent: #2f8f62;
+  --accent-hover: #268456;
+  --accent-dim: #3d7a5c;
+  --accent-faint: rgb(47 143 98 / 0.1);
+  --accent-glow: rgb(47 143 98 / 0.16);
+  --on-accent: #ffffff;
+  --nav-bg: rgb(243 244 242 / 0.88);
+  --grid-line: rgb(0 0 0 / 0.035);
+  --shadow-card: 0 14px 36px rgb(20 30 24 / 0.08);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+html { scroll-behavior: smooth; }
+
 body {
-  font-family: 'Bricol Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font);
   background: var(--bg);
   color: var(--text);
-  line-height: 1.65;
+  line-height: 1.6;
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
 }
 
 a { color: inherit; text-decoration: none; }
 
 .container {
-  max-width: 1080px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 28px;
+  position: relative;
+  z-index: 1;
 }
 
-/* ── Navigation ── */
+/* ── Nav ── */
 nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgb(250 250 248 / 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
   border-bottom: 1px solid var(--border);
 }
 
@@ -55,78 +121,123 @@ nav .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 60px;
+  height: 56px;
+  gap: 12px;
 }
 
 .nav-brand {
-  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+}
+
+.nav-mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--accent-faint);
+  border: 1px solid rgb(92 184 138 / 0.28);
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .nav-links {
   display: flex;
-  gap: 28px;
+  gap: 4px;
   list-style: none;
+  align-items: center;
 }
 
 .nav-links a {
-  font-size: 0.875rem;
-  color: var(--muted);
-  transition: color 0.15s;
+  font-size: 0.84rem;
+  color: var(--text-dim);
+  padding: 6px 12px;
+  border-radius: 999px;
+  transition: color 0.15s, background 0.15s;
 }
 
-.nav-links a:hover { color: var(--text); }
-
-/* ── Hero ── */
-.hero {
-  padding: 80px 0 72px;
-  border-bottom: 1px solid var(--border);
+.nav-links a:hover {
+  color: var(--text);
+  background: var(--surface);
 }
 
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 20px;
-}
-
-.hero-eyebrow-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-dim);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.12s;
   flex-shrink: 0;
 }
 
-.hero h1 {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  color: var(--text);
-  max-width: 640px;
-  margin-bottom: 16px;
+.theme-toggle:hover {
+  border-color: var(--accent-dim);
+  color: var(--accent);
+  background: var(--accent-faint);
 }
+
+.theme-toggle:active { transform: scale(0.96); }
+
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon { display: none; width: 16px; height: 16px; }
+
+[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+
+/* ── Hero ── */
+.hero {
+  padding: 64px 0 48px;
+  position: relative;
+}
+
+.hero-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 40px;
+  align-items: end;
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 18px;
+}
+
+.hero h1 .accent-line { color: var(--accent); }
 
 .hero-desc {
   font-size: 1.05rem;
-  color: var(--muted);
-  max-width: 500px;
+  color: var(--text-dim);
+  max-width: 36ch;
   line-height: 1.7;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .hero-actions {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .btn-primary {
@@ -134,17 +245,21 @@ nav .container {
   align-items: center;
   gap: 8px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-size: 0.9rem;
-  font-weight: 500;
-  padding: 10px 22px;
-  border-radius: 8px;
-  transition: background 0.15s, transform 0.15s;
-  cursor: pointer;
+  font-weight: 600;
+  padding: 11px 20px;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s, transform 0.12s, box-shadow 0.15s;
   border: none;
+  cursor: pointer;
 }
 
-.btn-primary:hover { background: var(--accent-light); }
+.btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
 .btn-primary:active { transform: translateY(1px); }
 
 .btn-ghost {
@@ -155,210 +270,349 @@ nav .container {
   color: var(--text);
   font-size: 0.9rem;
   font-weight: 500;
-  padding: 10px 22px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+  padding: 11px 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  transition: border-color 0.15s, background 0.15s, transform 0.12s;
   cursor: pointer;
 }
 
-.btn-ghost:hover { border-color: var(--accent); background: var(--accent-faint); }
+.btn-ghost:hover {
+  border-color: var(--accent-dim);
+  background: var(--accent-faint);
+}
+
 .btn-ghost:active { transform: translateY(1px); }
 
-/* ── Stats Bar ── */
-.stats-bar {
-  padding: 28px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.stats-grid {
-  display: flex;
-  gap: 40px;
-  flex-wrap: wrap;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.stat-number {
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+.btn-continue {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
   color: var(--text);
-  line-height: 1;
-}
-
-.stat-label {
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-/* ── Books Section ── */
-.books-section {
-  padding: 56px 0 80px;
-}
-
-.section-label {
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   font-weight: 500;
+  padding: 11px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  transition: border-color 0.15s, background 0.15s, transform 0.12s;
+}
+
+.btn-continue.is-visible { display: inline-flex; }
+
+.btn-continue:hover {
+  border-color: var(--accent-dim);
+  background: var(--accent-faint);
+}
+
+.btn-continue .continue-meta {
+  font-size: 0.78rem;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 24px;
+  font-weight: 400;
+  max-width: 14ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Bento grid: first card full-width, next two 50/50, last full-width */
-.books-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.book-card {
+/* Hero stats panel */
+.hero-panel {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 28px;
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.25s, border-color 0.25s;
+}
+
+.hero-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle at 100% 0%, var(--accent-glow), transparent 70%);
+  pointer-events: none;
+}
+
+.panel-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.panel-stats { display: grid; gap: 18px; }
+
+.panel-stat {
   display: flex;
-  gap: 20px;
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-stat:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.panel-stat-value {
+  font-family: var(--mono);
+  font-size: 1.85rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.panel-stat-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+/* ── Books ── */
+.books-section { padding: 20px 0 88px; }
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.section-meta {
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  grid-auto-rows: minmax(210px, auto);
+  gap: 14px;
+}
+
+.book-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 200px;
+  overflow: hidden;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
-  text-decoration: none;
-  color: inherit;
+}
+
+.book-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--bank-color, var(--accent));
+  opacity: 0.85;
 }
 
 .book-card:hover {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent-faint), 0 8px 24px rgb(45 106 79 / 0.06);
-  transform: translateY(-1px);
+  border-color: var(--border-strong);
+  background: var(--surface-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
 }
 
 .book-card:active { transform: translateY(0); }
 
-/* Full-width variant */
-.book-card.full-width {
+.book-card.is-recent {
+  border-color: color-mix(in srgb, var(--bank-color, var(--accent)) 45%, var(--border));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--bank-color, var(--accent)) 18%, transparent);
+}
+
+.book-card.span-tall {
+  grid-row: span 2;
+  min-height: 100%;
+  justify-content: space-between;
+}
+
+.book-card.span-wide {
   grid-column: 1 / -1;
+  min-height: 180px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
 }
 
-/* Featured card variant: larger, with icon area */
-.book-card.featured {
-  padding: 32px;
-  align-items: flex-start;
+.book-card.span-wide .book-top {
+  flex: 0 0 auto;
+  min-width: 120px;
 }
 
-.book-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  background: var(--accent-faint);
+.book-card.span-wide .book-body {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.book-card.span-wide .tags {
+  flex: 1 1 100%;
+  margin-top: 0;
+}
+
+.book-card.span-wide .book-footer {
+  flex: 1 1 100%;
+  margin-top: 0;
+}
+
+.book-top {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-size: 1.3rem;
-  transition: background 0.2s;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
 }
 
-.book-card:hover .book-icon { background: #d8edd9; }
+.book-code {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--bank-color, var(--accent));
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 
-.book-info { flex: 1; min-width: 0; }
+.recent-pill {
+  display: none;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--on-accent);
+  background: var(--bank-color, var(--accent));
+  padding: 3px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.book-card.is-recent .recent-pill { display: inline-block; }
+
+.book-count {
+  font-family: var(--mono);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.book-count span {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-left: 4px;
+  letter-spacing: 0;
+}
 
 .book-title {
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  letter-spacing: -0.015em;
-  margin-bottom: 6px;
-  line-height: 1.3;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
 }
 
 .book-meta {
-  font-size: 0.83rem;
+  font-size: 0.84rem;
   color: var(--muted);
-  margin-bottom: 12px;
+  min-height: 1.4em;
 }
+
+.book-meta.loading { opacity: 0.7; }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  margin-top: auto;
 }
 
 .tag {
-  font-size: 0.73rem;
-  color: var(--muted);
-  background: #f4f4f1;
-  padding: 3px 10px;
-  border-radius: 20px;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  background: var(--bg-elevated);
+  padding: 4px 10px;
+  border-radius: 999px;
   border: 1px solid var(--border);
-  transition: border-color 0.15s, color 0.15s;
 }
 
-.book-card:hover .tag {
-  border-color: #d4d3ce;
+.book-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
 }
+
+.book-cta {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  transition: color 0.15s;
+}
+
+.book-card:hover .book-cta { color: var(--accent); }
 
 .book-arrow {
-  margin-top: auto;
-  padding-top: 4px;
-  color: var(--border);
-  transition: color 0.2s, transform 0.2s;
-  flex-shrink: 0;
-  align-self: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  transition: border-color 0.15s, color 0.15s, background 0.15s, transform 0.15s;
 }
 
 .book-card:hover .book-arrow {
+  border-color: var(--accent-dim);
   color: var(--accent);
-  transform: translateX(3px);
+  background: var(--accent-faint);
+  transform: translateX(2px);
 }
 
-/* SVG arrow icon */
-.arrow-icon {
-  width: 18px;
-  height: 18px;
-  display: block;
-}
+.bank-dxsm { --bank-color: #5cb88a; }
+.bank-1000 { --bank-color: #6ea8ff; }
+.bank-880  { --bank-color: #e0a35c; }
+.bank-660  { --bank-color: #c48ad9; }
 
-/* Tool card (题库检测器) */
-.tool-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  display: flex;
-  gap: 20px;
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-  cursor: pointer;
-  text-decoration: none;
-  color: inherit;
-}
-
-.tool-card:hover {
-  border-color: #b0855a;
-  box-shadow: 0 0 0 1px #f5ede4, 0 8px 24px rgb(176 133 90 / 0.08);
-  transform: translateY(-1px);
-}
-
-.tool-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  background: #fdf3e8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background 0.2s;
-}
-
-.tool-card:hover .tool-icon { background: #fae8d2; }
+[data-theme="light"] .bank-dxsm { --bank-color: #2f8f62; }
+[data-theme="light"] .bank-1000 { --bank-color: #3b7ddd; }
+[data-theme="light"] .bank-880  { --bank-color: #c4842e; }
+[data-theme="light"] .bank-660  { --bank-color: #9b5fb3; }
 
 /* ── Footer ── */
 footer {
   border-top: 1px solid var(--border);
-  padding: 28px 0;
+  padding: 24px 0 32px;
+  position: relative;
+  z-index: 1;
 }
 
 footer .container {
@@ -376,7 +630,7 @@ footer .container {
 
 .footer-links {
   display: flex;
-  gap: 20px;
+  gap: 16px;
   list-style: none;
 }
 
@@ -388,47 +642,59 @@ footer .container {
 
 .footer-links a:hover { color: var(--text); }
 
-/* ── Scroll Reveal ── */
+/* ── Reveal ── */
+/* 默认可见；仅在 JS 可用时做入场动画（避免脚本失败整页空白） */
 @media (prefers-reduced-motion: no-preference) {
   .reveal {
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 1;
+    transform: none;
   }
-
-  .reveal.visible {
+  html.js-ready .reveal:not(.visible) {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  html.js-ready .reveal.visible {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
 /* ── Responsive ── */
-@media (max-width: 700px) {
-  .books-grid {
+@media (max-width: 860px) {
+  .hero-layout {
     grid-template-columns: 1fr;
+    gap: 28px;
   }
-
-  .book-card.full-width,
-  .book-card.featured {
-    grid-column: 1;
+  .books-grid { grid-template-columns: 1fr; }
+  .book-card.span-tall {
+    grid-row: auto;
+    min-height: 200px;
   }
-
-  .hero { padding: 56px 0 48px; }
-  .hero h1 { font-size: 1.85rem; }
-  .nav-links { display: none; }
-  .stats-grid { gap: 24px; }
-  .book-card { padding: 22px; }
-  .book-arrow { display: none; }
+  .book-card.span-wide {
+    flex-direction: column;
+    min-height: 200px;
+  }
 }
 
-/* ── Loading State ── */
-.loading { color: var(--muted); font-size: 0.83rem; }
+@media (max-width: 640px) {
+  .container { padding: 0 18px; }
+  .hero { padding: 40px 0 32px; }
+  .hero h1 { font-size: 2rem; }
+  .nav-links { display: none; }
+  .book-count { font-size: 1.6rem; }
+  .btn-continue .continue-meta { display: none; }
+}
 
-/* ── Focus styles ── */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+::selection {
+  background: rgb(92 184 138 / 0.28);
+  color: var(--text);
 }
 </style>
 </head>
@@ -436,185 +702,189 @@ footer .container {
 
 <nav>
   <div class="container">
-    <span class="nav-brand">考研数学题库</span>
-    <ul class="nav-links">
-      <li><a href="#books">题库</a></li>
-      <li><a href="./temp/reports/题库检测器.html">检测工具</a></li>
-    </ul>
+    <span class="nav-brand">
+      <span class="nav-mark">KY</span>
+      考研题库
+    </span>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="/banks/math/" style="color:var(--accent);font-weight:600">数学</a></li>
+        <li><a href="/banks/408/">408</a></li>
+        <li><a href="/">学习平台</a></li>
+        <li><a href="#books">选择题册</a></li>
+      </ul>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="切换浅色/深色主题" title="切换主题">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3a7 7 0 0 0 11.5 11.5z"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </nav>
 
 <section class="hero">
   <div class="container">
-    <div class="hero-eyebrow">
-      <span class="hero-eyebrow-dot"></span>
-      收录中
-    </div>
-    <h1>大学数学做题本<br>整理与练习</h1>
-    <p class="hero-desc">按册归档，涵盖函数极限、微积分、无穷级数等核心章节。点击任意一册即可开始练习。</p>
-    <div class="hero-actions">
-      <a href="#books" class="btn-primary">
-        选择题库
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M2 7h10M8 3l4 4-4 4"/>
-        </svg>
-      </a>
-      <a href="./temp/reports/题库检测器.html" class="btn-ghost">
-        题库检测器
-      </a>
+    <div class="hero-layout">
+      <div>
+        <h1>考研题库<br><span class="accent-line">数学</span></h1>
+        <p class="hero-desc">660 / 880 / 1000 / 大学深埋。选册开练，标记可同步学习平台。要刷 408 请用顶栏「408」。</p>
+        <div class="hero-actions">
+          <a href="#books" class="btn-primary">
+            选择题册
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </a>
+          <a href="#" class="btn-continue" id="btnContinue">
+            继续上次
+            <span class="continue-meta" id="continueMeta"></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-panel" aria-label="题库统计">
+        <div class="panel-label">库内汇总</div>
+        <div class="panel-stats">
+          <div class="panel-stat">
+            <span class="panel-stat-value" id="total-questions" data-count="0">--</span>
+            <span class="panel-stat-label">收录题目</span>
+          </div>
+          <div class="panel-stat">
+            <span class="panel-stat-value" id="total-books" data-count="0">--</span>
+            <span class="panel-stat-label">题库册数</span>
+          </div>
+          <div class="panel-stat">
+            <span class="panel-stat-value" id="total-chapters" data-count="0">--</span>
+            <span class="panel-stat-label">总章节</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="stats-bar">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat-item">
-        <span class="stat-number" id="total-questions">--</span>
-        <span class="stat-label">收录题目</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number" id="total-books">--</span>
-        <span class="stat-label">题库册数</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number" id="total-chapters">--</span>
-        <span class="stat-label">总章节</span>
-      </div>
-    </div>
-  </div>
-</div>
-
 <section class="books-section" id="books">
   <div class="container">
-    <div class="section-label">已收录</div>
+    <div class="section-head">
+      <h2 class="section-title">数学题册</h2>
+      <span class="section-meta" id="books-count-label">4 册</span>
+    </div>
+
     <div class="books-grid">
 
-      <!-- 大雪深埋 - featured full-width -->
-      <a class="book-card featured full-width reveal" href="./大学深埋/math-bank/index.html">
-        <div class="book-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-          </svg>
+      <a class="book-card span-tall bank-dxsm reveal" href="./大学深埋/math-bank/index.html" data-bank-key="大学深埋">
+        <div class="book-top">
+          <div>
+            <span class="book-code">DXSM</span>
+            <span class="recent-pill">上次</span>
+          </div>
+          <div class="book-count" id="count-dxsm">--<span>题</span></div>
         </div>
-        <div class="book-info">
-          <div class="book-title">大雪深埋做题本（高数）</div>
+        <div>
+          <div class="book-title">大雪深埋</div>
           <div class="book-meta loading" id="stats-dxsm">加载中...</div>
-          <div class="tags">
-            <span class="tag">函数极限</span>
-            <span class="tag">数列极限</span>
-            <span class="tag">一元函数微分学</span>
-            <span class="tag">微积分应用</span>
-            <span class="tag">无穷级数</span>
-          </div>
         </div>
-        <div class="book-arrow">
-          <svg class="arrow-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9h12M11 5l4 4-4 4"/>
-          </svg>
+        <div class="tags">
+          <span class="tag">函数极限</span>
+          <span class="tag">数列极限</span>
+          <span class="tag">微分学</span>
+          <span class="tag">无穷级数</span>
+        </div>
+        <div class="book-footer">
+          <span class="book-cta">进入练习</span>
+          <span class="book-arrow" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </span>
         </div>
       </a>
 
-      <!-- 张宇1000题 -->
-      <a class="book-card reveal" href="./1000题/math-bank/index.html">
-        <div class="book-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 8v4l3 3"/>
-          </svg>
+      <a class="book-card bank-1000 reveal" href="./1000题/math-bank/index.html" data-bank-key="1000题">
+        <div class="book-top">
+          <div>
+            <span class="book-code">ZY 1000</span>
+            <span class="recent-pill">上次</span>
+          </div>
+          <div class="book-count" id="count-1000">--<span>题</span></div>
         </div>
-        <div class="book-info">
-          <div class="book-title">张宇1000题 · 数学二</div>
+        <div>
+          <div class="book-title">张宇 1000 题</div>
           <div class="book-meta loading" id="stats-1000">加载中...</div>
-          <div class="tags">
-            <span class="tag">零基础</span>
-            <span class="tag">基础篇</span>
-            <span class="tag">强化篇</span>
-            <span class="tag">测试卷</span>
-          </div>
         </div>
-        <div class="book-arrow">
-          <svg class="arrow-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9h12M11 5l4 4-4 4"/>
-          </svg>
+        <div class="tags">
+          <span class="tag">零基础</span>
+          <span class="tag">基础篇</span>
+          <span class="tag">强化篇</span>
+          <span class="tag">测试卷</span>
+        </div>
+        <div class="book-footer">
+          <span class="book-cta">进入练习</span>
+          <span class="book-arrow" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </span>
         </div>
       </a>
 
-      <!-- 李林880 -->
-      <a class="book-card reveal" href="./880题/math-bank/index.html">
-        <div class="book-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <path d="M9 9h6M9 12h6M9 15h4"/>
-          </svg>
+      <a class="book-card bank-880 reveal" href="./880题/math-bank/index.html" data-bank-key="880题">
+        <div class="book-top">
+          <div>
+            <span class="book-code">LL 880</span>
+            <span class="recent-pill">上次</span>
+          </div>
+          <div class="book-count" id="count-880">--<span>题</span></div>
         </div>
-        <div class="book-info">
-          <div class="book-title">李林880 · 数学二高数篇</div>
+        <div>
+          <div class="book-title">李林 880 题</div>
           <div class="book-meta loading" id="stats-880">加载中...</div>
-          <div class="tags">
-            <span class="tag">极限与连续</span>
-            <span class="tag">微分学</span>
-            <span class="tag">积分学</span>
-            <span class="tag">常微分方程</span>
-            <span class="tag">线性代数</span>
-          </div>
         </div>
-        <div class="book-arrow">
-          <svg class="arrow-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9h12M11 5l4 4-4 4"/>
-          </svg>
+        <div class="tags">
+          <span class="tag">极限与连续</span>
+          <span class="tag">微积分</span>
+          <span class="tag">常微分方程</span>
+          <span class="tag">线性代数</span>
+        </div>
+        <div class="book-footer">
+          <span class="book-cta">进入练习</span>
+          <span class="book-arrow" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </span>
         </div>
       </a>
 
-      <!-- 基础过关660 合并版 -->
-      <a class="book-card reveal" href="./660题/math-bank/index.html">
-        <div class="book-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-            <rect x="6" y="2" width="13" height="13" rx="2"/>
-          </svg>
+      <a class="book-card span-wide bank-660 reveal" href="./660题/math-bank/index.html" data-bank-key="660题">
+        <div class="book-top">
+          <div>
+            <span class="book-code">JL 660</span>
+            <span class="recent-pill">上次</span>
+          </div>
+          <div class="book-count" id="count-660">--<span>题</span></div>
         </div>
-        <div class="book-info">
-          <div class="book-title">基础过关660 · 数二</div>
+        <div class="book-body">
+          <div class="book-title">基础过关 660</div>
           <div class="book-meta loading" id="stats-660-merged">加载中...</div>
-          <div class="tags">
-            <span class="tag">高数篇</span>
-            <span class="tag">线代篇</span>
-            <span class="tag">填空题</span>
-            <span class="tag">选择题</span>
-            <span class="tag">660题完整版</span>
-          </div>
         </div>
-        <div class="book-arrow">
-          <svg class="arrow-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9h12M11 5l4 4-4 4"/>
-          </svg>
+        <div class="tags">
+          <span class="tag">高数篇</span>
+          <span class="tag">线代篇</span>
+          <span class="tag">填空题</span>
+          <span class="tag">选择题</span>
         </div>
-      </a>
-
-      <!-- 题库检测器 - tool card -->
-      <a class="tool-card reveal" href="./temp/reports/题库检测器.html">
-        <div class="tool-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b0855a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14,2 14,8 20,8"/>
-            <path d="M9 15l2 2 4-4"/>
-          </svg>
-        </div>
-        <div class="book-info">
-          <div class="book-title">题库检测器</div>
-          <div class="book-meta">扫描 KaTeX 错误、缺 $、schema 异常</div>
-          <div class="tags">
-            <span class="tag">可视化</span>
-            <span class="tag">导出报告</span>
-            <span class="tag">批量检测</span>
-          </div>
-        </div>
-        <div class="book-arrow" style="color: #d4c4b0; transition: color 0.2s, transform 0.2s;">
-          <svg class="arrow-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9h12M11 5l4 4-4 4"/>
-          </svg>
+        <div class="book-footer">
+          <span class="book-cta">进入练习</span>
+          <span class="book-arrow" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </span>
         </div>
       </a>
 
@@ -624,40 +894,142 @@ footer .container {
 
 <footer>
   <div class="container">
-    <span class="footer-text">考研数学题库</span>
+    <span class="footer-text">考研数学题库 · 本地练习</span>
     <ul class="footer-links">
-      <li><a href="./temp/reports/题库检测器.html">检测工具</a></li>
+      <li><a href="./temp/audit.html">抽检工具</a></li>
     </ul>
   </div>
 </footer>
 
 <script src="stats.js"></script>
 <script>
-function init() {
-  const mapping = {
-    'stats-dxsm': '大学深埋',
-    'stats-1000': '1000题',
-    'stats-880': '880题',
-    'stats-660-merged': '660题',
-  };
-  for (const [id, key] of Object.entries(mapping)) {
-    const s = (typeof BANK_STATS !== 'undefined' && BANK_STATS[key]) ? BANK_STATS[key] : null;
-    document.getElementById(id).textContent = s
-      ? s.total + ' 道题目 · ' + s.chapters + ' 个章节'
-      : '数据加载失败';
+(function () {
+  const root = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+
+  function setTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    try { localStorage.setItem('mathbank_theme', theme); } catch (e) {}
+    toggle.setAttribute('aria-label', theme === 'dark' ? '切换到浅色主题' : '切换到深色主题');
   }
-  document.getElementById('total-questions').textContent =
-    (typeof TOTAL_QUESTIONS !== 'undefined' ? TOTAL_QUESTIONS : 0).toLocaleString();
+
+  toggle.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    setTheme(next);
+  });
+  setTheme(root.getAttribute('data-theme') || 'dark');
+})();
+
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function animateCount(el, target, duration) {
+  if (!el) return;
+  if (prefersReducedMotion() || target <= 0) {
+    el.textContent = target.toLocaleString();
+    return;
+  }
+  const start = performance.now();
+  const from = 0;
+  function frame(now) {
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.round(from + (target - from) * eased).toLocaleString();
+    if (t < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+function initStats() {
+  const mapping = {
+    'stats-dxsm': { key: '大学深埋', countId: 'count-dxsm' },
+    'stats-1000': { key: '1000题', countId: 'count-1000' },
+    'stats-880': { key: '880题', countId: 'count-880' },
+    'stats-660-merged': { key: '660题', countId: 'count-660' },
+  };
+  for (const [id, cfg] of Object.entries(mapping)) {
+    const s = (typeof BANK_STATS !== 'undefined' && BANK_STATS[cfg.key]) ? BANK_STATS[cfg.key] : null;
+    const el = document.getElementById(id);
+    const countEl = document.getElementById(cfg.countId);
+    if (s) {
+      el.textContent = s.chapters + ' 个章节';
+      el.classList.remove('loading');
+      if (countEl) {
+        if (prefersReducedMotion()) {
+          countEl.innerHTML = s.total.toLocaleString() + '<span>题</span>';
+        } else {
+          countEl.innerHTML = '0<span>题</span>';
+          const numNode = document.createTextNode('');
+          // animate only the number portion
+          let n = 0;
+          const target = s.total;
+          const start = performance.now();
+          const dur = 700;
+          function frame(now) {
+            const t = Math.min(1, (now - start) / dur);
+            const eased = 1 - Math.pow(1 - t, 3);
+            n = Math.round(target * eased);
+            countEl.innerHTML = n.toLocaleString() + '<span>题</span>';
+            if (t < 1) requestAnimationFrame(frame);
+          }
+          requestAnimationFrame(frame);
+        }
+      }
+    } else {
+      el.textContent = '数据加载失败';
+    }
+  }
+
+  const totalQ = typeof TOTAL_QUESTIONS !== 'undefined' ? TOTAL_QUESTIONS : 0;
+  animateCount(document.getElementById('total-questions'), totalQ, 900);
+
   if (typeof BANK_STATS !== 'undefined') {
     const stats = Object.values(BANK_STATS);
-    document.getElementById('total-books').textContent = stats.length;
-    document.getElementById('total-chapters').textContent =
-      stats.reduce((sum, s) => sum + (s.chapters || 0), 0);
+    animateCount(document.getElementById('total-books'), stats.length, 600);
+    animateCount(
+      document.getElementById('total-chapters'),
+      stats.reduce((sum, s) => sum + (s.chapters || 0), 0),
+      800
+    );
+    document.getElementById('books-count-label').textContent = stats.length + ' 册';
   }
 }
-init();
 
-// Scroll reveal
+function initRecent() {
+  let last = null;
+  try { last = JSON.parse(localStorage.getItem('mathbank_last') || 'null'); } catch (e) {}
+  if (!last || !last.key) return;
+
+  const card = document.querySelector('.book-card[data-bank-key="' + CSS.escape(last.key) + '"]');
+  if (card) {
+    card.classList.add('is-recent');
+    const cta = card.querySelector('.book-cta');
+    if (cta) cta.textContent = '继续练习';
+    const metaEl = card.querySelector('.book-meta');
+    if (metaEl && last.label) {
+      metaEl.textContent = '上次：' + last.label;
+      metaEl.classList.remove('loading');
+    }
+  }
+
+  const btn = document.getElementById('btnContinue');
+  const meta = document.getElementById('continueMeta');
+  if (btn && last.href) {
+    // Deep-link flag so bank page can auto-offer resume
+    // 兼容旧 localStorage 相对路径
+    let href = last.href;
+    if (href.startsWith('./')) href = '/banks/math/' + href.replace(/^\.\//, '');
+    href = href + (href.includes('?') ? '&' : '?') + 'resume=1';
+    btn.href = href;
+    btn.classList.add('is-visible');
+    if (meta) meta.textContent = last.label || last.title || last.key;
+  }
+}
+
+initStats();
+initRecent();
+
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -668,6 +1040,9 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.08 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+setTimeout(() => {
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => el.classList.add('visible'));
+}, 600);
 </script>
 
 </body>

@@ -139,6 +139,8 @@ class SubjectContext:
                     note = q['image_ref'].get('note') or f'自动裁剪的题目区域（660题{"高数篇" if self.subject == "math" else "线代篇"}）'
                     lines.append(f'            note: "{note}",')
                     lines.append("          },")
+                if q.get('answer_ref'):
+                    lines.append(f"          answer_ref: \"{q['answer_ref']}\",")
                 lines.append("        },")
             lines.append("      ],")
             lines.append("    },")

@@ -6337,7 +6337,7 @@
             "A": "$r(A)=n$",
             "B": "$r(B)=n$",
             "C": "$r(A)+r(B)<n$",
-            "D": "$r(A)+r(B)<n$"
+            "D": "$r(A)+r(B)=n$"
           },
           "sub_questions": null,
           "page": 41,

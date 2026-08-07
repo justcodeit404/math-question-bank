@@ -8,6 +8,7 @@ Usage:
 import argparse
 import http.server
 import os
+import re
 import signal
 import socketserver
 import subprocess
@@ -18,6 +19,29 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 ROOT = Path(__file__).resolve().parent.parent
 PID_FILE = ROOT / 'temp' / 'server.pid'
+
+VIEWER_TEMPLATE = ROOT / 'templates' / 'math-bank.html'
+DATA_SCRIPT_PLACEHOLDER = '<!-- DATA_SCRIPT -->'
+DATA_SCRIPT_TAG = '<script src="data.js"></script>'
+
+
+class BankHandler(http.server.SimpleHTTPRequestHandler):
+    """Serve math-bank viewer from a single template, injecting per-book data.js."""
+
+    def do_GET(self):
+        path = self.path.split('?')[0]
+        # URL-decode is handled by base class; use raw path parts
+        if path.rstrip('/').endswith('/math-bank/index.html'):
+            if VIEWER_TEMPLATE.exists():
+                body = VIEWER_TEMPLATE.read_text(encoding='utf-8')
+                body = body.replace(DATA_SCRIPT_PLACEHOLDER, DATA_SCRIPT_TAG)
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html; charset=utf-8')
+                self.send_header('Cache-Control', 'no-store')
+                self.end_headers()
+                self.wfile.write(body.encode('utf-8'))
+                return
+        return super().do_GET()
 
 
 def is_running(pid):
@@ -37,7 +61,7 @@ def start(port, open_url=None):
     PID_FILE.parent.mkdir(exist_ok=True)
     PID_FILE.write_text(str(os.getpid()), encoding='utf-8')
 
-    handler = http.server.SimpleHTTPRequestHandler
+    handler = BankHandler
     with socketserver.TCPServer(('', port), handler) as httpd:
         print(f'Server running at http://localhost:{port}/')
         if open_url:

@@ -6,7 +6,6 @@ Usage:
     python scripts/generate_viewer.py --bank 660
 """
 import argparse
-import shutil
 import sys
 from pathlib import Path
 
@@ -23,9 +22,15 @@ BANKS = {
 }
 
 
+DATA_SCRIPT_PLACEHOLDER = '<!-- DATA_SCRIPT -->'
+DATA_SCRIPT_TAG = '<script src="data.js"></script>'
+
+
 def generate(bank, dest):
     dest.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(TEMPLATE, dest)
+    text = TEMPLATE.read_text(encoding='utf-8')
+    text = text.replace(DATA_SCRIPT_PLACEHOLDER, DATA_SCRIPT_TAG)
+    dest.write_text(text, encoding='utf-8')
     print(f'Generated {dest}')
 
 
