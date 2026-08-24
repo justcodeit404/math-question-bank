@@ -27,7 +27,10 @@
     ? '/banks/common/'
     : '../../vendor/viewer-common/';
   document.write('<script src="' + base + 'storage.js"><\/script>');
-  document.write('<script src="' + base + 'platform-sync.js"><\/script>');
+  document.write('<script src="' + base + 'platform-sync.js?v=5"><\/script>');
+  document.write('<link rel="stylesheet" href="' + base + 'scratch-pad.css">');
+  document.write('<script src="' + base + 'scratch-ink.js"><\/script>');
+  document.write('<script src="' + base + 'scratch-pad.js"><\/script>');
 })();
 </script>
 <style>
@@ -2807,6 +2810,17 @@ function renderModalContent(q) {
     ${questionBodyHtml(q)}
   `;
   renderQuestionBody(container, q);
+  if (window.ViewerPlatformSync && ViewerPlatformSync.attachNoteReminderButton) {
+    ViewerPlatformSync.attachNoteReminderButton(
+      container.querySelector('.mark-bar') || container,
+      {
+        bank: (bank.title || document.title || '').replace(/题$/, ''),
+        uid: q.uid || '',
+        title: q.content || q.title || '',
+        chapter: q.chapter || '',
+      },
+    );
+  }
 }
 
 // ========================
