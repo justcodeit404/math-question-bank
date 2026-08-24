@@ -248,7 +248,10 @@ def load_questions(path):
 def check_question(q):
     all_issues = []
     texts = [('content', q.get('content', ''))]
-    opts = q.get('options') or {}
+    # 仅把缺失/None 归一为空字典；空 list 本身是需要报告的错误，不能被 ``or {}`` 吞掉。
+    opts = q.get('options')
+    if opts is None:
+        opts = {}
     if isinstance(opts, dict):
         for k, v in opts.items():
             texts.append((f'option:{k}', v))
