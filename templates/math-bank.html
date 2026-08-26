@@ -2261,6 +2261,11 @@ function init() {
   });
 
   loadMarks();
+  // 平台「去刷题」深链：?chapter=基础·函数极限与连续 直接选中对应章
+  try {
+    const chParam = new URLSearchParams(location.search).get('chapter');
+    if (chParam && bank.chapters.some(ch => ch.name === chParam)) selectedChapter = chParam;
+  } catch (e) {}
   renderChapters();
   renderStats();
   renderMarkStats();
