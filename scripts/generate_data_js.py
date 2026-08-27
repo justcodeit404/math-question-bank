@@ -193,7 +193,7 @@ def update_data_js_cache_stamp(data_js_path: Path, text: str):
         if not path.exists():
             return
         html = path.read_text(encoding='utf-8')
-        new_html = re.sub(r'data\.js\?[^"\']*', stamp, html)
+        new_html = re.sub(r'src="data\.js(\?[^"\']*)?"', f'src="{stamp}"', html)
         if new_html != html:
             write_text_atomic(path, new_html)
             print(f'  updated cache stamp in {path}')

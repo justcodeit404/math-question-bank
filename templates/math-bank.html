@@ -2,7 +2,7 @@
 <html lang="zh-CN" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <script>
 (function () {
   try {
@@ -46,18 +46,18 @@
   --muted: #6e716c;
   --border: #2a2f2c;
   --border-strong: #3a423d;
-  --accent: #5cb88a;
-  --accent-light: #6fc897;
-  --accent-dim: #3d7a5c;
-  --accent-faint: rgb(92 184 138 / 0.12);
-  --accent-glow: rgb(92 184 138 / 0.18);
+  --accent: #8695e9;
+  --accent-light: #9aa8f0;
+  --accent-dim: #4a5cc0;
+  --accent-faint: rgb(134 149 233 / 0.12);
+  --accent-glow: rgb(134 149 233 / 0.18);
   --on-accent: #0a120e;
   --nav-bg: rgb(14 16 15 / 0.88);
   --danger: #f07178;
-  --success: #5cb88a;
+  --success: #70dbb0;
   --warning: #e0a35c;
-  --radius: 12px;
-  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-sm: 10px;
   --font: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
   font-size: 16px;
@@ -65,24 +65,24 @@
 
 [data-theme="light"] {
   color-scheme: light;
-  --bg: #f3f4f2;
+  --bg: #fafafa;
   --bg-elevated: #ffffff;
   --surface: #ffffff;
-  --surface-hover: #f0f2ef;
-  --text: #141614;
-  --text-dim: #4f544f;
-  --muted: #7a807a;
-  --border: #e0e4df;
-  --border-strong: #c5cbc4;
-  --accent: #2f8f62;
-  --accent-light: #268456;
-  --accent-dim: #3d7a5c;
-  --accent-faint: rgb(47 143 98 / 0.1);
-  --accent-glow: rgb(47 143 98 / 0.16);
+  --surface-hover: #f4f4f5;
+  --text: #18181b;
+  --text-dim: #52525b;
+  --muted: #71717a;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --accent: #5b6dd2;
+  --accent-light: #4a5cc0;
+  --accent-dim: #4a5cc0;
+  --accent-faint: rgb(91 109 210 / 0.1);
+  --accent-glow: rgb(91 109 210 / 0.16);
   --on-accent: #ffffff;
-  --nav-bg: rgb(243 244 242 / 0.9);
+  --nav-bg: rgb(250 250 250 / 0.85);
   --danger: #d64550;
-  --success: #2f8f62;
+  --success: #0e9478;
   --warning: #c4842e;
 }
 
@@ -307,9 +307,9 @@ body {
 }
 
 .chapter-item.active .count {
-  background: rgb(92 184 138 / 0.15);
+  background: rgb(134 149 233 / 0.15);
   color: var(--accent);
-  border-color: rgb(92 184 138 / 0.25);
+  border-color: rgb(134 149 233 / 0.25);
 }
 
 /* 侧栏章节掌握进度条 */
@@ -570,9 +570,9 @@ body {
 }
 
 .card-type.choice {
-  background: rgb(92 184 138 / 0.12);
+  background: rgb(134 149 233 / 0.12);
   color: var(--success);
-  border-color: rgb(92 184 138 / 0.22);
+  border-color: rgb(134 149 233 / 0.22);
 }
 .card-type.proof {
   background: rgb(224 163 92 / 0.12);
@@ -625,9 +625,9 @@ body {
   border: 1px solid transparent;
 }
 .card-mark.mark-mastered {
-  background: rgb(92 184 138 / 0.14);
+  background: rgb(134 149 233 / 0.14);
   color: var(--success);
-  border-color: rgb(92 184 138 / 0.25);
+  border-color: rgb(134 149 233 / 0.25);
 }
 .card-mark.mark-fuzzy {
   background: rgb(224 163 92 / 0.14);
@@ -1014,7 +1014,7 @@ body {
 
 .option-item.selected {
   border-color: var(--success);
-  background: rgb(92 184 138 / 0.1);
+  background: rgb(134 149 233 / 0.1);
 }
 
 .modal-content .q-sub {
@@ -1084,6 +1084,125 @@ body {
   color: var(--muted);
   margin-top: 8px;
 }
+
+/* 填空题「我的答案」输入 */
+
+.q-myanswer { margin-bottom: 16px; }
+
+
+
+.q-myanswer-label {
+
+  font-size: 0.85rem;
+
+  color: var(--muted);
+
+  margin-bottom: 6px;
+
+}
+
+
+
+.q-myanswer-input {
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 10px 12px;
+
+  font-size: 16px; /* ≥16px 防 iOS 聚焦自动放大 */
+
+  background: var(--bg);
+
+  color: var(--text);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+}
+
+
+
+.q-myanswer-input:focus { outline: none; border-color: var(--accent); }
+
+/* 我的笔记 */
+.q-notes {
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  padding: 4px 0;
+}
+
+.q-notes > summary {
+  cursor: pointer;
+  padding: 10px 14px;
+  font-size: 0.92rem;
+  color: var(--accent);
+  user-select: none;
+  list-style: none;
+}
+
+.q-notes > summary::-webkit-details-marker { display: none; }
+
+.q-notes > summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 6px;
+  transition: transform 0.15s;
+  color: var(--muted);
+}
+
+.q-notes[open] > summary::before { transform: rotate(90deg); }
+
+.notes-status { color: var(--muted); font-size: 0.78rem; margin-left: 6px; }
+
+.q-notes textarea {
+  display: block;
+  width: calc(100% - 28px);
+  box-sizing: border-box;
+  margin: 0 14px 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px; /* ≥16px 防 iOS 聚焦自动放大 */
+  font-family: inherit;
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.55;
+}
+
+.q-notes textarea:focus { outline: none; border-color: var(--accent); }
+
+.q-notes-preview {
+  display: none;
+  width: calc(100% - 28px);
+  box-sizing: border-box;
+  margin: 0 14px 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.9rem;
+  min-height: 40px;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+.q-notes.has-note-preview .q-notes-preview { display: block; }
+
+.q-notes-hint {
+  margin: 0 14px 8px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+
 
 /* Answer book images */
 .q-answer {
@@ -1592,10 +1711,62 @@ body {
 }
 
 ::selection {
-  background: rgb(92 184 138 / 0.28);
+  background: rgb(134 149 233 / 0.28);
   color: var(--text);
 }
 
+
+/* ══════════════════════════════════════════════════════════════
+   iPad / 触屏布局层（2026-08-26）：JS 零改动，纯 CSS
+   - 769–1023px：侧栏收为抽屉、单列卡片流、大触控目标
+   - ≤1023px：详情/练习弹窗全屏化 + 底部操作栏 safe-area
+   ══════════════════════════════════════════════════════════════ */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar.open ~ .sidebar-overlay { display: block; }
+  .toggle-sidebar { display: block; }
+
+  .question-grid { grid-template-columns: 1fr; }
+  .topbar { flex-wrap: wrap; height: auto; padding: 10px 12px; gap: 8px; }
+  .filter-group select, .filter-group button, .sync-bar .action-btn { min-height: 40px; }
+  .chapter-item { padding: 12px; }
+}
+
+@media (max-width: 1023px) {
+  .question-card:active { transform: scale(0.99); }
+  .content { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+
+  /* 弹窗默认变底部 sheet */
+  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal-box {
+    max-width: none;
+    border-radius: 16px 16px 0 0;
+    max-height: 94vh;
+    max-height: 94dvh;
+  }
+  /* 做题核心页（详情 / 练习）全屏化 */
+  #detailModal.modal-overlay, #practiceModal.modal-overlay { align-items: stretch; }
+  #detailModal .modal-box, #practiceModal .modal-box {
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    border-radius: 0;
+    border: 0;
+  }
+  .modal-footer {
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    gap: 12px;
+  }
+  .modal-footer button { min-height: 48px; font-size: 0.95rem; }
+  .mark-btn { min-height: 44px; }
+}
 </style>
 </head>
 <body>
@@ -2164,6 +2335,78 @@ function saveMarks() {
   try { localStorage.setItem(MARKS_KEY, JSON.stringify(questionMarks)); } catch (e) {}
 }
 
+function fillAnswersKey() {
+
+  return 'mathbank_fill_' + (BANK_KEY || 'x');
+
+}
+
+
+
+function getMyAnswer(uid) {
+
+  try {
+
+    const m = JSON.parse(localStorage.getItem(fillAnswersKey()) || '{}');
+
+    return m[uid] || '';
+
+  } catch (e) {
+
+    return '';
+
+  }
+
+}
+
+
+
+function saveMyAnswer(uid, text) {
+
+  try {
+
+    const m = JSON.parse(localStorage.getItem(fillAnswersKey()) || '{}');
+
+    if (text) m[uid] = text; else delete m[uid];
+
+    localStorage.setItem(fillAnswersKey(), JSON.stringify(m));
+
+  } catch (e) {}
+
+}
+
+
+
+let notesMapCache = null;
+
+function notesKey() {
+  return 'mathbank_notes_' + (bank.title || document.title || 'default');
+}
+
+function loadNotesMap() {
+  if (notesMapCache) return notesMapCache;
+  if (window.ViewerStorage && ViewerStorage.loadShardedMap) {
+    notesMapCache = ViewerStorage.loadShardedMap(notesKey()) || {};
+  } else {
+    try { notesMapCache = JSON.parse(localStorage.getItem(notesKey()) || '{}'); } catch (e) { notesMapCache = {}; }
+  }
+  return notesMapCache;
+}
+
+function saveNotesMap() {
+  if (!notesMapCache) return;
+  if (window.ViewerStorage && ViewerStorage.saveShardedMap) { ViewerStorage.saveShardedMap(notesKey(), notesMapCache); return; }
+  try { localStorage.setItem(notesKey(), JSON.stringify(notesMapCache)); } catch (e) {}
+}
+
+function getNote(uid) { return loadNotesMap()[uid] || ''; }
+
+function setNote(uid, text) {
+  const m = loadNotesMap();
+  if (text) m[uid] = text; else delete m[uid];
+  saveNotesMap();
+}
+
 function getMark(uid) {
   return questionMarks[uid] || 'none';
 }
@@ -2699,6 +2942,64 @@ function changeAnswerPage(uid, delta) {
   info.textContent = `${idx + 1} / ${pages.length}`;
 }
 
+function notesHtml() {
+  return `
+    <details class="q-notes" id="detailNotes">
+      <summary>📝 我的笔记 <span class="notes-status" id="notesStatus"></span></summary>
+      <textarea id="notesTextarea" placeholder="记录思路、口诀、易错点；支持 $a^2+b^2=c^2$ 这样的公式" rows="5"></textarea>
+      <p class="q-notes-hint">公式用 $...$ 或 $$...$$，下方实时预览。笔记保存在本浏览器。</p>
+      <div class="q-notes-preview" id="notesPreview" hidden></div>
+    </details>
+  `;
+}
+
+function bindNotesUI(q) {
+  const ta = document.getElementById('notesTextarea');
+  if (!ta) return;
+  const preview = document.getElementById('notesPreview');
+  const status = document.getElementById('notesStatus');
+  const details = document.getElementById('detailNotes');
+  const existing = getNote(q.uid);
+  ta.value = existing;
+  if (existing) details.open = true;
+  const updateStatus = () => { status.textContent = ta.value ? '（已保存）' : ''; };
+  const updatePreview = () => {
+    const text = ta.value;
+    if (!text.trim()) { preview.hidden = true; preview.innerHTML = ''; details.classList.remove('has-note-preview'); return; }
+    preview.textContent = text;
+    renderKatex(preview);
+    preview.hidden = false;
+    details.classList.add('has-note-preview');
+  };
+  updateStatus();
+  updatePreview();
+  let saveTimer;
+  ta.addEventListener('input', () => {
+    updatePreview();
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => { setNote(q.uid, ta.value); updateStatus(); }, 400);
+  });
+  ta.addEventListener('blur', () => { setNote(q.uid, ta.value); updateStatus(); updatePreview(); });
+}
+
+function myAnswerHtml() {
+
+  return `
+
+    <div class="q-myanswer">
+
+      <div class="q-myanswer-label">我的答案</div>
+
+      <input type="text" class="q-myanswer-input" placeholder="写下你的答案，再点下方「查看答案」对照" autocomplete="off">
+
+    </div>
+
+  `;
+
+}
+
+
+
 function questionBodyHtml(q) {
   // 配图放在题干下方：题干写「如下图」时直接看到图，无需再点「查看原图」
   return `
@@ -2706,6 +3007,8 @@ function questionBodyHtml(q) {
     ${q.has_image && q.image_ref ? imageHtml(q.image_ref) : ''}
     ${renderOptionsHtml(q)}
     ${renderSubHtml(q)}
+
+    ${q.type === '填空题' ? myAnswerHtml() : ''}
     ${answerHtml(q)}
   `;
 }
@@ -2714,6 +3017,18 @@ function renderQuestionBody(container, q) {
   const qid = q.id;
   const qtext = container.querySelector('[data-role="qtext"]');
   if (qtext) { qtext.textContent = q.content; renderKatex(qtext); }
+
+
+
+  const fillInput = container.querySelector('.q-myanswer-input');
+
+  if (fillInput) {
+
+    fillInput.value = getMyAnswer(q.uid);
+
+    fillInput.addEventListener('input', () => saveMyAnswer(q.uid, fillInput.value));
+
+  }
 
   if (q.options) {
     const optMathEls = container.querySelectorAll('.opt-math');
@@ -2813,8 +3128,10 @@ function renderModalContent(q) {
     <div class="q-id">${escapeHtml(q.id)} <span class="card-type">${q.type}</span></div>
     ${markBarHtml(q.uid, true)}
     ${questionBodyHtml(q)}
-  `;
+
+    ${notesHtml()}  `;
   renderQuestionBody(container, q);
+  bindNotesUI(q);
   if (window.ViewerPlatformSync && ViewerPlatformSync.attachNoteReminderButton) {
     ViewerPlatformSync.attachNoteReminderButton(
       container.querySelector('.mark-bar') || container,

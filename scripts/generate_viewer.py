@@ -6,6 +6,7 @@ Usage:
     python scripts/generate_viewer.py --bank 660
 """
 import argparse
+import hashlib
 import sys
 from pathlib import Path
 
@@ -23,13 +24,21 @@ BANKS = {
 
 
 DATA_SCRIPT_PLACEHOLDER = '<!-- DATA_SCRIPT -->'
-DATA_SCRIPT_TAG = '<script src="data.js"></script>'
+
+
+def data_script_tag(dest: Path) -> str:
+    """引用带上 data.js 内容哈希，避免浏览器（尤其 iPad Safari 启发式缓存）长期沿用旧题库数据。"""
+    data_js = dest.with_name('data.js')
+    if data_js.exists():
+        h = hashlib.sha256(data_js.read_bytes()).hexdigest()[:8]
+        return f'<script src="data.js?v={h}"></script>'
+    return '<script src="data.js"></script>'
 
 
 def generate(bank, dest):
     dest.parent.mkdir(parents=True, exist_ok=True)
     text = TEMPLATE.read_text(encoding='utf-8')
-    text = text.replace(DATA_SCRIPT_PLACEHOLDER, DATA_SCRIPT_TAG)
+    text = text.replace(DATA_SCRIPT_PLACEHOLDER, data_script_tag(dest))
     dest.write_text(text, encoding='utf-8')
     print(f'Generated {dest}')
 
