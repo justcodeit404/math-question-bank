@@ -948,6 +948,12 @@ body {
   letter-spacing: -0.015em;
 }
 
+.modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .modal-close {
   background: none;
   border: none;
@@ -1887,7 +1893,9 @@ body {
   <div class="modal-box">
     <div class="modal-header">
       <h3 id="modalTitle">题目详情</h3>
-      <button class="modal-close" onclick="closeModal()" aria-label="关闭">&times;</button>
+      <div class="modal-header-actions">
+        <button class="modal-close" onclick="closeModal()" aria-label="关闭">&times;</button>
+      </div>
     </div>
     <div class="modal-body">
       <div class="modal-content" id="modalContent"></div>
@@ -1911,7 +1919,9 @@ body {
   <div class="modal-box">
     <div class="modal-header">
       <h3 id="practiceTitle">练习模式</h3>
-      <button class="modal-close" onclick="closePractice()" aria-label="关闭">&times;</button>
+      <div class="modal-header-actions">
+        <button class="modal-close" onclick="closePractice()" aria-label="关闭">&times;</button>
+      </div>
     </div>
     <div class="modal-body">
       <div id="practiceContent"></div>
