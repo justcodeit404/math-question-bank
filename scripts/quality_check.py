@@ -200,6 +200,16 @@ def _check_chinese_in_math(text):
     return False
 
 
+FIGURE_CUE_RE = re.compile(
+    r'(?:如图(?:所示)?|见图|图中|下图|上图|由图(?:可知|可得)?|从图(?:中)?|观察图|图示)'
+)
+
+
+def _requires_figure(text):
+    """题干是否明确依赖一张图；只检查数学模式外的自然语言。"""
+    return any(FIGURE_CUE_RE.search(seg) for seg in _non_math_segments(str(text or '')))
+
+
 def check_text(text):
     """返回 [(code, severity, desc, fix_fn), ...]"""
     text = str(text) if text is not None else ''
@@ -282,6 +292,36 @@ def check_question(q):
         if not any(re.search(m, content) for m in blank_markers):
             all_issues.append(('missing_blank', 'warning', '填空题没有明显空格标记', None, None, None))
 
+    image_ref = q.get('image_ref') or {}
+    crop = image_ref.get('cropped') if isinstance(image_ref, dict) else None
+    if _requires_figure(q.get('content', '')) and not crop:
+        all_issues.append((
+            'missing_figure',
+            'critical',
+            '题干明确引用图，但没有可展示的题目图片',
+            'content',
+            q.get('content', ''),
+            None,
+        ))
+    if q.get('has_image') and not crop:
+        all_issues.append((
+            'missing_image_ref',
+            'critical',
+            'has_image=true，但 image_ref.cropped 为空',
+            None,
+            None,
+            None,
+        ))
+    if crop and not q.get('has_image'):
+        all_issues.append((
+            'image_flag_mismatch',
+            'warning',
+            '已有题目图片，但 has_image=false',
+            None,
+            None,
+            None,
+        ))
+
     return all_issues
 
 
@@ -289,11 +329,20 @@ def build_report(questions, book_dir):
     report = []
     for q in questions:
         issues = check_question(q)
-        if not issues:
-            continue
         img_ref = q.get('image_ref') or {}
         crop = img_ref.get('cropped', '')
         crop_path = book_dir / 'math-bank' / crop if crop else None
+        if crop_path and not crop_path.exists():
+            issues.append((
+                'missing_image_file',
+                'critical',
+                f'题目图片文件不存在：{crop}',
+                'image_ref',
+                crop,
+                None,
+            ))
+        if not issues:
+            continue
         page = q.get('page')
         report.append({
             'id': q.get('id'),

@@ -5252,8 +5252,12 @@
           "printed_page": null,
           "chapter": "微积分应用",
           "section": null,
-          "has_image": false,
-          "image_ref": null,
+          "has_image": true,
+          "image_ref": {
+            "page": 125,
+            "cropped": "images/p125_example18.png",
+            "note": "由官方解析页提取的半圆路径、受力方向与坐标关系示意图"
+          },
           "source": "01 27大雪深埋做题本（高数）",
           "answer_ref": "images/answers/微积分应用_例18.png"
         },

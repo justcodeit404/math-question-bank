@@ -2702,8 +2702,12 @@
           "printed_page": null,
           "chapter": "基础·一元函数积分学的概念与性质",
           "section": null,
-          "has_image": false,
-          "image_ref": null,
+          "has_image": true,
+          "image_ref": {
+            "page": 24,
+            "cropped": "images/p024_q3.png",
+            "note": "原书速度曲线图"
+          },
           "source": "张宇考研数学1000题 数学二",
           "answer_ref": "answer_crops/chapter_8_q3.png"
         },
@@ -3958,8 +3962,12 @@
           "printed_page": null,
           "chapter": "基础·一元函数积分学的应用(一)",
           "section": null,
-          "has_image": false,
-          "image_ref": null,
+          "has_image": true,
+          "image_ref": {
+            "page": 31,
+            "cropped": "images/p031_q4.png",
+            "note": "曲线、切线与面积 S_1、S_2 示意图"
+          },
           "source": "张宇考研数学1000题 数学二",
           "answer_ref": "answer_crops/chapter_10_q4.png"
         },
@@ -11227,8 +11235,12 @@
           "printed_page": null,
           "chapter": "强化·一元函数积分学的应用(一)",
           "section": null,
-          "has_image": false,
-          "image_ref": null,
+          "has_image": true,
+          "image_ref": {
+            "page": 87,
+            "cropped": "images/p087_q10.png",
+            "note": "曲线 y=e^{-2x} 上的等宽台阶及阴影面积示意图"
+          },
           "source": "张宇考研数学1000题 数学二",
           "answer_ref": "answer_crops/chapter_31_q10.png"
         },
@@ -11468,8 +11480,12 @@
           "printed_page": null,
           "chapter": "强化·一元函数积分学的应用(一)",
           "section": null,
-          "has_image": false,
-          "image_ref": null,
+          "has_image": true,
+          "image_ref": {
+            "page": 89,
+            "cropped": "images/p089_q24.png",
+            "note": "曲线 y=f(x) 与平板 D 的质心位置示意图"
+          },
           "source": "张宇考研数学1000题 数学二",
           "answer_ref": "answer_crops/chapter_31_q24.png"
         },
