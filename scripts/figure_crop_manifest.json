@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "dpi": 200,
+  "description": "数学题库题图裁剪可复现配置。坐标基于指定DPI渲染的源PDF页面；existing_verified 表示裁图已人工核验但坐标待补全。",
+  "crops": [
+    {
+      "bank": "1000题",
+      "uid": "1000-基础·一元函数积分学的概念与性质-3",
+      "source_pdf": "27张宇1000题数二-试题册.pdf",
+      "source_page": 24,
+      "dpi": 200,
+      "coordinates": null,
+      "output": "images/p024_q3.png",
+      "source_note": "张宇1000题数二试题册第24页，甲乙赛跑速度曲线图（三块阴影面积15/20/10）",
+      "status": "existing_verified"
+    },
+    {
+      "bank": "1000题",
+      "uid": "1000-基础·一元函数积分学的应用(一)-4",
+      "source_pdf": "27张宇1000题数二-试题册.pdf",
+      "source_page": 31,
+      "dpi": 200,
+      "coordinates": null,
+      "output": "images/p031_q4.png",
+      "source_note": "张宇1000题数二试题册第31页，y=sinx曲线、过点(p,sinp)切线与面积S1/S2示意图",
+      "status": "existing_verified"
+    },
+    {
+      "bank": "1000题",
+      "uid": "1000-强化·一元函数积分学的应用(一)-10",
+      "source_pdf": "27张宇1000题数二-试题册.pdf",
+      "source_page": 87,
+      "dpi": 200,
+      "coordinates": null,
+      "output": "images/p087_q10.png",
+      "source_note": "张宇1000题数二试题册第87页，y=e^(-2x)曲线上等宽台阶曲线及无穷阴影面积示意图",
+      "status": "existing_verified"
+    },
+    {
+      "bank": "1000题",
+      "uid": "1000-强化·一元函数积分学的应用(一)-24",
+      "source_pdf": "27张宇1000题数二-试题册.pdf",
+      "source_page": 89,
+      "dpi": 200,
+      "coordinates": null,
+      "output": "images/p089_q24.png",
+      "source_note": "张宇1000题数二试题册第89页，y=f(x)与x=a及x轴围成平板D的质心x-bar位置示意图",
+      "status": "existing_verified"
+    },
+    {
+      "bank": "大学深埋",
+      "uid": "大学深埋-微积分应用-例18-p125",
+      "source_pdf": "27大雪深埋强化讲义书（扫描版）.pdf",
+      "source_page": 125,
+      "dpi": 200,
+      "coordinates": null,
+      "output": "images/p125_example18.png",
+      "source_note": "大雪深埋强化讲义第125页，质点P沿AB为直径半圆周运动受变力F示意图（含O'(2,3)圆心、角度标注）",
+      "status": "existing_verified"
+    }
+  ]
+}
