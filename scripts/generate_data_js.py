@@ -51,6 +51,7 @@ VIEWER_FIELDS = [
     'uid', 'id', 'qnum', 'type', 'content', 'options',
     'sub_questions', 'page', 'printed_page', 'chapter',
     'section', 'has_image', 'image_ref', 'answer_ref', 'source', 'quality_hold',
+    'answer_structured',
 ]
 
 

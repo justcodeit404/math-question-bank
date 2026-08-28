@@ -1091,6 +1091,43 @@ body {
   margin-top: 8px;
 }
 
+.q-image-error {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  gap: 6px;
+  background: #fef2f2;
+  border: 1px dashed #fca5a5;
+  border-radius: 6px;
+}
+.q-image-error-icon { font-size: 1.5rem; }
+.q-image-error-text { font-weight: 600; color: #991b1b; }
+.q-image-error-path { font-size: 0.75rem; color: #b91c1c; word-break: break-all; font-family: monospace; }
+
+/* 结构化答案 */
+.q-structured-answer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+}
+.q-structured-label { font-size: 0.82rem; color: #166534; font-weight: 600; }
+.q-structured-canonical {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #15803d;
+  background: #fff;
+  padding: 2px 12px;
+  border-radius: 4px;
+  border: 1px solid #bbf7d0;
+}
+.q-structured-mode { font-size: 0.75rem; color: #6b7280; margin-left: auto; }
+
 /* 填空题「我的答案」输入 */
 
 .q-myanswer { margin-bottom: 16px; }
@@ -1131,81 +1168,156 @@ body {
 
 
 
-.q-myanswer-input:focus { outline: none; border-color: var(--accent); }
-
-/* 我的笔记 */
-.q-notes {
-  margin-bottom: 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  padding: 4px 0;
-}
-
-.q-notes > summary {
-  cursor: pointer;
-  padding: 10px 14px;
-  font-size: 0.92rem;
-  color: var(--accent);
-  user-select: none;
-  list-style: none;
-}
-
-.q-notes > summary::-webkit-details-marker { display: none; }
-
-.q-notes > summary::before {
-  content: '▸';
-  display: inline-block;
-  margin-right: 6px;
-  transition: transform 0.15s;
-  color: var(--muted);
-}
-
-.q-notes[open] > summary::before { transform: rotate(90deg); }
-
-.notes-status { color: var(--muted); font-size: 0.78rem; margin-left: 6px; }
-
-.q-notes textarea {
-  display: block;
-  width: calc(100% - 28px);
-  box-sizing: border-box;
-  margin: 0 14px 10px;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--bg);
-  color: var(--text);
-  font-size: 16px; /* ≥16px 防 iOS 聚焦自动放大 */
-  font-family: inherit;
-  resize: vertical;
-  min-height: 80px;
-  line-height: 1.55;
-}
-
-.q-notes textarea:focus { outline: none; border-color: var(--accent); }
-
-.q-notes-preview {
-  display: none;
-  width: calc(100% - 28px);
-  box-sizing: border-box;
-  margin: 0 14px 10px;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--bg);
-  color: var(--text);
-  font-size: 0.9rem;
-  min-height: 40px;
-  line-height: 1.55;
-  word-break: break-word;
-}
-
-.q-notes.has-note-preview .q-notes-preview { display: block; }
-
-.q-notes-hint {
-  margin: 0 14px 8px;
-  font-size: 0.75rem;
-  color: var(--muted);
+.q-myanswer-input:focus { outline: none; border-color: var(--accent); }
+
+
+
+/* 我的笔记 */
+
+.q-notes {
+
+  margin-bottom: 16px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+  background: var(--surface);
+
+  padding: 4px 0;
+
+}
+
+
+
+.q-notes > summary {
+
+  cursor: pointer;
+
+  padding: 10px 14px;
+
+  font-size: 0.92rem;
+
+  color: var(--accent);
+
+  user-select: none;
+
+  list-style: none;
+
+}
+
+
+
+.q-notes > summary::-webkit-details-marker { display: none; }
+
+
+
+.q-notes > summary::before {
+
+  content: '▸';
+
+  display: inline-block;
+
+  margin-right: 6px;
+
+  transition: transform 0.15s;
+
+  color: var(--muted);
+
+}
+
+
+
+.q-notes[open] > summary::before { transform: rotate(90deg); }
+
+
+
+.notes-status { color: var(--muted); font-size: 0.78rem; margin-left: 6px; }
+
+
+
+.q-notes textarea {
+
+  display: block;
+
+  width: calc(100% - 28px);
+
+  box-sizing: border-box;
+
+  margin: 0 14px 10px;
+
+  padding: 10px 12px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+  background: var(--bg);
+
+  color: var(--text);
+
+  font-size: 16px; /* ≥16px 防 iOS 聚焦自动放大 */
+
+  font-family: inherit;
+
+  resize: vertical;
+
+  min-height: 80px;
+
+  line-height: 1.55;
+
+}
+
+
+
+.q-notes textarea:focus { outline: none; border-color: var(--accent); }
+
+
+
+.q-notes-preview {
+
+  display: none;
+
+  width: calc(100% - 28px);
+
+  box-sizing: border-box;
+
+  margin: 0 14px 10px;
+
+  padding: 10px 12px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+  background: var(--bg);
+
+  color: var(--text);
+
+  font-size: 0.9rem;
+
+  min-height: 40px;
+
+  line-height: 1.55;
+
+  word-break: break-word;
+
+}
+
+
+
+.q-notes.has-note-preview .q-notes-preview { display: block; }
+
+
+
+.q-notes-hint {
+
+  margin: 0 14px 8px;
+
+  font-size: 0.75rem;
+
+  color: var(--muted);
+
 }
 
 
@@ -2387,36 +2499,66 @@ function saveMyAnswer(uid, text) {
 
 
 
-let notesMapCache = null;
-
-function notesKey() {
-  return 'mathbank_notes_' + (bank.title || document.title || 'default');
-}
-
-function loadNotesMap() {
-  if (notesMapCache) return notesMapCache;
-  if (window.ViewerStorage && ViewerStorage.loadShardedMap) {
-    notesMapCache = ViewerStorage.loadShardedMap(notesKey()) || {};
-  } else {
-    try { notesMapCache = JSON.parse(localStorage.getItem(notesKey()) || '{}'); } catch (e) { notesMapCache = {}; }
-  }
-  return notesMapCache;
-}
-
-function saveNotesMap() {
-  if (!notesMapCache) return;
-  if (window.ViewerStorage && ViewerStorage.saveShardedMap) { ViewerStorage.saveShardedMap(notesKey(), notesMapCache); return; }
-  try { localStorage.setItem(notesKey(), JSON.stringify(notesMapCache)); } catch (e) {}
-}
-
-function getNote(uid) { return loadNotesMap()[uid] || ''; }
-
-function setNote(uid, text) {
-  const m = loadNotesMap();
-  if (text) m[uid] = text; else delete m[uid];
-  saveNotesMap();
-}
-
+let notesMapCache = null;
+
+
+
+function notesKey() {
+
+  return 'mathbank_notes_' + (bank.title || document.title || 'default');
+
+}
+
+
+
+function loadNotesMap() {
+
+  if (notesMapCache) return notesMapCache;
+
+  if (window.ViewerStorage && ViewerStorage.loadShardedMap) {
+
+    notesMapCache = ViewerStorage.loadShardedMap(notesKey()) || {};
+
+  } else {
+
+    try { notesMapCache = JSON.parse(localStorage.getItem(notesKey()) || '{}'); } catch (e) { notesMapCache = {}; }
+
+  }
+
+  return notesMapCache;
+
+}
+
+
+
+function saveNotesMap() {
+
+  if (!notesMapCache) return;
+
+  if (window.ViewerStorage && ViewerStorage.saveShardedMap) { ViewerStorage.saveShardedMap(notesKey(), notesMapCache); return; }
+
+  try { localStorage.setItem(notesKey(), JSON.stringify(notesMapCache)); } catch (e) {}
+
+}
+
+
+
+function getNote(uid) { return loadNotesMap()[uid] || ''; }
+
+
+
+function setNote(uid, text) {
+
+  const m = loadNotesMap();
+
+  if (text) m[uid] = text; else delete m[uid];
+
+  saveNotesMap();
+
+}
+
+
+
 function getMark(uid) {
   return questionMarks[uid] || 'none';
 }
@@ -2903,14 +3045,36 @@ function renderSubHtml(q) {
   `;
 }
 
+function structuredAnswerHtml(q) {
+  if (!q.answer_structured) return '';
+  const s = q.answer_structured;
+  if (!s.canonical) return '';
+  const kindLabel = s.kind === 'choice' ? '选择题答案' : s.kind === 'fill' ? '填空题答案' : '答案';
+  const modeLabel = s.judge_mode === 'choice_exact' ? '精确判定'
+    : s.judge_mode === 'normalized_math' ? '归一化判定' : '人工判定';
+  const canonical = escapeHtml(String(s.canonical));
+  return `
+    <div class="q-structured-answer">
+      <span class="q-structured-label">${kindLabel}</span>
+      <span class="q-structured-canonical">${canonical}</span>
+      <span class="q-structured-mode">${modeLabel}</span>
+    </div>
+  `;
+}
+
 function answerHtml(q) {
+  // 优先显示结构化答案（选择题/填空题）
+  const structured = structuredAnswerHtml(q);
+
   // 优先显示单题精准裁剪的答案图
   if (q.answer_ref) {
+    const ansRef = typeof q.answer_ref === 'object' ? q.answer_ref.cropped : q.answer_ref;
     return `
       <details class="q-answer">
         <summary>📖 查看答案</summary>
         <div class="q-answer-content">
-          <img src="${q.answer_ref}" alt="第 ${q.id} 题答案" loading="lazy" onclick="zoomImage(this.src)" onerror="this.parentNode.innerHTML='<p style=\\'color:var(--muted)\\'>答案图加载失败</p>'">
+          ${structured}
+          <img src="${ansRef}" alt="第 ${q.id} 题答案" loading="lazy" onclick="zoomImage(this.src)" onerror="this.parentNode.innerHTML='<p style=\\'color:var(--muted)\\'>答案图加载失败：${escapeHtml(String(ansRef))}</p>'">
         </div>
       </details>
     `;
@@ -2918,7 +3082,18 @@ function answerHtml(q) {
 
   // 退回到章节答案册翻页
   const ch = bank.chapters.find(c => c.name === q.chapter);
-  if (!ch || !ch.answer_start || !ch.answer_end) return '';
+  if (!ch || !ch.answer_start || !ch.answer_end) {
+    // 即使没有答案图，也显示结构化答案
+    if (structured) {
+      return `
+        <details class="q-answer">
+          <summary>📖 查看答案</summary>
+          <div class="q-answer-content">${structured}</div>
+        </details>
+      `;
+    }
+    return '';
+  }
   const pages = [];
   for (let p = ch.answer_start; p <= ch.answer_end; p++) pages.push(p);
   const first = pages[0];
@@ -2952,46 +3127,86 @@ function changeAnswerPage(uid, delta) {
   info.textContent = `${idx + 1} / ${pages.length}`;
 }
 
-function notesHtml() {
-  return `
-    <details class="q-notes" id="detailNotes">
-      <summary>📝 我的笔记 <span class="notes-status" id="notesStatus"></span></summary>
-      <textarea id="notesTextarea" placeholder="记录思路、口诀、易错点；支持 $a^2+b^2=c^2$ 这样的公式" rows="5"></textarea>
-      <p class="q-notes-hint">公式用 $...$ 或 $$...$$，下方实时预览。笔记保存在本浏览器。</p>
-      <div class="q-notes-preview" id="notesPreview" hidden></div>
-    </details>
-  `;
-}
-
-function bindNotesUI(q) {
-  const ta = document.getElementById('notesTextarea');
-  if (!ta) return;
-  const preview = document.getElementById('notesPreview');
-  const status = document.getElementById('notesStatus');
-  const details = document.getElementById('detailNotes');
-  const existing = getNote(q.uid);
-  ta.value = existing;
-  if (existing) details.open = true;
-  const updateStatus = () => { status.textContent = ta.value ? '（已保存）' : ''; };
-  const updatePreview = () => {
-    const text = ta.value;
-    if (!text.trim()) { preview.hidden = true; preview.innerHTML = ''; details.classList.remove('has-note-preview'); return; }
-    preview.textContent = text;
-    renderKatex(preview);
-    preview.hidden = false;
-    details.classList.add('has-note-preview');
-  };
-  updateStatus();
-  updatePreview();
-  let saveTimer;
-  ta.addEventListener('input', () => {
-    updatePreview();
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => { setNote(q.uid, ta.value); updateStatus(); }, 400);
-  });
-  ta.addEventListener('blur', () => { setNote(q.uid, ta.value); updateStatus(); updatePreview(); });
-}
-
+function notesHtml() {
+
+  return `
+
+    <details class="q-notes" id="detailNotes">
+
+      <summary>📝 我的笔记 <span class="notes-status" id="notesStatus"></span></summary>
+
+      <textarea id="notesTextarea" placeholder="记录思路、口诀、易错点；支持 $a^2+b^2=c^2$ 这样的公式" rows="5"></textarea>
+
+      <p class="q-notes-hint">公式用 $...$ 或 $$...$$，下方实时预览。笔记保存在本浏览器。</p>
+
+      <div class="q-notes-preview" id="notesPreview" hidden></div>
+
+    </details>
+
+  `;
+
+}
+
+
+
+function bindNotesUI(q) {
+
+  const ta = document.getElementById('notesTextarea');
+
+  if (!ta) return;
+
+  const preview = document.getElementById('notesPreview');
+
+  const status = document.getElementById('notesStatus');
+
+  const details = document.getElementById('detailNotes');
+
+  const existing = getNote(q.uid);
+
+  ta.value = existing;
+
+  if (existing) details.open = true;
+
+  const updateStatus = () => { status.textContent = ta.value ? '（已保存）' : ''; };
+
+  const updatePreview = () => {
+
+    const text = ta.value;
+
+    if (!text.trim()) { preview.hidden = true; preview.innerHTML = ''; details.classList.remove('has-note-preview'); return; }
+
+    preview.textContent = text;
+
+    renderKatex(preview);
+
+    preview.hidden = false;
+
+    details.classList.add('has-note-preview');
+
+  };
+
+  updateStatus();
+
+  updatePreview();
+
+  let saveTimer;
+
+  ta.addEventListener('input', () => {
+
+    updatePreview();
+
+    clearTimeout(saveTimer);
+
+    saveTimer = setTimeout(() => { setNote(q.uid, ta.value); updateStatus(); }, 400);
+
+  });
+
+  ta.addEventListener('blur', () => { setNote(q.uid, ta.value); updateStatus(); updatePreview(); });
+
+}
+
+
+
 function myAnswerHtml() {
 
   return `
@@ -3102,11 +3317,19 @@ function imageHtml(imageRef) {
     ? `第 ${imageRef.page} 页`
     : '题目配图';
   const note = escapeHtml(imageRef.note || '题目配图');
+  const safePath = escapeHtml(imgPath);
   // 默认内联展示配图（题干「如下图」场景）；点击仍可放大
   return `
     <div class="q-image q-image-inline" data-role="qimage">
       <div class="q-image-content">
-        <img src="${imgPath}" alt="${escapeHtml(pageLabel)}" loading="lazy" onerror="this.closest('.q-image').style.display='none'" onclick="zoomImage(this.src)">
+        <img src="${safePath}" alt="${escapeHtml(pageLabel)}" loading="lazy"
+          onclick="zoomImage(this.src)"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="q-image-error" style="display:none;">
+          <span class="q-image-error-icon">🖼️</span>
+          <span class="q-image-error-text">题图加载失败</span>
+          <span class="q-image-error-path">${safePath}</span>
+        </div>
         <div class="q-image-note">${note} · ${escapeHtml(pageLabel)} <span style="color:#3b82f6">（点击放大）</span></div>
       </div>
     </div>
