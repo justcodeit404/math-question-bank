@@ -1957,7 +1957,7 @@ body {
         <button id="btnWeak" class="btn-secondary" title="只看标记为不会或不熟的题目">错题本</button>
       </div>
       <div class="sync-bar" id="syncBar">
-        <span class="sync-hint" id="syncHint">与平台双向同步 · 会了/不熟/不会</span>
+        <span class="sync-hint" id="syncHint">标记后自动同步 · 手动按钮仅作备用</span>
         <div class="sync-menu" id="syncMenu">
           <button type="button" class="action-btn" id="btnSyncToggle" aria-haspopup="true" aria-expanded="false">同步 ▾</button>
           <div class="sync-dropdown" id="syncDropdown" role="menu">
@@ -2571,6 +2571,7 @@ function setMark(uid, mark) {
     questionMarks[uid] = mark;
   }
   saveMarks();
+  queueAutoSync(uid);
 }
 
 function markBadgeHtml(uid) {
@@ -4012,6 +4013,56 @@ async function doSync(items) {
   showSyncToast('同步组件未加载：请从平台 /banks/math/ 打开，或检查 vendor/viewer-common', 'error');
 }
 
+// ========================
+// 标记后自动同步（仿 bank-408 app.js 的防抖队列）
+// ========================
+// ponytail: 解析失败（not_found）的条目也会按退避重试，最坏每 30s 一次直到
+// 页面关闭——与 bank-408 行为一致；升级方向是区分「永久失败」出队。
+const _autoSyncQueue = [];
+let _autoSyncTimer = null;
+let _autoSyncInFlight = false;
+let _autoSyncRetryCount = 0;
+let _suppressAutoSync = false; // 平台→本地拉取回填时不反向推回
+const AUTO_SYNC_RETRY_DELAYS = [1500, 5000, 15000, 30000];
+
+function queueAutoSync(uid) {
+  if (!isPlatformServed || _suppressAutoSync || !uid) return;
+  const mark = getMark(uid);
+  if (!mark || mark === 'none') return; // 清除标记不同步（平台无清除语义）
+  const idx = _autoSyncQueue.findIndex(x => x.uid === uid);
+  const item = { uid: uid, mark: mark };
+  if (idx >= 0) _autoSyncQueue[idx] = item; else _autoSyncQueue.push(item);
+  _autoSyncRetryCount = 0;
+  clearTimeout(_autoSyncTimer);
+  _autoSyncTimer = setTimeout(flushAutoSyncQueue, 300);
+}
+
+async function flushAutoSyncQueue() {
+  _autoSyncTimer = null;
+  if (_autoSyncInFlight || !_autoSyncQueue.length) return;
+  if (!window.ViewerPlatformSync || !ViewerPlatformSync.syncFromBank) return;
+  _autoSyncInFlight = true;
+  const batch = _autoSyncQueue.splice(0, _autoSyncQueue.length);
+  let ok = false;
+  try {
+    const out = await ViewerPlatformSync.syncFromBank(BANK_KEY || '', batch, null);
+    ok = !!(out && out.ok && out.data && !(out.data.failed_count > 0));
+  } catch (e) {}
+  if (ok) {
+    _autoSyncRetryCount = 0;
+  } else {
+    // 失败重入队；相同 uid 以用户最新一次标记为准
+    batch.forEach(item => {
+      if (!_autoSyncQueue.some(x => x.uid === item.uid)) _autoSyncQueue.push(item);
+    });
+    const i = Math.min(_autoSyncRetryCount, AUTO_SYNC_RETRY_DELAYS.length - 1);
+    _autoSyncRetryCount++;
+    _autoSyncTimer = setTimeout(flushAutoSyncQueue, AUTO_SYNC_RETRY_DELAYS[i]);
+  }
+  _autoSyncInFlight = false;
+  if (_autoSyncQueue.length && !_autoSyncTimer) _autoSyncTimer = setTimeout(flushAutoSyncQueue, 300);
+}
+
 function gatherSyncItems(scope) {
   if (scope === 'current') {
     return filteredQuestions
@@ -4090,19 +4141,24 @@ async function pullMasteryFromPlatform(opts) {
   const known = new Set((allQuestions || []).map(q => q.uid).filter(Boolean));
   let applied = 0;
   let skipped = 0;
-  Object.keys(merged.map || {}).forEach(uid => {
-    if (!known.has(uid)) return;
-    const next = merged.map[uid];
-    const prev = getMark(uid);
-    if (!next || next === 'none') return;
-    if (prev === next) {
-      skipped++;
-      return;
-    }
-    // prefer_weaker / fill 已在 merge 中处理；这里直接落盘
-    setMark(uid, next);
-    applied++;
-  });
+  _suppressAutoSync = true; // 平台→本地回填不触发反向推送
+  try {
+    Object.keys(merged.map || {}).forEach(uid => {
+      if (!known.has(uid)) return;
+      const next = merged.map[uid];
+      const prev = getMark(uid);
+      if (!next || next === 'none') return;
+      if (prev === next) {
+        skipped++;
+        return;
+      }
+      // prefer_weaker / fill 已在 merge 中处理；这里直接落盘
+      setMark(uid, next);
+      applied++;
+    });
+  } finally {
+    _suppressAutoSync = false;
+  }
   // merge 可能把已有的也拷过来但未改 — 用 applied 以 setMark 为准
   if (applied > 0) {
     try {
