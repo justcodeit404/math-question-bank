@@ -3074,7 +3074,7 @@ function answerHtml(q) {
         <summary>📖 查看答案</summary>
         <div class="q-answer-content">
           ${structured}
-          <img src="${ansRef}" alt="第 ${q.id} 题答案" loading="lazy" onclick="zoomImage(this.src)" onerror="this.parentNode.innerHTML='<p style=\\'color:var(--muted)\\'>答案图加载失败：${escapeHtml(String(ansRef))}</p>'">
+          <img src="${ansRef}" alt="第 ${q.id} 题答案" onclick="zoomImage(this.src)" onerror="this.parentNode.innerHTML='<p style=\\'color:var(--muted)\\'>答案图加载失败：${escapeHtml(String(ansRef))}</p>'">
         </div>
       </details>
     `;
@@ -3107,7 +3107,7 @@ function answerHtml(q) {
           <button onclick="changeAnswerPage('${q.uid}', 1)">下一页</button>
         </div>
         <div class="answer-image-wrap" id="answerImageWrap-${q.uid}" data-pages="${pages.join(',')}" data-index="0">
-          <img src="../answer_images/page_${String(first).padStart(3,'0')}.png" alt="答案册第 ${first} 页" loading="lazy" onclick="zoomImage(this.src)">
+          <img src="../answer_images/page_${String(first).padStart(3,'0')}.png" alt="答案册第 ${first} 页" onclick="zoomImage(this.src)">
         </div>
       </div>
     </details>
