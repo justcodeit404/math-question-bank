@@ -1,12 +1,17 @@
 {
   "schema_version": 1,
-  "source_sha256": "1ea9bc0d19572873149cf86f0ebfbce4e8c8ea88995cf9d5528ff71c79e40390",
-  "source_uids": [],
+  "source_sha256": "575807208d32d35dbb80483824009b713b1c1b970e7498f18ffbe2d3468fd971",
+  "source_uids": [
+    "880-165",
+    "880-245",
+    "880-81",
+    "880-93"
+  ],
   "summary": {
     "total_questions": 927,
-    "verified": 927,
-    "held": 0,
-    "verification_rate": 1.0,
+    "verified": 923,
+    "held": 4,
+    "verification_rate": 0.995685,
     "global_issues": 0
   }
 }

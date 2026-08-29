@@ -42,6 +42,21 @@ BOOKS = ("660题", "880题", "1000题", "大学深埋")
 KIMI_ENDPOINT = "https://api.kimi.com/coding/v1"
 KIMI_MODEL = "kimi-for-coding"
 SCHEMA_VERSION = 2
+PROVIDER_MODELS = {
+    "kimi": KIMI_MODEL,
+    "luna": "gpt-5.6-luna",
+    "glm": "glm-5.3-flash",
+    "terra": "gpt-5.6-terra",
+}
+VALID_ISSUE_CODES = {
+    "source_truncation", "source_mismatch", "source_page_mismatch",
+    "formula_mismatch", "options_mismatch", "figure_missing",
+    "figure_mismatch", "answer_image_missing", "answer_mismatch",
+    "source_image_blurry", "hold_uncertain",
+}
+REVIEW_BOOLEAN_FIELDS = (
+    "source_match", "answer_match", "figure_match", "formula_match", "options_match",
+)
 
 
 def now_iso() -> str:
@@ -460,7 +475,7 @@ def _result_is_pass(result: dict[str, Any]) -> bool:
 
 
 def _normalise_provider_results(bundle: dict[str, Any], provider: str, value: Any) -> tuple[dict[str, Any], list[str]]:
-    """校验并规范化 Luna/Kimi 的逐题结果，拒绝未知 UID 和缺失 UID。"""
+    """校验并规范化各 provider 的逐题结果，拒绝未知 UID 和缺失 UID。"""
     if isinstance(value, dict) and isinstance(value.get("questions"), list):
         rows = value["questions"]
     elif isinstance(value, list):
@@ -489,6 +504,21 @@ def _normalise_provider_results(bundle: dict[str, Any], provider: str, value: An
             "confidence", "issues", "notes",
         )}
         clean["uid"] = uid
+        if provider in {"glm", "terra"}:
+            for field in REVIEW_BOOLEAN_FIELDS:
+                if not isinstance(clean.get(field), bool):
+                    errors.append(f"invalid_{field}:{uid}")
+            if not isinstance(clean.get("issues"), list):
+                errors.append(f"invalid_issues:{uid}")
+            elif any(not isinstance(issue, str) or issue not in VALID_ISSUE_CODES for issue in clean["issues"]):
+                errors.append(f"invalid_issue_code:{uid}")
+            if not isinstance(clean.get("notes"), str):
+                errors.append(f"invalid_notes:{uid}")
+            raw_confidence = clean.get("confidence")
+            if isinstance(raw_confidence, bool) or not isinstance(raw_confidence, (int, float)) or not 0 <= raw_confidence <= 1:
+                errors.append(f"invalid_confidence:{uid}")
+            elif "hold_uncertain" in clean.get("issues", []) and raw_confidence > 0.6:
+                errors.append(f"hold_confidence_too_high:{uid}")
         clean["issues"] = clean.get("issues") if isinstance(clean.get("issues"), list) else ([str(clean["issues"])] if clean.get("issues") else [])
         try:
             clean["confidence"] = max(0.0, min(1.0, float(clean.get("confidence") or 0)))
@@ -501,27 +531,41 @@ def _normalise_provider_results(bundle: dict[str, Any], provider: str, value: An
     return output, errors
 
 
+def _provider_rows(record: dict[str, Any], provider: str) -> dict[str, Any]:
+    value = record.get(provider, {})
+    if value.get("status") != "ok":
+        return {}
+    rows = value.get("questions_by_uid", {})
+    if not rows and isinstance(value.get("questions"), list):
+        rows = {str(row.get("uid")): row for row in value["questions"] if isinstance(row, dict) and row.get("uid")}
+    return rows if isinstance(rows, dict) else {}
+
+
 def recompute_question_status(checkpoint: dict[str, Any]) -> dict[str, Any]:
-    """按两模型结果汇总每题状态；该汇总不会修改生产 questions.json。"""
+    """按主审(Kimi/Luna)和指定二审(GLM/Terra)汇总；不修改生产题库。"""
     per_uid: dict[str, dict[str, Any]] = {}
     for bundle_id, record in checkpoint.get("bundles", {}).items():
         bundle = record.get("bundle") or {}
-        kimi = record.get("kimi", {})
-        luna = record.get("luna", {})
-        kimi_rows = kimi.get("questions_by_uid", {}) if kimi.get("status") == "ok" else {}
-        if not kimi_rows and kimi.get("status") == "ok" and isinstance(kimi.get("questions"), list):
-            kimi_rows = {str(row.get("uid")): row for row in kimi["questions"] if isinstance(row, dict) and row.get("uid")}
-        luna_rows = luna.get("questions_by_uid", {}) if luna.get("status") == "ok" else {}
+        kimi_rows = _provider_rows(record, "kimi")
+        luna_rows = _provider_rows(record, "luna")
+        secondary_provider = record.get("secondary_provider")
+        # 保持旧试验 checkpoint 的 Kimi+Luna 双审语义；正式流程会显式配置 GLM/Terra。
+        if secondary_provider is None and kimi_rows and luna_rows:
+            secondary_provider = "luna"
+        secondary_rows = _provider_rows(record, str(secondary_provider)) if secondary_provider in {"luna", "glm", "terra"} else {}
         for question in bundle.get("questions", []):
             uid = str(question.get("uid"))
             k = kimi_rows.get(uid)
             l = luna_rows.get(uid)
+            primary_provider = "kimi" if k is not None else ("luna" if l is not None else None)
+            primary = k if primary_provider == "kimi" else l
+            secondary = secondary_rows.get(uid)
             status = "pending"
-            if k is not None and l is not None:
-                kp, lp = _result_is_pass(k), _result_is_pass(l)
-                if kp and lp:
+            if primary is not None and secondary is not None:
+                primary_pass, secondary_pass = _result_is_pass(primary), _result_is_pass(secondary)
+                if primary_pass and secondary_pass:
                     status = "strictly_verified"
-                elif kp == lp:
+                elif primary_pass == secondary_pass:
                     status = "hold"
                 else:
                     status = "conflict"
@@ -533,9 +577,15 @@ def recompute_question_status(checkpoint: dict[str, Any]) -> dict[str, Any]:
                 "input_hashes": bundle.get("input_hashes", {}),
                 "kimi_review": k,
                 "luna_review": l,
+                "glm_review": _provider_rows(record, "glm").get(uid),
+                "terra_review": _provider_rows(record, "terra").get(uid),
+                "primary_provider": primary_provider,
+                "secondary_provider": secondary_provider,
+                "primary_review": primary,
+                "secondary_review": secondary,
                 "overall_status": status,
-                "request_count": int(bool(k)) + int(bool(l)),
-                "reviewed_at": now_iso() if k is not None or l is not None else None,
+                "request_count": sum(int(bool(_provider_rows(record, provider).get(uid))) for provider in PROVIDER_MODELS),
+                "reviewed_at": now_iso() if primary is not None or secondary is not None else None,
             }
     checkpoint["questions"] = per_uid
     counts: defaultdict[str, int] = defaultdict(int)
@@ -545,20 +595,56 @@ def recompute_question_status(checkpoint: dict[str, Any]) -> dict[str, Any]:
     return checkpoint
 
 
-def ingest_provider(checkpoint: dict[str, Any], provider: str, path: Path) -> dict[str, Any]:
-    """导入 Luna 或外部保存的 Kimi 结果，并立即更新逐题汇总。"""
-    if provider not in {"luna", "kimi"}:
-        raise ValueError("provider 必须为 luna 或 kimi")
-    raw = json.loads(path.read_text(encoding="utf-8"))
-    items = raw if isinstance(raw, list) else [raw]
-    by_id = {str(item.get("bundle_id")): item for item in items if isinstance(item, dict) and item.get("bundle_id")}
+def ingest_provider_items(
+    checkpoint: dict[str, Any],
+    provider: str,
+    items: Iterable[dict[str, Any]],
+    allowed_bundle_ids: set[str] | None = None,
+) -> dict[str, Any]:
+    """导入已解析的 provider 结果，并立即更新逐题汇总。"""
+    if provider not in PROVIDER_MODELS:
+        raise ValueError("provider 必须为 kimi、luna、glm 或 terra")
+    by_id: dict[str, dict[str, Any]] = {}
+    duplicate_bundle_ids: set[str] = set()
+    for item in items:
+        if not isinstance(item, dict) or not item.get("bundle_id"):
+            continue
+        bundle_id = str(item["bundle_id"])
+        if bundle_id in by_id:
+            duplicate_bundle_ids.add(bundle_id)
+        by_id[bundle_id] = item
     invalid = 0
     for bundle_id, item in by_id.items():
+        if bundle_id in duplicate_bundle_ids:
+            invalid += 1
+            continue
+        if allowed_bundle_ids is not None and bundle_id not in allowed_bundle_ids:
+            invalid += 1
+            continue
         record = checkpoint.get("bundles", {}).get(bundle_id)
         if not record:
             invalid += 1
             continue
         bundle = record.get("bundle") or {}
+        if provider in {"glm", "terra"} and record.get("secondary_provider") != provider:
+            invalid += 1
+            continue
+        supplied_model = item.get("model")
+        if provider in {"glm", "terra"} and supplied_model != PROVIDER_MODELS[provider]:
+            invalid += 1
+            continue
+        if supplied_model and supplied_model != PROVIDER_MODELS[provider]:
+            invalid += 1
+            continue
+        if provider in {"glm", "terra"} and item.get("input_hashes") != bundle.get("input_hashes", {}):
+            invalid += 1
+            continue
+        if item.get("input_hashes") and item.get("input_hashes") != bundle.get("input_hashes", {}):
+            invalid += 1
+            continue
+        if provider in {"glm", "terra"} and not isinstance(item.get("reviewed_at"), str):
+            invalid += 1
+            continue
         try:
             rows, errors = _normalise_provider_results(bundle, provider, item.get("questions", item))
         except ValueError as exc:
@@ -575,14 +661,71 @@ def ingest_provider(checkpoint: dict[str, Any], provider: str, path: Path) -> di
         else:
             record[provider] = {
                 "provider": provider,
-                "model": "gpt-5.6-luna" if provider == "luna" else KIMI_MODEL,
+                "model": PROVIDER_MODELS[provider],
                 "status": "ok",
+                "input_hashes": item.get("input_hashes") or bundle.get("input_hashes", {}),
                 "questions_by_uid": rows,
-                "reviewed_at": now_iso(),
+                "reviewed_at": item.get("reviewed_at") or now_iso(),
             }
     recompute_question_status(checkpoint)
     _save_checkpoint(checkpoint)
-    checkpoint["ingest_summary"] = {"provider": provider, "bundles": len(by_id), "invalid": invalid}
+    checkpoint["ingest_summary"] = {
+        "provider": provider,
+        "bundles": len(by_id),
+        "invalid": invalid,
+        "duplicate_bundle_ids": sorted(duplicate_bundle_ids),
+    }
+    return checkpoint
+
+
+def ingest_provider(checkpoint: dict[str, Any], provider: str, path: Path) -> dict[str, Any]:
+    """导入单个 Luna/Kimi JSON 文件。"""
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    items = raw if isinstance(raw, list) else [raw]
+    return ingest_provider_items(checkpoint, provider, items)
+
+
+def load_result_files(results_dir: Path) -> list[dict[str, Any]]:
+    """读取分片目录下的 batch JSON；忽略 summary 等非批次文件。"""
+    items: list[dict[str, Any]] = []
+    for path in sorted(results_dir.rglob("batch-*.json")):
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        rows = raw if isinstance(raw, list) else [raw]
+        if not all(isinstance(row, dict) for row in rows):
+            raise ValueError(f"结果文件含非对象记录: {path}")
+        items.extend(rows)
+    return items
+
+
+def configure_secondary_plan(checkpoint: dict[str, Any], plan_path: Path) -> dict[str, Any]:
+    """将已校验的 GLM/Terra 二审分工写入临时 checkpoint。"""
+    plan = json.loads(plan_path.read_text(encoding="utf-8"))
+    assignments = plan.get("assignments") if isinstance(plan, dict) else None
+    if not isinstance(assignments, list):
+        raise ValueError("secondary plan 缺少 assignments 数组")
+    by_id: dict[str, str] = {}
+    for item in assignments:
+        if not isinstance(item, dict):
+            raise ValueError("secondary plan 含非对象 assignment")
+        bundle_id = str(item.get("bundle_id") or "")
+        provider = item.get("secondary_provider")
+        if not bundle_id or provider not in {"glm", "terra"} or bundle_id in by_id:
+            raise ValueError(f"secondary plan assignment 无效: {item}")
+        by_id[bundle_id] = provider
+    expected = set(checkpoint.get("bundles", {}))
+    if set(by_id) != expected:
+        missing = sorted(expected - set(by_id))[:5]
+        unknown = sorted(set(by_id) - expected)[:5]
+        raise ValueError(f"secondary plan 覆盖不完整: missing={missing}, unknown={unknown}")
+    for bundle_id, provider in by_id.items():
+        checkpoint["bundles"][bundle_id]["secondary_provider"] = provider
+    checkpoint["secondary_plan"] = {
+        "path": str(plan_path),
+        "configured_at": now_iso(),
+        "counts": {provider: sum(1 for value in by_id.values() if value == provider) for provider in ("glm", "terra")},
+    }
+    recompute_question_status(checkpoint)
+    _save_checkpoint(checkpoint)
     return checkpoint
 
 
@@ -633,11 +776,21 @@ def main() -> int:
     p_run.add_argument("--key-file", type=Path, default=DEFAULT_KEY_FILE)
     p_run.add_argument("--limit", type=int)
     p_run.add_argument("--skip-bundle", action="append", default=[])
-    p_ingest = sub.add_parser("ingest", help="导入 Luna/Kimi 逐题结果")
-    p_ingest.add_argument("--provider", choices=("luna", "kimi"), required=True)
+    p_secondary = sub.add_parser("configure-secondary", help="配置 GLM/Terra 二审分工")
+    p_secondary.add_argument("--plan", type=Path, required=True)
+    p_secondary.add_argument("--checkpoint", type=Path, default=CHECKPOINT_PATH)
+    p_secondary.add_argument("--manifest", type=Path, default=TEMP_ROOT / "manifest.json")
+    p_ingest = sub.add_parser("ingest", help="导入 provider 逐题结果")
+    p_ingest.add_argument("--provider", choices=tuple(PROVIDER_MODELS), required=True)
     p_ingest.add_argument("--results", type=Path, required=True)
     p_ingest.add_argument("--checkpoint", type=Path, default=CHECKPOINT_PATH)
     p_ingest.add_argument("--manifest", type=Path, default=TEMP_ROOT / "manifest.json")
+    p_ingest_dir = sub.add_parser("ingest-dir", help="导入一个或多个 provider 分片结果目录")
+    p_ingest_dir.add_argument("--provider", choices=tuple(PROVIDER_MODELS), required=True)
+    p_ingest_dir.add_argument("--results-dir", type=Path, action="append", required=True)
+    p_ingest_dir.add_argument("--checkpoint", type=Path, default=CHECKPOINT_PATH)
+    p_ingest_dir.add_argument("--manifest", type=Path, default=TEMP_ROOT / "manifest.json")
+    p_ingest_dir.add_argument("--gap-manifest", type=Path, help="限制只能导入该缺口清单中的 bundle")
     p_export = sub.add_parser("export-ledger", help="将严格审核汇总导出到 quality-ledger.json")
     p_export.add_argument("--checkpoint", type=Path, default=CHECKPOINT_PATH)
     p_export.add_argument("--ledger", type=Path, default=BANK_ROOT / "quality-ledger.json")
@@ -660,6 +813,16 @@ def main() -> int:
             statuses[record.get("kimi", {}).get("status", "pending")] += 1
         print(json.dumps({"bundles": len(checkpoint["bundles"]), "kimi_status": dict(statuses)}, ensure_ascii=False))
         return 0
+    if args.command == "configure-secondary":
+        CHECKPOINT_PATH = args.checkpoint
+        checkpoint = _load_checkpoint()
+        if args.manifest.is_file():
+            manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
+            for bundle in manifest.get("bundles", []):
+                checkpoint.setdefault("bundles", {}).setdefault(bundle["bundle_id"], {"bundle": bundle})
+        checkpoint = configure_secondary_plan(checkpoint, args.plan)
+        print(json.dumps(checkpoint.get("secondary_plan", {}), ensure_ascii=False))
+        return 0
     if args.command == "ingest":
         CHECKPOINT_PATH = args.checkpoint
         checkpoint = _load_checkpoint()
@@ -668,6 +831,27 @@ def main() -> int:
             for bundle in manifest.get("bundles", []):
                 checkpoint.setdefault("bundles", {}).setdefault(bundle["bundle_id"], {"bundle": bundle})
         checkpoint = ingest_provider(checkpoint, args.provider, args.results)
+        print(json.dumps({
+            "questions": len(checkpoint.get("questions", {})),
+            "status_counts": checkpoint.get("question_status_counts", {}),
+            "summary": checkpoint.get("ingest_summary", {}),
+        }, ensure_ascii=False))
+        return 0
+    if args.command == "ingest-dir":
+        CHECKPOINT_PATH = args.checkpoint
+        checkpoint = _load_checkpoint()
+        if args.manifest.is_file():
+            manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
+            for bundle in manifest.get("bundles", []):
+                checkpoint.setdefault("bundles", {}).setdefault(bundle["bundle_id"], {"bundle": bundle})
+        items: list[dict[str, Any]] = []
+        for result_dir in args.results_dir:
+            items.extend(load_result_files(result_dir))
+        allowed_ids: set[str] | None = None
+        if args.gap_manifest:
+            gap = json.loads(args.gap_manifest.read_text(encoding="utf-8"))
+            allowed_ids = {str(bundle["bundle_id"]) for bundle in gap.get("bundles", [])}
+        checkpoint = ingest_provider_items(checkpoint, args.provider, items, allowed_ids)
         print(json.dumps({
             "questions": len(checkpoint.get("questions", {})),
             "status_counts": checkpoint.get("question_status_counts", {}),
