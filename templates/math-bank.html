@@ -1062,6 +1062,110 @@ body {
   min-width: 0;
 }
 
+/* 小题模式（sub_questions >= 2 的单题聚焦视图） */
+.submode-toggle-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+.submode-toggle {
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-dim);
+  font-size: 0.86rem;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.submode-toggle:hover { border-color: var(--accent-dim); color: var(--accent); }
+.submode-toggle.active {
+  background: var(--accent-faint);
+  border-color: var(--accent-dim);
+  color: var(--accent);
+  font-weight: 600;
+}
+.submode-panel {
+  margin-bottom: 16px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+}
+.submode-head {
+  display: flex;
+  align-items: center;
+  gap: 10px 16px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.submode-indicator {
+  font-family: var(--mono);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+.submode-jump {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+.submode-jump input {
+  width: 56px;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.86rem;
+  font-family: var(--mono);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+}
+.submode-jump input:focus { border-color: var(--accent-dim); }
+.submode-progress {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-family: var(--mono);
+  color: var(--muted);
+}
+.submode-card {
+  padding: 18px;
+  margin-bottom: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 1.1rem;
+  line-height: 1.85;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Latin Modern Math", "KaTeX_Main", "STIX Two Math", serif;
+}
+.submode-card .katex { font-size: 1.18em; }
+.submode-nav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.submode-nav button {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-family: var(--font);
+  transition: background 0.15s, border-color 0.15s;
+}
+.submode-nav button:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+.submode-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+
 .q-image {
   margin: 12px 0 16px;
   text-align: center;
@@ -2371,6 +2475,13 @@ function getActiveQuestion() {
 function applyMarkToActive(mark) {
   const q = getActiveQuestion();
   if (!q || !q.uid) return;
+  // 小题模式：标记作用于当前小题（uid#N），仅本地保存
+  if (subModeActive
+      && hasSubMode(q)
+      && document.getElementById('detailModal').classList.contains('active')) {
+    applyMarkToSub(mark);
+    return;
+  }
   setMark(q.uid, mark);
   // refresh mark bars
   document.querySelectorAll('.mark-bar').forEach(bar => {
@@ -2399,8 +2510,11 @@ function applyMarkToActive(mark) {
 function cycleActiveMark() {
   const q = getActiveQuestion();
   if (!q) return;
+  const inSubMode = subModeActive
+    && hasSubMode(q)
+    && document.getElementById('detailModal').classList.contains('active');
   const cycle = ['none', 'forgot', 'fuzzy', 'mastered'];
-  const current = getMark(q.uid);
+  const current = getMark(inSubMode ? subMarkKey(q, currentSubIndex) : q.uid);
   const next = cycle[(cycle.indexOf(current) + 1) % cycle.length];
   applyMarkToActive(next);
 }
@@ -2423,6 +2537,9 @@ let practiceIndex = 0;
 let selectedChapter = '';
 let randomHistory = [];
 let lastRandomIdx = -1;
+// 小题模式状态：仅详情弹窗内有效，切题/重开时重置
+let subModeActive = false;
+let currentSubIndex = 0;
 
 function questionKey(q) { return q.chapter + '::' + q.id; }
 function getTotalPages() { return Math.ceil(filteredQuestions.length / pageSize) || 1; }
@@ -3047,6 +3164,110 @@ function renderSubHtml(q) {
   `;
 }
 
+// ========================
+// 小题模式（sub_questions >= 2）
+// ========================
+function hasSubMode(q) {
+  return !!(q && Array.isArray(q.sub_questions) && q.sub_questions.length >= 2);
+}
+
+function subMarkKey(q, i) { return q.uid + '#' + (i + 1); }
+
+function subProgressCounts(q) {
+  const counts = { mastered: 0, fuzzy: 0, forgot: 0 };
+  const prefix = q.uid + '#';
+  Object.keys(questionMarks).forEach(k => {
+    if (!k.startsWith(prefix)) return;
+    const m = questionMarks[k];
+    if (counts[m] !== undefined) counts[m]++;
+  });
+  return counts;
+}
+
+function subModeToggleHtml(active) {
+  return `<div class="submode-toggle-bar">
+    <button type="button" class="submode-toggle${active ? ' active' : ''}" onclick="toggleSubMode()">${active ? '返回整题视图' : '小题模式'}</button>
+  </div>`;
+}
+
+function subAnswerHtml(q, i) {
+  const refs = q.sub_answer_refs;
+  const ref = refs && refs[i];
+  if (!ref) return answerHtml(q);
+  const src = typeof ref === 'object' ? ref.cropped : ref;
+  if (!src) return answerHtml(q);
+  const safeSrc = escapeHtml(String(src));
+  return `
+    <details class="q-answer">
+      <summary>查看本题答案</summary>
+      <div class="q-answer-content">
+        <img src="${safeSrc}" alt="第 ${i + 1} 小题答案" onclick="zoomImage(this.src)" onerror="this.parentNode.innerHTML='<p style=\\'color:var(--muted)\\'>答案图加载失败：${safeSrc}</p>'">
+      </div>
+    </details>
+  `;
+}
+
+function subModePanelHtml(q) {
+  const total = q.sub_questions.length;
+  const i = Math.max(0, Math.min(total - 1, currentSubIndex));
+  const counts = subProgressCounts(q);
+  return `
+    <div class="submode-panel">
+      <div class="submode-head">
+        <span class="submode-indicator">${i + 1} / ${total}</span>
+        <span class="submode-jump">跳至 <input type="number" min="1" max="${total}" value="${i + 1}" aria-label="跳转小题"
+          onkeydown="if(event.key==='Enter')gotoSub(+this.value)" onchange="gotoSub(+this.value)"></span>
+        <span class="submode-progress">已掌握 ${counts.mastered} / ${total} · 不熟 ${counts.fuzzy} · 不会 ${counts.forgot}</span>
+      </div>
+      <div class="submode-card" data-role="submode-text"></div>
+      <div class="submode-nav">
+        <button type="button" onclick="prevSub()" ${i === 0 ? 'disabled' : ''}>上一小题</button>
+        <button type="button" onclick="nextSub()" ${i >= total - 1 ? 'disabled' : ''}>下一小题</button>
+      </div>
+      ${markBarHtml(subMarkKey(q, i), false)}
+      ${subAnswerHtml(q, i)}
+    </div>
+  `;
+}
+
+function toggleSubMode() {
+  const q = filteredQuestions[currentModalIndex];
+  if (!hasSubMode(q)) return;
+  subModeActive = !subModeActive;
+  currentSubIndex = 0;
+  renderModalContent(q);
+}
+
+function gotoSub(n) {
+  const q = filteredQuestions[currentModalIndex];
+  if (!hasSubMode(q)) return;
+  const total = q.sub_questions.length;
+  currentSubIndex = Math.max(0, Math.min(total - 1, Math.round(Number(n) || 1) - 1));
+  renderModalContent(q);
+}
+
+function prevSub() {
+  const q = filteredQuestions[currentModalIndex];
+  if (!hasSubMode(q) || currentSubIndex <= 0) return;
+  currentSubIndex--;
+  renderModalContent(q);
+}
+
+function nextSub() {
+  const q = filteredQuestions[currentModalIndex];
+  if (!hasSubMode(q) || currentSubIndex >= q.sub_questions.length - 1) return;
+  currentSubIndex++;
+  renderModalContent(q);
+}
+
+function applyMarkToSub(mark) {
+  const q = filteredQuestions[currentModalIndex];
+  if (!hasSubMode(q)) return;
+  setMark(subMarkKey(q, currentSubIndex), mark);
+  renderModalContent(q);
+  showMarkToast(MARKS[mark] ? MARKS[mark].label : mark);
+}
+
 function structuredAnswerHtml(q) {
   if (!q.answer_structured) return '';
   const s = q.answer_structured;
@@ -3227,16 +3448,19 @@ function myAnswerHtml() {
 
 
 
-function questionBodyHtml(q) {
+function questionBodyHtml(q, opts) {
   // 配图放在题干下方：题干写「如下图」时直接看到图，无需再点「查看原图」
+  // opts.hideSubs / hideAnswer：小题模式下由 submode-panel 接管子问与答案渲染
+  const hideSubs = !!(opts && opts.hideSubs);
+  const hideAnswer = !!(opts && opts.hideAnswer);
   return `
     <div class="q-text" data-role="qtext"></div>
     ${q.has_image && q.image_ref ? imageHtml(q.image_ref) : ''}
     ${renderOptionsHtml(q)}
-    ${renderSubHtml(q)}
+    ${hideSubs ? '' : renderSubHtml(q)}
 
     ${q.type === '填空题' ? myAnswerHtml() : ''}
-    ${answerHtml(q)}
+    ${hideAnswer ? '' : answerHtml(q)}
   `;
 }
 
@@ -3281,6 +3505,8 @@ function renderQuestionBody(container, q) {
 // ========================
 function openDetail(index) {
   currentModalIndex = index;
+  subModeActive = false;
+  currentSubIndex = 0;
   const q = filteredQuestions[index];
   renderModalContent(q);
   saveCursor(q);
@@ -3292,6 +3518,8 @@ function closeModal() { closeModalById('detailModal'); }
 function prevQuestion() {
   if (currentModalIndex > 0) {
     currentModalIndex--;
+    subModeActive = false;
+    currentSubIndex = 0;
     const q = filteredQuestions[currentModalIndex];
     renderModalContent(q);
     saveCursor(q);
@@ -3302,6 +3530,8 @@ function prevQuestion() {
 function nextQuestion() {
   if (currentModalIndex < filteredQuestions.length - 1) {
     currentModalIndex++;
+    subModeActive = false;
+    currentSubIndex = 0;
     const q = filteredQuestions[currentModalIndex];
     renderModalContent(q);
     saveCursor(q);
@@ -3358,14 +3588,28 @@ function zoomImage(src) {
 
 function renderModalContent(q) {
   const container = document.getElementById('modalContent');
+  const subMode = subModeActive && hasSubMode(q);
   container.innerHTML = `
     <div class="q-chapter">${escapeHtml(q.chapter)} · 第 ${q.page} 页</div>
     <div class="q-id">${escapeHtml(q.id)} <span class="card-type">${q.type}</span></div>
     ${markBarHtml(q.uid, true)}
-    ${questionBodyHtml(q)}
+    ${hasSubMode(q) ? subModeToggleHtml(subMode) : ''}
+    ${subMode ? subModePanelHtml(q) : ''}
+    ${questionBodyHtml(q, subMode ? { hideSubs: true, hideAnswer: true } : null)}
 
     ${notesHtml()}  `;
   renderQuestionBody(container, q);
+  if (subMode) {
+    // 小题文本走 textContent + KaTeX，不做 HTML 注入
+    const el = container.querySelector('[data-role="submode-text"]');
+    if (el) {
+      const idx = Math.max(0, Math.min(q.sub_questions.length - 1, currentSubIndex));
+      currentSubIndex = idx;
+      el.textContent = q.sub_questions[idx] || '';
+      renderKatex(el);
+    }
+    recordKatexErrors(container, q.id);
+  }
   bindNotesUI(q);
   if (window.ViewerPlatformSync && ViewerPlatformSync.attachNoteReminderButton) {
     ViewerPlatformSync.attachNoteReminderButton(
@@ -3865,6 +4109,12 @@ function setupEvents() {
       const mark = btn.dataset.mark;
       if (!uid || !mark) return;
       setMark(uid, mark);
+      if (uid.includes('#')) {
+        // 小题标记（uid#N）：重绘弹窗以更新聚合进度与按钮态；不同步平台
+        const q = filteredQuestions[currentModalIndex];
+        if (q) renderModalContent(q);
+        return;
+      }
       const bar = btn.closest('.mark-bar');
       if (bar) bar.outerHTML = markBarHtml(uid, true);
       refreshCardMark(uid);
@@ -3912,13 +4162,20 @@ function setupEvents() {
 
     if (e.key === 'ArrowLeft' || e.key === 'h') {
       e.preventDefault();
-      if (detailActive) prevQuestion();
+      if (detailActive) {
+        // 小题模式下方向键切换小题；h/l 保持整题切换
+        if (e.key === 'ArrowLeft' && subModeActive && hasSubMode(filteredQuestions[currentModalIndex])) prevSub();
+        else prevQuestion();
+      }
       else prevPractice();
       return;
     }
     if (e.key === 'ArrowRight' || e.key === 'l') {
       e.preventDefault();
-      if (detailActive) nextQuestion();
+      if (detailActive) {
+        if (e.key === 'ArrowRight' && subModeActive && hasSubMode(filteredQuestions[currentModalIndex])) nextSub();
+        else nextQuestion();
+      }
       else nextPractice();
       return;
     }
@@ -3978,6 +4235,8 @@ async function doSync(items) {
     showSyncToast('请从平台 http://127.0.0.1:8000/banks/math/ 打开后再同步', 'error');
     return;
   }
+  // 小题标记（uid#N）仅本地保存，同步时一律过滤
+  items = (items || []).filter(it => it && it.uid && !it.uid.includes('#'));
   if (!items || items.length === 0) {
     showSyncToast('没有可同步的标记题', 'error');
     return;
@@ -4028,6 +4287,7 @@ const AUTO_SYNC_RETRY_DELAYS = [1500, 5000, 15000, 30000];
 
 function queueAutoSync(uid) {
   if (!isPlatformServed || _suppressAutoSync || !uid) return;
+  if (uid.includes('#')) return; // 小题标记（uid#N）仅本地保存，不同步平台
   const mark = getMark(uid);
   if (!mark || mark === 'none') return; // 清除标记不同步（平台无清除语义）
   const idx = _autoSyncQueue.findIndex(x => x.uid === uid);

@@ -8,6 +8,7 @@ Usage:
     python scripts/generate_data_js.py --bank 大学深埋
     python scripts/generate_data_js.py --all
 """
+
 import argparse
 import hashlib
 import json
@@ -19,233 +20,242 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from utils import write_text_atomic
 
-sys.stdout.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding="utf-8")
 
 ROOT = Path(__file__).resolve().parent.parent
 
 BANK_CONFIG = {
-    '660': {
-        'name': '660题',
-        'questions': ROOT / '660题' / 'questions.json',
-        'data_js': ROOT / '660题' / 'math-bank' / 'data.js',
+    "660": {
+        "name": "660题",
+        "questions": ROOT / "660题" / "questions.json",
+        "data_js": ROOT / "660题" / "math-bank" / "data.js",
     },
-    '880': {
-        'name': '880题',
-        'questions': ROOT / '880题' / 'questions.json',
-        'data_js': ROOT / '880题' / 'math-bank' / 'data.js',
+    "880": {
+        "name": "880题",
+        "questions": ROOT / "880题" / "questions.json",
+        "data_js": ROOT / "880题" / "math-bank" / "data.js",
     },
-    '1000': {
-        'name': '1000题',
-        'questions': ROOT / '1000题' / 'questions.json',
-        'data_js': ROOT / '1000题' / 'math-bank' / 'data.js',
+    "1000": {
+        "name": "1000题",
+        "questions": ROOT / "1000题" / "questions.json",
+        "data_js": ROOT / "1000题" / "math-bank" / "data.js",
     },
-    '大学深埋': {
-        'name': '大学深埋',
-        'questions': ROOT / '大学深埋' / 'questions.json',
-        'data_js': ROOT / '大学深埋' / 'math-bank' / 'data.js',
+    "大学深埋": {
+        "name": "大学深埋",
+        "questions": ROOT / "大学深埋" / "questions.json",
+        "data_js": ROOT / "大学深埋" / "math-bank" / "data.js",
     },
 }
 
 # Fields from the unified question that the viewer needs.
 VIEWER_FIELDS = [
-    'uid', 'id', 'qnum', 'type', 'content', 'options',
-    'sub_questions', 'page', 'printed_page', 'chapter',
-    'section', 'has_image', 'image_ref', 'answer_ref', 'source', 'quality_hold',
-    'answer_structured',
+    "uid",
+    "id",
+    "qnum",
+    "type",
+    "content",
+    "options",
+    "sub_questions",
+    "sub_answer_refs",
+    "page",
+    "printed_page",
+    "chapter",
+    "section",
+    "has_image",
+    "image_ref",
+    "answer_ref",
+    "source",
+    "quality_hold",
+    "answer_structured",
 ]
 
 
 def load_quality_holds(questions_path: Path) -> set[str]:
-    manifest_path = questions_path.with_name('quality-hold.json')
+    manifest_path = questions_path.with_name("quality-hold.json")
     if not manifest_path.is_file():
-        raise RuntimeError(f'缺少质量隔离清单: {manifest_path}')
-    manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+        raise RuntimeError(f"缺少质量隔离清单: {manifest_path}")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     actual = hashlib.sha256(questions_path.read_bytes()).hexdigest()
-    if str(manifest.get('source_sha256') or '') != actual:
-        raise RuntimeError('质量隔离清单已过期，请先运行 enhanced_quality_audit.py')
-    return {str(uid) for uid in manifest.get('source_uids', []) if uid}
+    if str(manifest.get("source_sha256") or "") != actual:
+        raise RuntimeError("质量隔离清单已过期，请先运行 enhanced_quality_audit.py")
+    return {str(uid) for uid in manifest.get("source_uids", []) if uid}
 
 
 def escape_js_str(val):
     """Escape a value for use in a JavaScript string literal."""
     s = str(val)
-    s = s.replace('\\', '\\\\')
+    s = s.replace("\\", "\\\\")
     s = s.replace('"', '\\"')
-    s = s.replace('\n', '\\n')
-    s = s.replace('\r', '')
+    s = s.replace("\n", "\\n")
+    s = s.replace("\r", "")
     # Prevent </script> inside string literals from closing the script tag.
-    s = s.replace('</script>', '<\\/script>')
+    s = s.replace("</script>", "<\\/script>")
     return s
 
 
 def js_value(val, indent=0):
     """Serialize a Python value as a JavaScript literal."""
-    sp = ' ' * indent
+    sp = " " * indent
     if val is None:
-        return 'null'
+        return "null"
     if isinstance(val, bool):
-        return 'true' if val else 'false'
+        return "true" if val else "false"
     if isinstance(val, (int, float)):
         return str(val)
     if isinstance(val, str):
         return f'"{escape_js_str(val)}"'
     if isinstance(val, (list, tuple)):
         if not val:
-            return '[]'
-        items = ',\n'.join(f'{sp}  {js_value(item, indent + 2)}' for item in val)
-        return f'[\n{items}\n{sp}]'
+            return "[]"
+        items = ",\n".join(f"{sp}  {js_value(item, indent + 2)}" for item in val)
+        return f"[\n{items}\n{sp}]"
     if isinstance(val, dict):
         if not val:
-            return '{}'
-        items = ',\n'.join(
-            f'{sp}  {k}: {js_value(v, indent + 2)}'
-            for k, v in val.items()
-        )
-        return f'{{\n{items}\n{sp}}}'
+            return "{}"
+        items = ",\n".join(f"{sp}  {k}: {js_value(v, indent + 2)}" for k, v in val.items())
+        return f"{{\n{items}\n{sp}}}"
     return json.dumps(val, ensure_ascii=False)
 
 
 def write_question(q, lines, indent=8):
     """Write a single question object to lines."""
-    sp = ' ' * indent
-    lines.append(f'{sp}{{')
+    sp = " " * indent
+    lines.append(f"{sp}{{")
     for key in VIEWER_FIELDS:
         val = q.get(key)
         if val is None:
             continue
-        lines.append(f'{sp}  {key}: {js_value(val, indent + 4)},')
-    lines.append(f'{sp}}},')
+        lines.append(f"{sp}  {key}: {js_value(val, indent + 4)},")
+    lines.append(f"{sp}}},")
 
 
 def generate_data_js(bank_name, questions_path, data_js_path):
-    with open(questions_path, encoding='utf-8') as f:
+    with open(questions_path, encoding="utf-8") as f:
         data = json.load(f)
     held_uids = load_quality_holds(questions_path)
 
     # Load optional answer-pages mapping (e.g. 1000题/answer_pages.json)
-    answer_pages_path = questions_path.with_name('answer_pages.json')
+    answer_pages_path = questions_path.with_name("answer_pages.json")
     answer_pages = {}
     if answer_pages_path.exists():
-        answer_pages = json.loads(answer_pages_path.read_text(encoding='utf-8'))
+        answer_pages = json.loads(answer_pages_path.read_text(encoding="utf-8"))
 
     lines = []
-    lines.append('const QUESTION_BANK = {')
+    lines.append("const QUESTION_BANK = {")
     lines.append(f'  title: "{escape_js_str(data["title"])}",')
-    if data.get('total_pages') is not None:
-        lines.append(f'  total_pages: {data["total_pages"]},')
-    if data.get('content_pages') is not None:
-        lines.append(f'  content_pages: {data["content_pages"]},')
-    if data.get('total_questions') is not None:
-        lines.append(f'  total_questions: {data["total_questions"]},')
+    if data.get("total_pages") is not None:
+        lines.append(f"  total_pages: {data['total_pages']},")
+    if data.get("content_pages") is not None:
+        lines.append(f"  content_pages: {data['content_pages']},")
+    if data.get("total_questions") is not None:
+        lines.append(f"  total_questions: {data['total_questions']},")
     if answer_pages:
-        lines.append(f'  has_answer_images: true,')
-    lines.append('  chapters: [')
+        lines.append(f"  has_answer_images: true,")
+    lines.append("  chapters: [")
 
-    for ch in data.get('chapters', []):
-        q_count = len(ch.get('questions', []))
-        ch_answer = answer_pages.get(ch.get('name'))
-        lines.append('    {')
+    for ch in data.get("chapters", []):
+        q_count = len(ch.get("questions", []))
+        ch_answer = answer_pages.get(ch.get("name"))
+        lines.append("    {")
         lines.append(f'      name: "{escape_js_str(ch["name"])}",')
-        lines.append(f'      question_count: {q_count},')
+        lines.append(f"      question_count: {q_count},")
         if ch_answer:
-            if 'sub_ranges' in ch_answer:
-                starts = [r['start'] for r in ch_answer['sub_ranges']]
-                ends = [r['end'] for r in ch_answer['sub_ranges']]
-                lines.append(f'      answer_start: {min(starts)},')
-                lines.append(f'      answer_end: {max(ends)},')
-                lines.append(f'      answer_sub_ranges: {ch_answer["sub_ranges"]},')
+            if "sub_ranges" in ch_answer:
+                starts = [r["start"] for r in ch_answer["sub_ranges"]]
+                ends = [r["end"] for r in ch_answer["sub_ranges"]]
+                lines.append(f"      answer_start: {min(starts)},")
+                lines.append(f"      answer_end: {max(ends)},")
+                lines.append(f"      answer_sub_ranges: {ch_answer['sub_ranges']},")
             else:
-                lines.append(f'      answer_start: {ch_answer["start"]},')
-                lines.append(f'      answer_end: {ch_answer["end"]},')
-        lines.append('      questions: [')
-        for q in ch.get('questions', []):
-            q['quality_hold'] = str(q.get('uid') or '') in held_uids
+                lines.append(f"      answer_start: {ch_answer['start']},")
+                lines.append(f"      answer_end: {ch_answer['end']},")
+        lines.append("      questions: [")
+        for q in ch.get("questions", []):
+            q["quality_hold"] = str(q.get("uid") or "") in held_uids
             write_question(q, lines, indent=8)
-        lines.append('      ],')
-        lines.append('    },')
+        lines.append("      ],")
+        lines.append("    },")
 
-    lines.append('  ],')
-    lines.append('};')
-    lines.append('')
+    lines.append("  ],")
+    lines.append("};")
+    lines.append("")
 
-    text = '\n'.join(lines)
+    text = "\n".join(lines)
     write_text_atomic(data_js_path, text)
 
     # 同步更新 viewer 里的缓存戳，避免浏览器加载旧 data.js
     update_data_js_cache_stamp(data_js_path, text)
 
-    q_count = sum(len(ch.get('questions', [])) for ch in data.get('chapters', []))
-    ch_count = len(data.get('chapters', []))
-    print(f'Generated {data_js_path}: {len(text)} chars, {q_count} questions, '
-          f'{ch_count} chapters')
+    q_count = sum(len(ch.get("questions", [])) for ch in data.get("chapters", []))
+    ch_count = len(data.get("chapters", []))
+    print(f"Generated {data_js_path}: {len(text)} chars, {q_count} questions, {ch_count} chapters")
     return {
-        'title': data.get('title', bank_name or ''),
-        'total': q_count,
-        'chapters': ch_count,
+        "title": data.get("title", bank_name or ""),
+        "total": q_count,
+        "chapters": ch_count,
     }
 
 
 def update_data_js_cache_stamp(data_js_path: Path, text: str):
     """Update the data.js query string in the viewer HTML based on content hash."""
-    h = hashlib.sha256(text.encode('utf-8')).hexdigest()[:8]
-    stamp = f'data.js?v={h}&t={datetime.now():%Y%m%d%H%M%S}'
+    h = hashlib.sha256(text.encode("utf-8")).hexdigest()[:8]
+    stamp = f"data.js?v={h}&t={datetime.now():%Y%m%d%H%M%S}"
 
     def refresh(path: Path):
         if not path.exists():
             return
-        html = path.read_text(encoding='utf-8')
+        html = path.read_text(encoding="utf-8")
         new_html = re.sub(r'src="data\.js(\?[^"\']*)?"', f'src="{stamp}"', html)
         if new_html != html:
             write_text_atomic(path, new_html)
-            print(f'  updated cache stamp in {path}')
+            print(f"  updated cache stamp in {path}")
 
-    refresh(data_js_path.with_name('index.html'))
-    refresh(ROOT / 'templates' / 'math-bank.html')
+    refresh(data_js_path.with_name("index.html"))
+    refresh(ROOT / "templates" / "math-bank.html")
 
 
 def write_stats_js(stats: dict):
     """生成根目录 stats.js，供首页直接读取，避免 file:// 协议下 fetch 被拦截。"""
     lines = [
-        'const BANK_STATS = {',
+        "const BANK_STATS = {",
     ]
     for key, s in stats.items():
         lines.append(f'  "{key}": {{')
         lines.append(f'    title: "{escape_js_str(s["title"])}",')
-        lines.append(f'    total: {s["total"]},')
-        lines.append(f'    chapters: {s["chapters"]},')
-        lines.append('  },')
-    lines.append('};')
-    lines.append(f'const TOTAL_QUESTIONS = {sum(s["total"] for s in stats.values())};')
-    lines.append('')
-    stats_js = ROOT / 'stats.js'
-    write_text_atomic(stats_js, '\n'.join(lines))
-    print(f'Generated {stats_js}')
+        lines.append(f"    total: {s['total']},")
+        lines.append(f"    chapters: {s['chapters']},")
+        lines.append("  },")
+    lines.append("};")
+    lines.append(f"const TOTAL_QUESTIONS = {sum(s['total'] for s in stats.values())};")
+    lines.append("")
+    stats_js = ROOT / "stats.js"
+    write_text_atomic(stats_js, "\n".join(lines))
+    print(f"Generated {stats_js}")
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Generate math-bank/data.js')
-    parser.add_argument('--bank', choices=list(BANK_CONFIG.keys()) + ['all'],
-                        default='all')
+    parser = argparse.ArgumentParser(description="Generate math-bank/data.js")
+    parser.add_argument("--bank", choices=list(BANK_CONFIG.keys()) + ["all"], default="all")
     args = parser.parse_args()
 
-    banks = list(BANK_CONFIG.keys()) if args.bank == 'all' else [args.bank]
+    banks = list(BANK_CONFIG.keys()) if args.bank == "all" else [args.bank]
     stats = {}
     for bank in banks:
         cfg = BANK_CONFIG[bank]
-        stats[cfg['name']] = generate_data_js(bank, cfg['questions'], cfg['data_js'])
+        stats[cfg["name"]] = generate_data_js(bank, cfg["questions"], cfg["data_js"])
 
     # 如果只生成单个题库，补齐其余题库统计（读取现有 data.js 或 questions.json）
     for key in BANK_CONFIG:
         cfg = BANK_CONFIG[key]
-        if cfg['name'] not in stats:
-            data = json.loads(cfg['questions'].read_text(encoding='utf-8'))
-            stats[cfg['name']] = {
-                'title': data.get('title', ''),
-                'total': sum(len(ch.get('questions', [])) for ch in data.get('chapters', [])),
-                'chapters': len(data.get('chapters', [])),
+        if cfg["name"] not in stats:
+            data = json.loads(cfg["questions"].read_text(encoding="utf-8"))
+            stats[cfg["name"]] = {
+                "title": data.get("title", ""),
+                "total": sum(len(ch.get("questions", [])) for ch in data.get("chapters", [])),
+                "chapters": len(data.get("chapters", [])),
             }
     write_stats_js(stats)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

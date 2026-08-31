@@ -1,0 +1,4620 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('mathbank_theme');
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+</script>
+<title>数学题库</title>
+<!-- 不用 Google Fonts：国内常被墙/超时，阻塞首屏导致白屏 -->
+<link rel="stylesheet" href="../../vendor/katex/katex.min.css">
+<script src="../../vendor/katex/katex.min.js"></script>
+<script>
+/* viewer-common：平台 /banks/common，独立端口用 vendor 副本 */
+(function () {
+  var base = (location.pathname || '').indexOf('/banks/') === 0
+    ? '/banks/common/'
+    : '../../vendor/viewer-common/';
+  document.write('<script src="' + base + 'storage.js"><\/script>');
+  document.write('<script src="' + base + 'platform-sync.js?v=5"><\/script>');
+  document.write('<link rel="stylesheet" href="' + base + 'scratch-pad.css">');
+  document.write('<script src="' + base + 'scratch-ink.js"><\/script>');
+  document.write('<script src="' + base + 'scratch-pad.js"><\/script>');
+  document.write('<script src="' + base + 'question-notes.js"><\/script>');
+})();
+</script>
+<style>
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e100f;
+  --bg-elevated: #151816;
+  --surface: #1a1e1c;
+  --surface-hover: #212624;
+  --text: #e9e7e2;
+  --text-dim: #a8a69f;
+  --muted: #6e716c;
+  --border: #2a2f2c;
+  --border-strong: #3a423d;
+  --accent: #8695e9;
+  --accent-light: #9aa8f0;
+  --accent-dim: #4a5cc0;
+  --accent-faint: rgb(134 149 233 / 0.12);
+  --accent-glow: rgb(134 149 233 / 0.18);
+  --on-accent: #0a120e;
+  --nav-bg: rgb(14 16 15 / 0.88);
+  --danger: #f07178;
+  --success: #70dbb0;
+  --warning: #e0a35c;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --font: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+  font-size: 16px;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #fafafa;
+  --bg-elevated: #ffffff;
+  --surface: #ffffff;
+  --surface-hover: #f4f4f5;
+  --text: #18181b;
+  --text-dim: #52525b;
+  --muted: #71717a;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --accent: #5b6dd2;
+  --accent-light: #4a5cc0;
+  --accent-dim: #4a5cc0;
+  --accent-faint: rgb(91 109 210 / 0.1);
+  --accent-glow: rgb(91 109 210 / 0.16);
+  --on-accent: #ffffff;
+  --nav-bg: rgb(250 250 250 / 0.85);
+  --danger: #d64550;
+  --success: #0e9478;
+  --warning: #c4842e;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app { display: flex; height: 100vh; overflow: hidden; }
+
+/* App header — 统一「考研题库」壳（数学 / 408 共用） */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px 0 20px;
+  height: 52px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  gap: 12px;
+}
+.app-header .shell-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.app-header .shell-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.app-header .shell-mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--accent-faint);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+}
+.app-header .shell-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.app-header .shell-tab {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 5px 12px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: color 0.12s, background 0.12s;
+}
+.app-header .shell-tab:hover { color: var(--text); }
+.app-header .shell-tab.active {
+  color: var(--on-accent);
+  background: var(--accent);
+  font-weight: 600;
+}
+[data-theme="light"] .app-header .shell-tab.active { color: #fff; }
+.app-header .shell-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.app-header .shell-link {
+  font-size: 0.8rem;
+  color: var(--muted);
+  padding: 6px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: color 0.12s, background 0.12s;
+  white-space: nowrap;
+}
+.app-header .shell-link:hover {
+  color: var(--accent);
+  background: var(--accent-faint);
+}
+.app-header .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.84rem;
+  color: var(--muted);
+  transition: color 0.15s;
+  text-decoration: none;
+}
+.app-header .back-link:hover { color: var(--accent); }
+.app-header .app-brand {
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text-dim);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 268px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-header h1 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.sidebar-header p {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 4px;
+  font-family: var(--mono);
+}
+
+.chapter-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.sidebar-search {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-search input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-family: var(--font);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.sidebar-search input::placeholder { color: var(--muted); }
+.sidebar-search input:focus { border-color: var(--accent-dim); }
+
+.chapter-item {
+  padding: 10px 12px;
+  margin: 2px 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  transition: background 0.15s, color 0.15s;
+}
+
+.chapter-item.hidden { display: none; }
+
+.chapter-item:hover {
+  background: var(--bg-elevated);
+  color: var(--text);
+}
+
+.chapter-item.active {
+  background: var(--accent-faint);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.chapter-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.chapter-item .count {
+  font-size: 0.72rem;
+  font-family: var(--mono);
+  color: var(--muted);
+  background: var(--bg);
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.chapter-item.active .count {
+  background: rgb(134 149 233 / 0.15);
+  color: var(--accent);
+  border-color: rgb(134 149 233 / 0.25);
+}
+
+/* 侧栏章节掌握进度条 */
+.chapter-mastery {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.chapter-mastery-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--muted) 22%, transparent);
+  overflow: hidden;
+  display: flex;
+  min-width: 0;
+}
+.chapter-mastery-bar > i {
+  display: block;
+  height: 100%;
+}
+.chapter-mastery-bar > i.m { background: var(--success); }
+.chapter-mastery-bar > i.f { background: var(--warning); }
+.chapter-mastery-bar > i.g { background: var(--danger); }
+.chapter-mastery-label {
+  font-size: 0.68rem;
+  font-family: var(--mono);
+  color: var(--muted);
+  flex-shrink: 0;
+  min-width: 2.6em;
+  text-align: right;
+}
+.chapter-item.active .chapter-mastery-label {
+  color: var(--accent);
+}
+
+/* Main */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 220px;
+  position: relative;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px 14px 10px 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.92rem;
+  font-family: var(--font);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.search-box input::placeholder { color: var(--muted); }
+.search-box input:focus { border-color: var(--accent-dim); }
+
+.search-box::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  opacity: 0.45;
+  background: no-repeat center / contain;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%23a8a69f' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='6' cy='6' r='4.5'/%3E%3Cpath d='M9.5 9.5L12.5 12.5'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.filter-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-group select, .filter-group button, .action-btn {
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-family: var(--font);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.filter-group select {
+  color: var(--text-dim);
+  max-width: 160px;
+}
+
+.filter-group select option {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.filter-group button, .action-btn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+.filter-group button:hover, .action-btn:hover {
+  background: var(--accent-light);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.filter-group button:active, .action-btn:active { transform: translateY(1px); }
+
+.filter-group button.btn-secondary,
+.btn-secondary {
+  background: transparent;
+  border-color: var(--border-strong);
+  color: var(--text);
+  font-weight: 500;
+}
+.filter-group button.btn-secondary:hover,
+.btn-secondary:hover {
+  background: var(--accent-faint);
+  border-color: var(--accent-dim);
+  color: var(--accent);
+  box-shadow: none;
+}
+
+.toggle-sidebar {
+  display: none;
+  padding: 8px 11px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background: var(--bg);
+}
+
+.stats-row {
+  display: flex;
+  gap: 8px 20px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  font-size: 0.9rem;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 6px 10px;
+  margin: -4px 0;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s, color 0.15s;
+}
+
+.stat-item:hover {
+  background: var(--surface);
+  color: var(--text-dim);
+}
+
+.stat-item strong {
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-right: 4px;
+  letter-spacing: -0.03em;
+}
+
+.result-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 12px;
+}
+
+.question-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.question-card:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-hover);
+  box-shadow: 0 10px 28px rgb(0 0 0 / 0.25);
+  transform: translateY(-1px);
+}
+
+.question-card:active { transform: translateY(0); }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.card-id {
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: var(--mono);
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
+.card-type {
+  font-size: 0.72rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+.card-type.choice {
+  background: rgb(134 149 233 / 0.12);
+  color: var(--success);
+  border-color: rgb(134 149 233 / 0.22);
+}
+.card-type.proof {
+  background: rgb(224 163 92 / 0.12);
+  color: var(--warning);
+  border-color: rgb(224 163 92 / 0.22);
+}
+.card-type.fill {
+  background: rgb(240 113 120 / 0.12);
+  color: var(--danger);
+  border-color: rgb(240 113 120 / 0.22);
+}
+
+.card-chapter {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.card-content {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  line-height: 1.55;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.card-tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.card-tag {
+  font-size: 0.7rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+.card-mark {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+.card-mark.mark-mastered {
+  background: rgb(134 149 233 / 0.14);
+  color: var(--success);
+  border-color: rgb(134 149 233 / 0.25);
+}
+.card-mark.mark-fuzzy {
+  background: rgb(224 163 92 / 0.14);
+  color: var(--warning);
+  border-color: rgb(224 163 92 / 0.25);
+}
+.card-mark.mark-forgot {
+  background: rgb(240 113 120 / 0.14);
+  color: var(--danger);
+  border-color: rgb(240 113 120 / 0.25);
+}
+.card-mark.mark-clickable { cursor: pointer; user-select: none; }
+
+/* Marking UI */
+.mark-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 14px 0;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+.mark-bar > span {
+  font-size: 0.86rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.mark-btn.sync-btn {
+  margin-left: auto;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+.mark-btn.sync-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--muted);
+  border-color: var(--muted);
+}
+.mark-btn.sync-btn:not(:disabled):hover {
+  background: var(--accent-light);
+  border-color: var(--accent-light);
+  color: var(--on-accent);
+}
+
+.sync-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.sync-menu {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sync-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 160px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.28);
+  display: none;
+  flex-direction: column;
+  z-index: 50;
+  overflow: hidden;
+}
+.sync-dropdown.open {
+  display: flex;
+}
+.sync-dropdown button {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.sync-dropdown button:last-child {
+  border-bottom: none;
+}
+.sync-dropdown button:hover {
+  background: var(--accent-faint);
+  color: var(--accent);
+}
+.sync-dropdown hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 4px 0;
+}
+
+.sync-hint {
+  font-size: 0.78rem;
+  color: var(--muted);
+  padding: 0 8px;
+  white-space: nowrap;
+}
+
+.toast-sync {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.28);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3000;
+  transition: opacity 0.2s, transform 0.2s;
+  max-width: 420px;
+  width: calc(100% - 32px);
+  line-height: 1.5;
+}
+.toast-sync.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast-sync.error {
+  border-color: var(--danger);
+}
+.toast-sync.success {
+  border-color: var(--success);
+}
+.toast-sync .toast-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.toast-sync .toast-detail {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+/* Platform-only warning */
+.standalone-warning {
+  display: none;
+  padding: 10px 14px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 0.86rem;
+  border-radius: var(--radius-sm);
+  margin-left: 8px;
+  align-items: center;
+  gap: 8px;
+}
+.standalone-warning a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .sync-hint,
+  .standalone-warning {
+    display: none;
+  }
+  .sync-bar {
+    margin-left: 0;
+    width: 100%;
+  }
+  .sync-dropdown {
+    right: auto;
+    left: 0;
+  }
+}
+
+.mark-btn {
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-dim);
+  font-size: 0.86rem;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.1s;
+}
+.mark-btn:hover { border-color: var(--accent-dim); color: var(--accent); }
+.mark-btn:active { transform: translateY(1px); }
+.mark-btn.active { color: var(--on-accent); border-color: transparent; font-weight: 600; }
+.mark-btn.active.mark-mastered { background: var(--success); }
+.mark-btn.active.mark-fuzzy   { background: var(--warning); }
+.mark-btn.active.mark-forgot  { background: var(--danger); color: #1a0a0a; }
+.mark-btn.active.mark-none    { background: var(--muted); color: var(--bg); }
+
+.mark-stats-row {
+  display: flex;
+  gap: 8px 20px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  padding: 10px;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-family: var(--font);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.pagination button:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination .page-info {
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-family: var(--mono);
+  min-width: 70px;
+  text-align: center;
+}
+
+.page-jump {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.page-jump input {
+  width: 52px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.86rem;
+  font-family: var(--mono);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+}
+
+.page-jump input:focus { border-color: var(--accent-dim); }
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.62);
+  backdrop-filter: blur(4px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal-box {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 1100px;
+  max-height: 92vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 64px rgb(0 0 0 / 0.45);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+
+.modal-header h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+.modal-close:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  background: var(--bg);
+}
+
+.modal-content .q-chapter {
+  color: var(--muted);
+  font-size: 0.86rem;
+  margin-bottom: 6px;
+}
+
+.modal-content .q-id {
+  font-size: 1.15rem;
+  font-weight: 600;
+  font-family: var(--mono);
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+
+.modal-content .q-text {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  margin-bottom: 16px;
+  padding: 16px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.modal-content .q-options {
+  margin-bottom: 16px;
+}
+
+.option-item {
+  padding: 12px 14px;
+  margin: 8px 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  font-size: 1rem;
+}
+
+.option-item:hover { border-color: var(--accent-dim); }
+
+.option-item.selected {
+  border-color: var(--success);
+  background: rgb(134 149 233 / 0.1);
+}
+
+.modal-content .q-sub {
+  margin-bottom: 12px;
+}
+
+.sub-label {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.sub-item {
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  font-size: 1rem;
+  line-height: 1.65;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.sub-tag {
+  flex-shrink: 0;
+  font-weight: 600;
+  font-family: var(--mono);
+  color: var(--accent);
+  font-size: 0.9rem;
+  min-width: 38px;
+}
+
+.sub-text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 小题模式（sub_questions >= 2 的单题聚焦视图） */
+.submode-toggle-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+.submode-toggle {
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-dim);
+  font-size: 0.86rem;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.submode-toggle:hover { border-color: var(--accent-dim); color: var(--accent); }
+.submode-toggle.active {
+  background: var(--accent-faint);
+  border-color: var(--accent-dim);
+  color: var(--accent);
+  font-weight: 600;
+}
+.submode-panel {
+  margin-bottom: 16px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+}
+.submode-head {
+  display: flex;
+  align-items: center;
+  gap: 10px 16px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.submode-indicator {
+  font-family: var(--mono);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+.submode-jump {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+.submode-jump input {
+  width: 56px;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.86rem;
+  font-family: var(--mono);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+}
+.submode-jump input:focus { border-color: var(--accent-dim); }
+.submode-progress {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-family: var(--mono);
+  color: var(--muted);
+}
+.submode-card {
+  padding: 18px;
+  margin-bottom: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 1.1rem;
+  line-height: 1.85;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Latin Modern Math", "KaTeX_Main", "STIX Two Math", serif;
+}
+.submode-card .katex { font-size: 1.18em; }
+.submode-nav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.submode-nav button {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-family: var(--font);
+  transition: background 0.15s, border-color 0.15s;
+}
+.submode-nav button:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+.submode-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.q-image {
+  margin: 12px 0 16px;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.q-image-inline .q-image-content {
+  padding: 12px;
+}
+
+.q-image img {
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+  margin: 0 auto;
+  border-radius: 4px;
+  cursor: zoom-in;
+  background: #fff;
+  object-fit: contain;
+}
+
+.q-image-note {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.q-image-error {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  gap: 6px;
+  background: #fef2f2;
+  border: 1px dashed #fca5a5;
+  border-radius: 6px;
+}
+.q-image-error-icon { font-size: 1.5rem; }
+.q-image-error-text { font-weight: 600; color: #991b1b; }
+.q-image-error-path { font-size: 0.75rem; color: #b91c1c; word-break: break-all; font-family: monospace; }
+
+/* 结构化答案 */
+.q-structured-answer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+}
+.q-structured-label { font-size: 0.82rem; color: #166534; font-weight: 600; }
+.q-structured-canonical {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #15803d;
+  background: #fff;
+  padding: 2px 12px;
+  border-radius: 4px;
+  border: 1px solid #bbf7d0;
+}
+.q-structured-mode { font-size: 0.75rem; color: #6b7280; margin-left: auto; }
+
+/* 填空题「我的答案」输入 */
+
+.q-myanswer { margin-bottom: 16px; }
+
+
+
+.q-myanswer-label {
+
+  font-size: 0.85rem;
+
+  color: var(--muted);
+
+  margin-bottom: 6px;
+
+}
+
+
+
+.q-myanswer-input {
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 10px 12px;
+
+  font-size: 16px; /* ≥16px 防 iOS 聚焦自动放大 */
+
+  background: var(--bg);
+
+  color: var(--text);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+}
+
+
+
+.q-myanswer-input:focus { outline: none; border-color: var(--accent); }
+
+
+
+/* 我的笔记 */
+
+.q-notes {
+
+  margin-bottom: 16px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+  background: var(--surface);
+
+  padding: 4px 0;
+
+}
+
+
+
+.q-notes > summary {
+
+  cursor: pointer;
+
+  padding: 10px 14px;
+
+  font-size: 0.92rem;
+
+  color: var(--accent);
+
+  user-select: none;
+
+  list-style: none;
+
+}
+
+
+
+.q-notes > summary::-webkit-details-marker { display: none; }
+
+
+
+.q-notes > summary::before {
+
+  content: '▸';
+
+  display: inline-block;
+
+  margin-right: 6px;
+
+  transition: transform 0.15s;
+
+  color: var(--muted);
+
+}
+
+
+
+.q-notes[open] > summary::before { transform: rotate(90deg); }
+
+
+
+.notes-status { color: var(--muted); font-size: 0.78rem; margin-left: 6px; }
+
+
+
+.q-notes textarea {
+
+  display: block;
+
+  width: calc(100% - 28px);
+
+  box-sizing: border-box;
+
+  margin: 0 14px 10px;
+
+  padding: 10px 12px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+  background: var(--bg);
+
+  color: var(--text);
+
+  font-size: 16px; /* ≥16px 防 iOS 聚焦自动放大 */
+
+  font-family: inherit;
+
+  resize: vertical;
+
+  min-height: 80px;
+
+  line-height: 1.55;
+
+}
+
+
+
+.q-notes textarea:focus { outline: none; border-color: var(--accent); }
+
+
+
+.q-notes-preview {
+
+  display: none;
+
+  width: calc(100% - 28px);
+
+  box-sizing: border-box;
+
+  margin: 0 14px 10px;
+
+  padding: 10px 12px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+  background: var(--bg);
+
+  color: var(--text);
+
+  font-size: 0.9rem;
+
+  min-height: 40px;
+
+  line-height: 1.55;
+
+  word-break: break-word;
+
+}
+
+
+
+.q-notes.has-note-preview .q-notes-preview { display: block; }
+
+
+
+.q-notes-hint {
+
+  margin: 0 14px 8px;
+
+  font-size: 0.75rem;
+
+  color: var(--muted);
+
+}
+
+
+
+/* Answer book images */
+.q-answer {
+  margin-bottom: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.q-answer summary {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--accent);
+  user-select: none;
+  list-style: none;
+}
+
+.q-answer summary:hover { background: var(--surface-hover); }
+
+.q-answer[open] summary { border-bottom: 1px solid var(--border); }
+
+.q-answer-content { padding: 12px; }
+
+.q-answer img {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 4px;
+  cursor: zoom-in;
+  background: #fff;
+}
+
+.answer-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.answer-pagination button {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-family: var(--font);
+}
+
+.answer-pagination button:hover { background: var(--surface-hover); }
+
+.answer-pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.answer-page-info {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-family: var(--mono);
+  min-width: 60px;
+  text-align: center;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  gap: 10px;
+  background: var(--bg-elevated);
+}
+
+.modal-footer button {
+  padding: 9px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: var(--font);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.modal-footer button:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+.modal-footer .btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+.modal-footer .btn-primary:hover {
+  background: var(--accent-light);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Practice */
+.practice-progress {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-family: var(--mono);
+  margin-bottom: 10px;
+}
+
+.practice-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 0 0 16px;
+}
+.practice-bar > i {
+  display: block;
+  height: 100%;
+  width: var(--p, 0%);
+  background: var(--accent);
+  border-radius: inherit;
+  transition: width 0.25s ease;
+}
+
+.practice-question {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 72px 24px;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+}
+
+.empty-state h3 {
+  margin-bottom: 8px;
+  color: var(--text);
+  font-weight: 500;
+}
+.empty-state button {
+  margin-top: 16px;
+  padding: 10px 20px;
+  background: var(--accent);
+  color: var(--on-accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  font-family: var(--font);
+}
+.empty-state button:hover { background: var(--accent-light); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* KaTeX */
+.katex { font-size: 1.15em; color: var(--text); }
+.q-text .katex, .sub-item .katex, .option-item .katex { font-size: 1.18em; }
+.card-content .katex { font-size: 1.1em; }
+
+.q-text, .opt-math, .sub-text,
+.modal-content .q-text,
+.modal-content .opt-math,
+.modal-content .sub-text {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Latin Modern Math", "KaTeX_Main", "STIX Two Math", serif;
+}
+
+.q-text, .modal-content .q-text {
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+.katex-error { color: var(--danger); font-size: 0.95em; }
+
+/* Search highlight */
+.search-mark {
+  background: rgb(224 163 92 / 0.35);
+  color: var(--text);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* Zoom overlay */
+.zoom-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.92);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+.zoom-overlay img {
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.5);
+  z-index: 998;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar.open ~ .sidebar-overlay { display: block; }
+  .toggle-sidebar { display: block; }
+  .question-grid { grid-template-columns: 1fr; }
+  .topbar { padding: 10px 12px; }
+  .search-box { min-width: 140px; }
+  .modal-body { overflow-x: auto; }
+  .page-jump input { width: 48px; }
+  .content { padding: 14px; }
+}
+
+/* Focus visible */
+.question-card:focus-visible,
+.chapter-item:focus-visible,
+.option-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+
+/* Theme toggle */
+.theme-toggle {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-dim);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.12s;
+  flex-shrink: 0;
+  padding: 0;
+}
+.theme-toggle:hover {
+  border-color: var(--accent-dim);
+  color: var(--accent);
+  background: var(--accent-faint);
+}
+.theme-toggle:active { transform: scale(0.96); }
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon { display: none; width: 15px; height: 15px; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+
+.app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+body {
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+
+/* Resume bar */
+.resume-bar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  background: var(--accent-faint);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+  border-radius: var(--radius-sm);
+}
+.resume-bar.is-visible { display: flex; }
+.resume-bar-text {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  min-width: 0;
+}
+.resume-bar-text strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.resume-bar-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.resume-bar .btn-resume {
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 0.86rem;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+}
+.resume-bar .btn-resume:hover { background: var(--accent-light); }
+.resume-bar .btn-dismiss {
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-family: var(--font);
+  cursor: pointer;
+}
+.resume-bar .btn-dismiss:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+/* Mark dashboard */
+.mark-dashboard {
+  margin-bottom: 16px;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.dash-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.dash-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+.dash-meta {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+.dash-stack {
+  display: flex;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+.dash-seg {
+  height: 100%;
+  min-width: 0;
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.dash-seg.mastered { background: var(--success); }
+.dash-seg.fuzzy { background: var(--warning); }
+.dash-seg.forgot { background: var(--danger); }
+.dash-seg.none { background: color-mix(in srgb, var(--muted) 35%, transparent); }
+.dash-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+.dash-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: var(--bg);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  text-align: left;
+  font-family: var(--font);
+  color: inherit;
+  width: 100%;
+}
+.dash-item:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-hover);
+}
+.dash-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dash-dot.mastered { background: var(--success); }
+.dash-dot.fuzzy { background: var(--warning); }
+.dash-dot.forgot { background: var(--danger); }
+.dash-dot.none { background: var(--muted); }
+.dash-item-label {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  flex: 1;
+  min-width: 0;
+}
+.dash-item-value {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.dash-item-pct {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  min-width: 2.6em;
+  text-align: right;
+}
+
+/* Chapter last indicator */
+.chapter-item.has-cursor .count {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.chapter-item .cursor-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+
+/* Keyboard hint */
+.kbd-hint {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+.kbd-hint kbd {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
+  color: var(--text-dim);
+  margin-right: 4px;
+}
+
+.toast-mark {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 0.86rem;
+  font-weight: 500;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.28);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3000;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.toast-mark.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+::selection {
+  background: rgb(134 149 233 / 0.28);
+  color: var(--text);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   iPad / 触屏布局层（2026-08-26）：JS 零改动，纯 CSS
+   - 769–1023px：侧栏收为抽屉、单列卡片流、大触控目标
+   - ≤1023px：详情/练习弹窗全屏化 + 底部操作栏 safe-area
+   ══════════════════════════════════════════════════════════════ */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar.open ~ .sidebar-overlay { display: block; }
+  .toggle-sidebar { display: block; }
+
+  .question-grid { grid-template-columns: 1fr; }
+  .topbar { flex-wrap: wrap; height: auto; padding: 10px 12px; gap: 8px; }
+  .filter-group select, .filter-group button, .sync-bar .action-btn { min-height: 40px; }
+  .chapter-item { padding: 12px; }
+}
+
+@media (max-width: 1023px) {
+  .question-card:active { transform: scale(0.99); }
+  .content { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+
+  /* 弹窗默认变底部 sheet */
+  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal-box {
+    max-width: none;
+    border-radius: 16px 16px 0 0;
+    max-height: 94vh;
+    max-height: 94dvh;
+  }
+  /* 做题核心页（详情 / 练习）全屏化 */
+  #detailModal.modal-overlay, #practiceModal.modal-overlay { align-items: stretch; }
+  #detailModal .modal-box, #practiceModal .modal-box {
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    border-radius: 0;
+    border: 0;
+  }
+  .modal-footer {
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    gap: 12px;
+  }
+  .modal-footer button { min-height: 48px; font-size: 0.95rem; }
+  .mark-btn { min-height: 44px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1 id="bankTitle">数学题库</h1>
+      <p>交互式题库</p>
+    </div>
+    <div class="sidebar-search">
+      <input type="search" id="chapterSearch" placeholder="搜索章节..." aria-label="搜索章节">
+    </div>
+    <div class="chapter-list" id="chapterList"></div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main">
+    <div class="app-header" id="bankShellHeader">
+      <div class="shell-left">
+        <a class="shell-brand" href="/banks/math/" title="考研题库首页">
+          <span class="shell-mark">KY</span>
+          <span>考研题库</span>
+        </a>
+        <nav class="shell-switch" aria-label="题库切换">
+          <a class="shell-tab active" href="/banks/math/" data-bank="math">数学</a>
+          <a class="shell-tab" href="/banks/408/" data-bank="408">408</a>
+        </nav>
+      </div>
+      <div class="shell-right">
+        <a class="shell-link" id="shellContinue" href="#" hidden>继续上次</a>
+        <a class="shell-link" href="/">学习平台</a>
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="切换浅色/深色主题" title="切换主题">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3a7 7 0 0 0 11.5 11.5z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="topbar">
+      <button class="toggle-sidebar" id="toggleSidebar" aria-label="切换章节侧边栏">☰</button>
+      <div class="search-box">
+        <input type="search" id="searchInput" placeholder="搜索题目内容、公式、章节..." aria-label="搜索题目内容、公式、章节">
+      </div>
+      <div class="filter-group">
+        <select id="typeFilter" aria-label="按题型筛选">
+          <option value="">全部题型</option>
+          <option value="选择题">选择题</option>
+          <option value="计算题">计算题</option>
+          <option value="证明题">证明题</option>
+          <option value="填空题">填空题</option>
+        </select>
+        <select id="featureFilter" aria-label="按特征筛选">
+          <option value="">全部题目</option>
+          <option value="sub">有子问</option>
+          <option value="image">有图片</option>
+        </select>
+        <select id="markFilter" aria-label="按掌握程度筛选">
+          <option value="">全部标记</option>
+          <option value="weak">错题本（不会+不熟）</option>
+          <option value="mastered">已掌握</option>
+          <option value="fuzzy">不熟</option>
+          <option value="forgot">不会</option>
+          <option value="none">未标记</option>
+        </select>
+        <button id="btnPractice">练习模式</button>
+        <button id="btnWeak" class="btn-secondary" title="只看标记为不会或不熟的题目">错题本</button>
+      </div>
+      <div class="sync-bar" id="syncBar">
+        <span class="sync-hint" id="syncHint">标记后自动同步 · 手动按钮仅作备用</span>
+        <div class="sync-menu" id="syncMenu">
+          <button type="button" class="action-btn" id="btnSyncToggle" aria-haspopup="true" aria-expanded="false">同步 ▾</button>
+          <div class="sync-dropdown" id="syncDropdown" role="menu">
+            <button type="button" role="menuitem" data-scope="current">推送：当前筛选 → 平台</button>
+            <button type="button" role="menuitem" data-scope="weak">推送：错题本 → 平台</button>
+            <button type="button" role="menuitem" data-scope="all">推送：全部已标记 → 平台</button>
+            <hr>
+            <button type="button" role="menuitem" data-action="pull">拉取：平台熟练度 → 本题库</button>
+            <hr>
+            <button type="button" role="menuitem" data-action="export">导出进度 JSON</button>
+            <button type="button" role="menuitem" data-action="import">导入进度 JSON</button>
+            <button type="button" role="menuitem" data-action="backup">立即备份</button>
+            <input type="file" id="importFile" accept="application/json" hidden>
+          </div>
+        </div>
+      </div>
+      <div class="standalone-warning" id="standaloneWarning">
+        请从平台 <a href="http://127.0.0.1:8000/banks/math/" target="_blank">/banks/math/</a> 打开后再同步
+      </div>
+    </div>
+
+    <div class="content" id="content">
+      <div class="resume-bar" id="resumeBar" hidden>
+        <div class="resume-bar-text" id="resumeText">上次练到：—</div>
+        <div class="resume-bar-actions">
+          <button type="button" class="btn-resume" id="btnResumePos">继续此题</button>
+          <button type="button" class="btn-dismiss" id="btnDismissResume">忽略</button>
+        </div>
+      </div>
+      <div class="stats-row" id="statsRow"></div>
+      <div class="mark-dashboard" id="markDashboard" aria-label="做题统计"></div>
+      <div class="mark-stats-row" id="markStatsRow" hidden></div>
+      <div class="result-info">
+        <span id="resultText">加载中...</span>
+        <button class="action-btn" id="btnRandom">随机一题</button>
+      </div>
+      <div class="question-grid" id="questionGrid"></div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modalTitle">题目详情</h3>
+      <div class="modal-header-actions">
+        <button class="modal-close" onclick="closeModal()" aria-label="关闭">&times;</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+    <div class="modal-footer" style="flex-wrap:wrap;gap:10px;">
+      <div class="kbd-hint" style="margin:0;padding:0;border:0;flex:1;">
+        <span><kbd>←</kbd><kbd>→</kbd> 切题</span>
+        <span><kbd>M</kbd> 循环标记</span>
+        <span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>0</kbd> 掌握/不熟/不会/清除</span>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="prevQuestion()">上一题</button>
+        <button class="btn-primary" onclick="nextQuestion()">下一题</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Practice Modal -->
+<div class="modal-overlay" id="practiceModal" role="dialog" aria-modal="true" aria-labelledby="practiceTitle">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="practiceTitle">练习模式</h3>
+      <div class="modal-header-actions">
+        <button class="modal-close" onclick="closePractice()" aria-label="关闭">&times;</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div id="practiceContent"></div>
+    </div>
+    <div class="modal-footer">
+      <button onclick="closePractice()">退出</button>
+      <button onclick="prevPractice()">上一题</button>
+      <button class="btn-primary" onclick="nextPractice()">下一题</button>
+    </div>
+  </div>
+</div>
+
+<script src="data.js?v=11fee603"></script>
+<script>
+// ========================
+// Data & State
+// ========================
+const bank = QUESTION_BANK;
+if (!bank || !bank.chapters) {
+  document.getElementById('resultText').textContent = '数据加载失败，请检查 data.js 文件';
+  throw new Error('QUESTION_BANK not loaded');
+}
+// 动态设置题库标题
+document.title = bank.title || '数学题库';
+const bankTitleEl = document.getElementById('bankTitle');
+if (bankTitleEl) bankTitleEl.textContent = bank.title || '数学题库';
+
+// Theme toggle (shared with homepage)
+(function () {
+  const root = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  function apply(theme) {
+    root.setAttribute('data-theme', theme);
+    try { localStorage.setItem('mathbank_theme', theme); } catch (e) {}
+    btn.setAttribute('aria-label', theme === 'dark' ? '切换到浅色主题' : '切换到深色主题');
+  }
+  btn.addEventListener('click', () => {
+    apply(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+  });
+  apply(root.getAttribute('data-theme') || 'dark');
+})();
+
+// Remember last visited bank for homepage "继续上次"
+// Note: detailed chapter/question is written by saveCursor(); here only seed bank entry.
+(function rememberLastBank() {
+  try {
+    let path = location.pathname.replace(/\\/g, '/');
+    try { path = decodeURIComponent(path); } catch (e) {}
+    let key = '';
+    if (path.includes('/大学深埋/')) key = '大学深埋';
+    else if (path.includes('/1000题/')) key = '1000题';
+    else if (path.includes('/880题/')) key = '880题';
+    else if (path.includes('/660题/')) key = '660题';
+    const title = (typeof bank !== 'undefined' && bank.title) ? bank.title : document.title;
+    // 必须用绝对路径：相对 ./ 在书册页内会解析成错误地址
+    const hrefMap = {
+      '大学深埋': '/banks/math/大学深埋/math-bank/index.html',
+      '1000题': '/banks/math/1000题/math-bank/index.html',
+      '880题': '/banks/math/880题/math-bank/index.html',
+      '660题': '/banks/math/660题/math-bank/index.html',
+    };
+    if (!(key && hrefMap[key])) return;
+
+    // Merge with existing cursor for this bank (if any)
+    let chapter = '', questionId = '', label = '';
+    try {
+      const cursorKey = 'mathbank_cursor_' + (bank.title || document.title || 'default');
+      const cur = JSON.parse(localStorage.getItem(cursorKey) || 'null');
+      if (cur && cur.questionId) {
+        chapter = cur.chapter || '';
+        questionId = String(cur.questionId);
+        label = (chapter ? chapter + ' · ' : '') + questionId;
+      }
+    } catch (e) {}
+
+    localStorage.setItem('mathbank_last', JSON.stringify({
+      key: key,
+      title: title,
+      href: hrefMap[key],
+      chapter: chapter,
+      questionId: questionId,
+      label: label,
+      at: Date.now(),
+    }));
+  } catch (e) {}
+})();
+
+
+// ========================
+// Last position (chapter + question)
+// ========================
+let CURSOR_KEY = 'mathbank_cursor_' + (bank.title || document.title || 'default');
+let BANK_KEY = '';
+(function detectBankKey() {
+  let path = location.pathname.replace(/\\/g, '/');
+  try { path = decodeURIComponent(path); } catch (e) {}
+  if (path.includes('/大学深埋/')) BANK_KEY = '大学深埋';
+  else if (path.includes('/1000题/')) BANK_KEY = '1000题';
+  else if (path.includes('/880题/')) BANK_KEY = '880题';
+  else if (path.includes('/660题/')) BANK_KEY = '660题';
+})();
+
+function loadCursor() {
+  try {
+    const raw = localStorage.getItem(CURSOR_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) { return null; }
+}
+
+function saveCursor(q) {
+  if (!q) return;
+  const payload = {
+    chapter: q.chapter || '',
+    questionId: String(q.id),
+    uid: q.uid || '',
+    page: q.page || null,
+    type: q.type || '',
+    at: Date.now(),
+  };
+  try { localStorage.setItem(CURSOR_KEY, JSON.stringify(payload)); } catch (e) {}
+  // Sync homepage "继续上次" with chapter detail
+  try {
+    const hrefMap = {
+      '大学深埋': '/banks/math/大学深埋/math-bank/index.html',
+      '1000题': '/banks/math/1000题/math-bank/index.html',
+      '880题': '/banks/math/880题/math-bank/index.html',
+      '660题': '/banks/math/660题/math-bank/index.html',
+    };
+    if (BANK_KEY && hrefMap[BANK_KEY]) {
+      localStorage.setItem('mathbank_last', JSON.stringify({
+        key: BANK_KEY,
+        title: bank.title || document.title,
+        href: hrefMap[BANK_KEY],
+        chapter: payload.chapter,
+        questionId: payload.questionId,
+        label: (payload.chapter ? payload.chapter + ' · ' : '') + payload.questionId,
+        at: payload.at,
+      }));
+    }
+  } catch (e) {}
+  updateResumeBar();
+  updateChapterCursorUI();
+}
+
+function clearCursor() {
+  try { localStorage.removeItem(CURSOR_KEY); } catch (e) {}
+  updateResumeBar();
+  updateChapterCursorUI();
+}
+
+function updateChapterCursorUI() {
+  const cursor = loadCursor();
+  const items = document.querySelectorAll('#chapterList .chapter-item');
+  items.forEach((el, i) => {
+    if (i === 0) {
+      el.classList.remove('has-cursor');
+      return;
+    }
+    const ch = bank.chapters[i - 1];
+    const isCursor = !!(cursor && ch && cursor.chapter === ch.name);
+    el.classList.toggle('has-cursor', isCursor);
+    const nameWrap = el.querySelector('span');
+    if (!nameWrap) return;
+    let dot = nameWrap.querySelector('.cursor-dot');
+    if (isCursor && !dot) {
+      nameWrap.insertAdjacentHTML('afterbegin', '<span class="cursor-dot" title="上次练习章节"></span>');
+    } else if (!isCursor && dot) {
+      dot.remove();
+    }
+  });
+}
+
+function updateResumeBar() {
+  const bar = document.getElementById('resumeBar');
+  const textEl = document.getElementById('resumeText');
+  if (!bar || !textEl) return;
+  const pos = loadCursor();
+  if (!pos || !pos.questionId) {
+    bar.classList.remove('is-visible');
+    bar.hidden = true;
+    return;
+  }
+  const label = (pos.chapter ? pos.chapter + ' · ' : '') + pos.questionId;
+  textEl.innerHTML = '上次练到：<strong>' + escapeHtml(label) + '</strong>'
+    + (pos.type ? ' <span style="color:var(--muted)">· ' + escapeHtml(pos.type) + '</span>' : '');
+  bar.hidden = false;
+  bar.classList.add('is-visible');
+}
+
+function findQuestionIndexByCursor(pos) {
+  if (!pos) return -1;
+  if (pos.uid) {
+    const byUid = filteredQuestions.findIndex(q => q.uid === pos.uid);
+    if (byUid >= 0) return byUid;
+  }
+  return filteredQuestions.findIndex(q =>
+    String(q.id) === String(pos.questionId)
+    && (!pos.chapter || q.chapter === pos.chapter)
+  );
+}
+
+function resumeLastPosition() {
+  const pos = loadCursor();
+  if (!pos) return;
+  // Prefer chapter filter so list is focused
+  if (pos.chapter) {
+    selectedChapter = pos.chapter;
+    document.querySelectorAll('.chapter-item').forEach((el, i) => {
+      el.classList.toggle('active', (i === 0 && !selectedChapter) || (i > 0 && bank.chapters[i - 1].name === selectedChapter));
+    });
+  }
+  document.getElementById('searchInput').value = '';
+  document.getElementById('typeFilter').value = '';
+  document.getElementById('featureFilter').value = '';
+  document.getElementById('markFilter').value = '';
+  applyFilters();
+  let idx = findQuestionIndexByCursor(pos);
+  if (idx < 0 && pos.chapter) {
+    // Fallback: clear chapter filter
+    selectedChapter = '';
+    document.querySelectorAll('.chapter-item').forEach((el, i) => {
+      el.classList.toggle('active', i === 0);
+    });
+    applyFilters();
+    idx = findQuestionIndexByCursor(pos);
+  }
+  if (idx < 0) {
+    alert('找不到上次的题目，可能数据已更新');
+    return;
+  }
+  currentPage = Math.floor(idx / pageSize) + 1;
+  renderGrid(document.getElementById('searchInput').value.trim().toLowerCase());
+  renderPagination();
+  openDetail(idx);
+}
+
+/** 统计范围：有选中章节时仅该章，否则全库 */
+function getStatsScopeQuestions() {
+  if (selectedChapter) {
+    return allQuestions.filter(q => q.chapter === selectedChapter);
+  }
+  return allQuestions;
+}
+
+function getMarkCounts(list) {
+  const source = list || getStatsScopeQuestions();
+  const counts = { none: 0, mastered: 0, fuzzy: 0, forgot: 0 };
+  source.forEach(q => { counts[getMark(q.uid)]++; });
+  return counts;
+}
+
+function renderMarkDashboard() {
+  const container = document.getElementById('markDashboard');
+  if (!container) return;
+  const scope = getStatsScopeQuestions();
+  const counts = getMarkCounts(scope);
+  const total = scope.length || 1;
+  const marked = counts.mastered + counts.fuzzy + counts.forgot;
+  const markedPct = Math.round((marked / total) * 100);
+  const segs = [
+    { key: 'mastered', label: '已掌握', value: counts.mastered },
+    { key: 'fuzzy', label: '不熟', value: counts.fuzzy },
+    { key: 'forgot', label: '不会', value: counts.forgot },
+    { key: 'none', label: '未标记', value: counts.none },
+  ];
+  const barHtml = segs.map(s => {
+    const w = (s.value / total) * 100;
+    if (w <= 0) return '';
+    return `<div class="dash-seg ${s.key}" style="width:${w}%" title="${s.label} ${s.value}"></div>`;
+  }).join('');
+  const legendHtml = segs.map(s => {
+    const pct = Math.round((s.value / total) * 100);
+    return `
+      <button type="button" class="dash-item" data-mark="${s.key}">
+        <span class="dash-dot ${s.key}"></span>
+        <span class="dash-item-label">${s.label}</span>
+        <span class="dash-item-value">${s.value}</span>
+        <span class="dash-item-pct">${pct}%</span>
+      </button>`;
+  }).join('');
+  const scopeLabel = selectedChapter
+    ? `已掌握 ${counts.mastered} · 已标记 ${marked}/${scope.length}（${markedPct}%）`
+    : `已掌握 ${counts.mastered} · 已标记 ${marked}/${scope.length}（${markedPct}%）`;
+  const title = selectedChapter ? '本章掌握度' : '全库掌握度';
+  container.innerHTML = `
+    <div class="dash-head">
+      <div class="dash-title">${title}${selectedChapter ? `<span style="font-weight:500;color:var(--muted);font-size:0.78rem;margin-left:8px;">${escapeHtml(selectedChapter)}</span>` : ''}</div>
+      <div class="dash-meta" title="掌握度看 lifetime 标记；今日任务「今日 x/y」是另一套额度">${scopeLabel}</div>
+    </div>
+    <div class="dash-stack" aria-hidden="true">${barHtml || '<div class="dash-seg none" style="width:100%"></div>'}</div>
+    <div class="dash-legend">${legendHtml}</div>
+  `;
+  container.querySelectorAll('.dash-item').forEach(item => {
+    item.addEventListener('click', () => {
+      // 在当前章节范围内按掌握度筛选，不再跳回全库
+      document.getElementById('typeFilter').value = '';
+      document.getElementById('featureFilter').value = '';
+      document.getElementById('searchInput').value = '';
+      document.getElementById('markFilter').value = item.dataset.mark;
+      currentPage = 1;
+      applyFilters();
+    });
+  });
+}
+
+function showMarkToast(label) {
+  let el = document.getElementById('markToast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'markToast';
+    el.className = 'toast-mark';
+    document.body.appendChild(el);
+  }
+  el.textContent = '标记：' + label;
+  el.classList.add('show');
+  clearTimeout(showMarkToast._t);
+  showMarkToast._t = setTimeout(() => el.classList.remove('show'), 1200);
+}
+
+function getActiveQuestion() {
+  if (document.getElementById('detailModal').classList.contains('active')
+      && currentModalIndex >= 0
+      && filteredQuestions[currentModalIndex]) {
+    return filteredQuestions[currentModalIndex];
+  }
+  if (document.getElementById('practiceModal').classList.contains('active')
+      && practiceQueue[practiceIndex]) {
+    return practiceQueue[practiceIndex];
+  }
+  return null;
+}
+
+function applyMarkToActive(mark) {
+  const q = getActiveQuestion();
+  if (!q || !q.uid) return;
+  // 小题模式：标记作用于当前小题（uid#N），仅本地保存
+  if (subModeActive
+      && hasSubMode(q)
+      && document.getElementById('detailModal').classList.contains('active')) {
+    applyMarkToSub(mark);
+    return;
+  }
+  setMark(q.uid, mark);
+  // refresh mark bars
+  document.querySelectorAll('.mark-bar').forEach(bar => {
+    const btn = bar.querySelector('[data-uid]');
+    if (btn && btn.dataset.uid === q.uid) bar.outerHTML = markBarHtml(q.uid, true);
+  });
+  const card = document.querySelector(`.question-card[data-uid="${q.uid}"]`);
+  if (card) {
+    const header = card.querySelector('.card-header div');
+    if (header) {
+      const badge = header.querySelector('.card-mark');
+      const newBadge = markBadgeHtml(q.uid);
+      if (badge) {
+        if (newBadge) badge.outerHTML = newBadge;
+        else badge.remove();
+      } else if (newBadge) {
+        header.insertAdjacentHTML('afterbegin', newBadge);
+      }
+    }
+  }
+  renderMarkStats();
+  renderMarkDashboard();
+  showMarkToast(MARKS[mark] ? MARKS[mark].label : mark);
+}
+
+function cycleActiveMark() {
+  const q = getActiveQuestion();
+  if (!q) return;
+  const inSubMode = subModeActive
+    && hasSubMode(q)
+    && document.getElementById('detailModal').classList.contains('active');
+  const cycle = ['none', 'forgot', 'fuzzy', 'mastered'];
+  const current = getMark(inSubMode ? subMarkKey(q, currentSubIndex) : q.uid);
+  const next = cycle[(cycle.indexOf(current) + 1) % cycle.length];
+  applyMarkToActive(next);
+}
+
+function isTypingTarget(el) {
+  if (!el) return false;
+  const tag = (el.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+  if (el.isContentEditable) return true;
+  return false;
+}
+
+let allQuestions = [];
+let filteredQuestions = [];
+let currentPage = 1;
+const pageSize = 20;
+let currentModalIndex = -1;
+let practiceQueue = [];
+let practiceIndex = 0;
+let selectedChapter = '';
+let randomHistory = [];
+let lastRandomIdx = -1;
+// 小题模式状态：仅详情弹窗内有效，切题/重开时重置
+let subModeActive = false;
+let currentSubIndex = 0;
+
+function questionKey(q) { return q.chapter + '::' + q.id; }
+function getTotalPages() { return Math.ceil(filteredQuestions.length / pageSize) || 1; }
+
+const MARKS = {
+  none:     { label: '未标记', color: 'var(--muted)' },
+  mastered: { label: '已掌握', color: 'var(--success)' },
+  fuzzy:    { label: '不熟',   color: 'var(--warning)' },
+  forgot:   { label: '不会',   color: 'var(--danger)' },
+};
+
+let questionMarks = {};
+let MARKS_KEY = 'mathbank_marks_' + (bank.title || document.title || 'default');
+
+function loadMarks() {
+  if (window.ViewerStorage && ViewerStorage.loadShardedMap) {
+    questionMarks = ViewerStorage.loadShardedMap(MARKS_KEY) || {};
+    return;
+  }
+  try {
+    const raw = localStorage.getItem(MARKS_KEY);
+    questionMarks = raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    questionMarks = {};
+  }
+}
+
+function saveMarks() {
+  if (window.ViewerStorage && ViewerStorage.saveShardedMap) {
+    ViewerStorage.saveShardedMap(MARKS_KEY, questionMarks);
+    return;
+  }
+  try { localStorage.setItem(MARKS_KEY, JSON.stringify(questionMarks)); } catch (e) {}
+}
+
+function fillAnswersKey() {
+
+  return 'mathbank_fill_' + (BANK_KEY || 'x');
+
+}
+
+
+
+function getMyAnswer(uid) {
+
+  try {
+
+    const m = JSON.parse(localStorage.getItem(fillAnswersKey()) || '{}');
+
+    return m[uid] || '';
+
+  } catch (e) {
+
+    return '';
+
+  }
+
+}
+
+
+
+function saveMyAnswer(uid, text) {
+
+  try {
+
+    const m = JSON.parse(localStorage.getItem(fillAnswersKey()) || '{}');
+
+    if (text) m[uid] = text; else delete m[uid];
+
+    localStorage.setItem(fillAnswersKey(), JSON.stringify(m));
+
+  } catch (e) {}
+
+}
+
+
+
+let notesMapCache = null;
+
+
+
+function notesKey() {
+
+  return 'mathbank_notes_' + (bank.title || document.title || 'default');
+
+}
+
+
+
+function loadNotesMap() {
+
+  if (notesMapCache) return notesMapCache;
+
+  if (window.ViewerStorage && ViewerStorage.loadShardedMap) {
+
+    notesMapCache = ViewerStorage.loadShardedMap(notesKey()) || {};
+
+  } else {
+
+    try { notesMapCache = JSON.parse(localStorage.getItem(notesKey()) || '{}'); } catch (e) { notesMapCache = {}; }
+
+  }
+
+  return notesMapCache;
+
+}
+
+
+
+function saveNotesMap() {
+
+  if (!notesMapCache) return;
+
+  if (window.ViewerStorage && ViewerStorage.saveShardedMap) { ViewerStorage.saveShardedMap(notesKey(), notesMapCache); return; }
+
+  try { localStorage.setItem(notesKey(), JSON.stringify(notesMapCache)); } catch (e) {}
+
+}
+
+
+
+function getNote(uid) { return loadNotesMap()[uid] || ''; }
+
+
+
+function setNote(uid, text) {
+
+  const m = loadNotesMap();
+
+  if (text) m[uid] = text; else delete m[uid];
+
+  saveNotesMap();
+
+}
+
+
+
+function getMark(uid) {
+  return questionMarks[uid] || 'none';
+}
+
+function setMark(uid, mark) {
+  if (!uid || !MARKS[mark]) return;
+  if (mark === 'none') {
+    delete questionMarks[uid];
+  } else {
+    questionMarks[uid] = mark;
+  }
+  saveMarks();
+  queueAutoSync(uid);
+}
+
+function markBadgeHtml(uid) {
+  const mark = getMark(uid);
+  if (mark === 'none') return '';
+  return `<span class="card-mark mark-${mark} mark-clickable" data-uid="${uid}" title="点击切换标记">${MARKS[mark].label}</span>`;
+}
+
+function markBarHtml(uid, showSync) {
+  const current = getMark(uid);
+  const makeBtn = (key, label) => {
+    const active = current === key;
+    const cls = active ? `mark-btn active mark-${key}` : 'mark-btn';
+    const style = active ? ` style="background:${MARKS[key].color};border-color:${MARKS[key].color};color:#fff"` : '';
+    return `<button type="button" class="${cls}" data-uid="${uid}" data-mark="${key}"${style}>${label}</button>`;
+  };
+  const syncBtn = showSync
+    ? `<button type="button" class="mark-btn sync-btn" data-uid="${uid}" data-action="sync-single" title="同步该题到平台">同步</button>`
+    : '';
+  return `
+    <div class="mark-bar">
+      <span>掌握程度</span>
+      ${makeBtn('mastered', MARKS.mastered.label)}
+      ${makeBtn('fuzzy', MARKS.fuzzy.label)}
+      ${makeBtn('forgot', MARKS.forgot.label)}
+      ${makeBtn('none', '清除')}
+      ${syncBtn}
+    </div>
+  `;
+}
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function debounce(fn, ms) {
+  let timer;
+  return function(...args) { clearTimeout(timer); timer = setTimeout(() => fn.apply(this, args), ms); };
+}
+
+function resetAndFilter() { currentPage = 1; applyFilters(); }
+
+let modalFocusReturn = null;
+
+function openModal(id) {
+  const modal = document.getElementById(id);
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  modalFocusReturn = document.activeElement;
+  // 焦点移到关闭按钮，方便键盘操作
+  const closeBtn = modal.querySelector('.modal-close');
+  if (closeBtn) closeBtn.focus();
+}
+
+function closeModalById(id) {
+  const modal = document.getElementById(id);
+  if (!modal.classList.contains('active')) return;
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+  if (modalFocusReturn && modal.contains(document.activeElement)) {
+    modalFocusReturn.focus();
+  }
+  modalFocusReturn = null;
+}
+
+function init() {
+  allQuestions = [];
+  bank.chapters.forEach(ch => {
+    ch.questions.forEach(q => {
+      const entry = {...q, chapter: ch.name};
+      entry._searchText = (q.content + ' ' + (q.sub_questions || []).join(' ') + ' ' + ch.name + ' ' + q.id)
+        .toLowerCase()
+        // 去掉 LaTeX 命令反斜杠、括号、下标等符号，只保留字母、数字、中文和空格
+        .replace(/[^a-z0-9\u4e00-\u9fa5\s]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+      allQuestions.push(entry);
+    });
+  });
+
+  loadMarks();
+  // 平台「去刷题」深链：?chapter=基础·函数极限与连续 直接选中对应章
+  try {
+    const chParam = new URLSearchParams(location.search).get('chapter');
+    if (chParam && bank.chapters.some(ch => ch.name === chParam)) selectedChapter = chParam;
+  } catch (e) {}
+  renderChapters();
+  renderStats();
+  renderMarkStats();
+  renderMarkDashboard();
+  updateResumeBar();
+  applyFilters();
+  setupEvents();
+
+  // 主页「继续上次」带 ?resume=1 时自动打开上次题目
+  try {
+    const params = new URLSearchParams(location.search);
+    if (params.get('resume') === '1' && loadCursor()) {
+      setTimeout(() => resumeLastPosition(), 80);
+      // 去掉 query，避免刷新反复弹开
+      if (history.replaceState) {
+        history.replaceState(null, '', location.pathname);
+      }
+    }
+  } catch (e) {}
+
+  // 统一壳：顶栏「继续上次」优先本册，否则跨 数学/408
+  try {
+    const cont = document.getElementById('shellContinue');
+    if (cont) {
+      const cur = loadCursor();
+      let last = null;
+      try { last = JSON.parse(localStorage.getItem('mathbank_last') || 'null'); } catch (e) {}
+      let last408 = null;
+      try { last408 = JSON.parse(localStorage.getItem('wd408_last') || 'null'); } catch (e) {}
+      if (cur && cur.questionId) {
+        cont.hidden = false;
+        cont.textContent = '继续本册';
+        cont.href = '#';
+        cont.onclick = (e) => { e.preventDefault(); resumeLastPosition(); };
+      } else if (last && last.href) {
+        cont.hidden = false;
+        cont.textContent = '继续数学';
+        // 兼容旧 localStorage 里存的相对路径 ./xxx
+        let href = last.href;
+        if (href.startsWith('./')) href = '/banks/math/' + href.replace(/^\.\//, '');
+        if (!href.includes('resume=1')) href += (href.includes('?') ? '&' : '?') + 'resume=1';
+        cont.href = href;
+      } else if (last408 && last408.href) {
+        cont.hidden = false;
+        cont.textContent = '继续 408';
+        cont.href = last408.href;
+      }
+    }
+  } catch (e) {}
+}
+
+// ========================
+// Sidebar
+// ========================
+function chapterMasteryHtml(chapterName, questionCount) {
+  const qs = allQuestions.filter(q => q.chapter === chapterName);
+  const n = qs.length || questionCount || 0;
+  if (!n) {
+    return `<div class="chapter-mastery"><div class="chapter-mastery-bar"></div><span class="chapter-mastery-label">0</span></div>`;
+  }
+  let mastered = 0, fuzzy = 0, forgot = 0;
+  qs.forEach(q => {
+    const m = getMark(q.uid);
+    if (m === 'mastered') mastered++;
+    else if (m === 'fuzzy') fuzzy++;
+    else if (m === 'forgot') forgot++;
+  });
+  const pct = (v) => ((v / n) * 100).toFixed(1);
+  const marked = mastered + fuzzy + forgot;
+  return `<div class="chapter-mastery" title="已掌握 ${mastered} · 不熟 ${fuzzy} · 不会 ${forgot} · 未标记 ${n - marked}（与学习平台「掌握」同口径；今日额度是另一回事）">
+    <div class="chapter-mastery-bar">
+      ${mastered ? `<i class="m" style="width:${pct(mastered)}%"></i>` : ''}
+      ${fuzzy ? `<i class="f" style="width:${pct(fuzzy)}%"></i>` : ''}
+      ${forgot ? `<i class="g" style="width:${pct(forgot)}%"></i>` : ''}
+    </div>
+    <span class="chapter-mastery-label" title="已掌握/本章题数">${mastered}/${n}</span>
+  </div>`;
+}
+
+function renderChapters() {
+  const container = document.getElementById('chapterList');
+  container.innerHTML = '';
+
+  const allCounts = getMarkCounts(allQuestions);
+  const allMastered = allCounts.mastered;
+  const allItem = document.createElement('div');
+  allItem.className = 'chapter-item' + (!selectedChapter ? ' active' : '');
+  allItem.innerHTML = `
+    <div class="chapter-item-top"><span>全部章节</span><span class="count">${allQuestions.length}</span></div>
+    <div class="chapter-mastery" title="全库已掌握 ${allMastered}">
+      <div class="chapter-mastery-bar">
+        ${allMastered ? `<i class="m" style="width:${((allMastered / (allQuestions.length || 1)) * 100).toFixed(1)}%"></i>` : ''}
+        ${allCounts.fuzzy ? `<i class="f" style="width:${((allCounts.fuzzy / (allQuestions.length || 1)) * 100).toFixed(1)}%"></i>` : ''}
+        ${allCounts.forgot ? `<i class="g" style="width:${((allCounts.forgot / (allQuestions.length || 1)) * 100).toFixed(1)}%"></i>` : ''}
+      </div>
+      <span class="chapter-mastery-label">${allMastered}/${allQuestions.length}</span>
+    </div>`;
+  allItem.onclick = () => selectChapter('');
+  container.appendChild(allItem);
+
+  const cursor = loadCursor();
+  bank.chapters.forEach(ch => {
+    const el = document.createElement('div');
+    const isCursor = cursor && cursor.chapter === ch.name;
+    const isActive = selectedChapter === ch.name;
+    el.className = 'chapter-item'
+      + (isActive ? ' active' : '')
+      + (isCursor ? ' has-cursor' : '');
+    el.innerHTML = `
+      <div class="chapter-item-top">
+        <span style="display:flex;align-items:center;min-width:0;">${isCursor ? '<span class="cursor-dot" title="上次练习章节"></span>' : ''}<span style="overflow:hidden;text-overflow:ellipsis;">${escapeHtml(ch.name)}</span></span>
+        <span class="count">${ch.question_count}</span>
+      </div>
+      ${chapterMasteryHtml(ch.name, ch.question_count)}`;
+    el.onclick = () => selectChapter(ch.name);
+    container.appendChild(el);
+  });
+}
+
+function selectChapter(name) {
+  selectedChapter = name;
+  // 仅更新 active 态，侧栏进度条在标记变更时由 renderChapters 全量刷新
+  document.querySelectorAll('.chapter-item').forEach((el, i) => {
+    el.classList.toggle('active', (i === 0 && !name) || (i > 0 && bank.chapters[i-1].name === name));
+  });
+  currentPage = 1;
+  applyFilters();
+  renderStats();
+  renderMarkStats();
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.remove('open');
+  }
+}
+
+// ========================
+// Stats
+// ========================
+function renderStats() {
+  const scope = getStatsScopeQuestions();
+  const types = {};
+  const counts = {sub: 0, image: 0};
+  scope.forEach(q => {
+    types[q.type] = (types[q.type] || 0) + 1;
+    if (q.sub_questions) counts.sub++;
+    if (q.has_image) counts.image++;
+  });
+
+  const stats = [
+    {label: selectedChapter ? '本章题数' : '总题数', value: scope.length, action: 'all'},
+    {label: '选择题', value: types['选择题'] || 0, action: '选择题'},
+    {label: '计算题', value: types['计算题'] || 0, action: '计算题'},
+    {label: '证明题', value: types['证明题'] || 0, action: '证明题'},
+    {label: '填空题', value: types['填空题'] || 0, action: '填空题'},
+    {label: '含子问', value: counts.sub, action: 'sub'},
+    {label: '有图片', value: counts.image, action: 'image'},
+  ];
+
+  const container = document.getElementById('statsRow');
+  container.innerHTML = stats.map(s => `
+    <div class="stat-item" data-stat="${s.action}"><strong>${s.value}</strong>${s.label}</div>
+  `).join('');
+
+  container.querySelectorAll('.stat-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const action = item.dataset.stat;
+      // 在当前章节范围内快捷筛选（不再强制跳回全库）
+      document.getElementById('typeFilter').value = '';
+      document.getElementById('featureFilter').value = '';
+      document.getElementById('markFilter').value = '';
+      document.getElementById('searchInput').value = '';
+      if (action === 'sub') {
+        document.getElementById('featureFilter').value = 'sub';
+      } else if (action === 'image') {
+        document.getElementById('featureFilter').value = 'image';
+      } else if (action !== 'all') {
+        document.getElementById('typeFilter').value = action;
+      }
+      currentPage = 1;
+      applyFilters();
+    });
+  });
+}
+
+function renderMarkStats() {
+  const scope = getStatsScopeQuestions();
+  const counts = getMarkCounts(scope);
+  const stats = [
+    {label: '已掌握', value: counts.mastered, mark: 'mastered'},
+    {label: '不熟',   value: counts.fuzzy,    mark: 'fuzzy'},
+    {label: '不会',   value: counts.forgot,   mark: 'forgot'},
+    {label: '未标记', value: counts.none,     mark: 'none'},
+  ];
+  const container = document.getElementById('markStatsRow');
+  container.innerHTML = stats.map(s => `
+    <div class="stat-item mark-stat" data-mark="${s.mark}"><strong>${s.value}</strong>${s.label}</div>
+  `).join('');
+
+  container.querySelectorAll('.mark-stat').forEach(item => {
+    item.addEventListener('click', () => {
+      document.getElementById('typeFilter').value = '';
+      document.getElementById('featureFilter').value = '';
+      document.getElementById('searchInput').value = '';
+      document.getElementById('markFilter').value = item.dataset.mark;
+      currentPage = 1;
+      applyFilters();
+    });
+  });
+  renderMarkDashboard();
+  // 侧栏各章掌握进度同步刷新（保留章节搜索词）
+  const term = (document.getElementById('chapterSearch')?.value || '').trim().toLowerCase();
+  renderChapters();
+  if (term) {
+    document.querySelectorAll('.chapter-item').forEach(item => {
+      const text = item.textContent.toLowerCase();
+      item.classList.toggle('hidden', !text.includes(term));
+    });
+  }
+}
+
+// ========================
+// Filtering & Search
+// ========================
+function filterQuestions(source, opts) {
+  const searchTokens = opts.search ? opts.search.split(/\s+/).filter(Boolean) : [];
+  return source.filter(q => {
+    if (opts.chapter && q.chapter !== opts.chapter) return false;
+    if (opts.type && q.type !== opts.type) return false;
+    if (opts.feature === 'sub' && !q.sub_questions) return false;
+    if (opts.feature === 'image' && !q.has_image) return false;
+    if (opts.mark) {
+      const current = getMark(q.uid);
+      if (opts.mark === 'weak') {
+        if (current !== 'forgot' && current !== 'fuzzy') return false;
+      } else if (opts.mark === 'none' ? current !== 'none' : current !== opts.mark) {
+        return false;
+      }
+    }
+    if (searchTokens.length && !searchTokens.every(t => q._searchText.includes(t))) return false;
+    return true;
+  });
+}
+
+function applyFilters() {
+  const rawSearch = document.getElementById('searchInput').value.trim().toLowerCase();
+  const search = rawSearch
+    .replace(/[^a-z0-9\u4e00-\u9fa5\s]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const type = document.getElementById('typeFilter').value;
+  const feature = document.getElementById('featureFilter').value;
+  const mark = document.getElementById('markFilter').value;
+
+  filteredQuestions = filterQuestions(allQuestions, {chapter: selectedChapter, type, feature, mark, search});
+
+  document.getElementById('resultText').textContent =
+    `共 ${filteredQuestions.length} 道题目${selectedChapter ? ' · ' + selectedChapter : ''}`;
+
+  currentPage = Math.min(currentPage, Math.max(1, getTotalPages()));
+  renderGrid(search);
+  renderPagination();
+}
+
+function clearAllFilters() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('typeFilter').value = '';
+  document.getElementById('featureFilter').value = '';
+  document.getElementById('markFilter').value = '';
+  selectChapter('');
+}
+
+// ========================
+// Grid Rendering
+// ========================
+function renderGrid(search) {
+  const grid = document.getElementById('questionGrid');
+  const start = (currentPage - 1) * pageSize;
+  const pageQs = filteredQuestions.slice(start, start + pageSize);
+
+  if (pageQs.length === 0) {
+    const hasFilter = selectedChapter || document.getElementById('typeFilter').value || document.getElementById('featureFilter').value || document.getElementById('markFilter').value || document.getElementById('searchInput').value.trim();
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column: 1 / -1;">
+        <h3>未找到题目</h3>
+        <p>当前筛选组合下没有题目</p>
+        ${hasFilter ? '<button onclick="clearAllFilters()">清除全部筛选</button>' : ''}
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = pageQs.map((q, i) => {
+    const typeClass = q.type === '选择题' ? 'choice' : q.type === '证明题' ? 'proof' : q.type === '填空题' ? 'fill' : '';
+    const tags = [];
+    if (q.sub_questions) tags.push(`${q.sub_questions.length} 个子问`);
+    if (q.has_image) tags.push('含图片');
+    if (q.options) tags.push('有选项');
+
+    return `
+      <div class="question-card" tabindex="0" role="button" aria-label="${q.id} ${q.type}" data-index="${start + i}" data-uid="${q.uid}">
+        <div class="card-header">
+          <span class="card-id">${q.chapter} · ${q.id}</span>
+          <div style="display:flex;gap:6px;align-items:center;">
+            ${markBadgeHtml(q.uid)}
+            <span class="card-type ${typeClass}">${q.type}</span>
+          </div>
+        </div>
+        <div class="card-chapter">第 ${q.page} 页</div>
+        <div class="card-content" id="card-text-${start+i}"></div>
+        <div class="card-tags">${tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
+      </div>
+    `;
+  }).join('');
+
+  pageQs.forEach((q, i) => {
+    const el = document.getElementById(`card-text-${start+i}`);
+    if (el) {
+      const preview = (!q.content || q.content.startsWith('（本题无主题干') || q.content.trim() === '')
+        && q.sub_questions && q.sub_questions.length > 0
+          ? q.sub_questions[0]
+          : q.content;
+      el.textContent = preview;
+      renderKatex(el);
+      if (search) highlightText(el, search);
+    }
+  });
+}
+
+function renderPagination() {
+  const totalPages = getTotalPages();
+  const p = document.getElementById('pagination');
+
+  p.innerHTML = `
+    <button onclick="changePage(1)" ${currentPage <= 1 ? 'disabled' : ''}>首页</button>
+    <button onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>上一页</button>
+    <span class="page-info">${currentPage} / ${totalPages}</span>
+    <button onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>下一页</button>
+    <button onclick="changePage(${totalPages})" ${currentPage >= totalPages ? 'disabled' : ''}>末页</button>
+    <span class="page-jump">跳转 <input type="number" min="1" max="${totalPages}" value="${currentPage}" onkeydown="if(event.key==='Enter')changePage(+this.value)"> 页</span>
+  `;
+}
+
+function changePage(p) {
+  if (p < 1 || p > getTotalPages()) return;
+  currentPage = p;
+  const search = document.getElementById('searchInput').value.trim().toLowerCase();
+  renderGrid(search);
+  renderPagination();
+  document.getElementById('content').scrollTop = 0;
+}
+
+// ========================
+// Shared Rendering
+// ========================
+function renderOptionsHtml(q) {
+  if (!q.options) return '';
+  const opts = Object.entries(q.options).map(([k, v]) => `
+    <div class="option-item" data-key="${k}">
+      <strong>${k}.</strong> <span class="opt-math"></span>
+    </div>
+  `).join('');
+  return `<div class="q-options">${opts}</div>`;
+}
+
+function renderSubHtml(q) {
+  if (!q.sub_questions) return '';
+  // 检测是否题组（如"求下列极限:"）—— sub_questions 总是数组
+  const isGroup = q.sub_questions.length >= 2;
+  // 若子问题字符串已自带 (I)/(1) 等前缀，则不再自动添加标签
+  const hasAutoPrefix = q.sub_questions.some(s => /[(（][IVXivx0-9]+[)）]/.test(String(s)));
+  return `
+    <div class="q-sub">
+      ${isGroup ? '<div class="sub-label">子问题：</div>' : ''}
+      ${q.sub_questions.map((s, i) => {
+        if (hasAutoPrefix) {
+          return `<div class="sub-item"><span class="sub-text" data-role="sub"></span></div>`;
+        }
+        // 罗马数字标签
+        const labels = ['(I)', '(II)', '(III)', '(IV)', '(V)', '(VI)', '(VII)', '(VIII)'];
+        const label = labels[i] || `(${i + 1})`;
+        return `<div class="sub-item"><span class="sub-tag">${label}</span><span class="sub-text" data-role="sub"></span></div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+// ========================
+// 小题模式（sub_questions >= 2）
+// ========================
+function hasSubMode(q) {
+  return !!(q && Array.isArray(q.sub_questions) && q.sub_questions.length >= 2);
+}
+
+function subMarkKey(q, i) { return q.uid + '#' + (i + 1); }
+
+function subProgressCounts(q) {
+  const counts = { mastered: 0, fuzzy: 0, forgot: 0 };
+  const prefix = q.uid + '#';
+  Object.keys(questionMarks).forEach(k => {
+    if (!k.startsWith(prefix)) return;
+    const m = questionMarks[k];
+    if (counts[m] !== undefined) counts[m]++;
+  });
+  return counts;
+}
+
+function subModeToggleHtml(active) {
+  return `<div class="submode-toggle-bar">
+    <button type="button" class="submode-toggle${active ? ' active' : ''}" onclick="toggleSubMode()">${active ? '返回整题视图' : '小题模式'}</button>
+  </div>`;
+}
+
+function subAnswerHtml(q, i) {
+  const refs = q.sub_answer_refs;
+  const ref = refs && refs[i];
+  if (!ref) return answerHtml(q);
+  const src = typeof ref === 'object' ? ref.cropped : ref;
+  if (!src) return answerHtml(q);
+  const safeSrc = escapeHtml(String(src));
+  return `
+    <details class="q-answer">
+      <summary>查看本题答案</summary>
+      <div class="q-answer-content">
+        <img src="${safeSrc}" alt="第 ${i + 1} 小题答案" onclick="zoomImage(this.src)" onerror="this.parentNode.innerHTML='<p style=\\'color:var(--muted)\\'>答案图加载失败：${safeSrc}</p>'">
+      </div>
+    </details>
+  `;
+}
+
+function subModePanelHtml(q) {
+  const total = q.sub_questions.length;
+  const i = Math.max(0, Math.min(total - 1, currentSubIndex));
+  const counts = subProgressCounts(q);
+  return `
+    <div class="submode-panel">
+      <div class="submode-head">
+        <span class="submode-indicator">${i + 1} / ${total}</span>
+        <span class="submode-jump">跳至 <input type="number" min="1" max="${total}" value="${i + 1}" aria-label="跳转小题"
+          onkeydown="if(event.key==='Enter')gotoSub(+this.value)" onchange="gotoSub(+this.value)"></span>
+        <span class="submode-progress">已掌握 ${counts.mastered} / ${total} · 不熟 ${counts.fuzzy} · 不会 ${counts.forgot}</span>
+      </div>
+      <div class="submode-card" data-role="submode-text"></div>
+      <div class="submode-nav">
+        <button type="button" onclick="prevSub()" ${i === 0 ? 'disabled' : ''}>上一小题</button>
+        <button type="button" onclick="nextSub()" ${i >= total - 1 ? 'disabled' : ''}>下一小题</button>
+      </div>
+      ${markBarHtml(subMarkKey(q, i), false)}
+      ${subAnswerHtml(q, i)}
+    </div>
+  `;
+}
+
+function toggleSubMode() {
+  const q = filteredQuestions[currentModalIndex];
+  if (!hasSubMode(q)) return;
+  subModeActive = !subModeActive;
+  currentSubIndex = 0;
+  renderModalContent(q);
+}
+
+function gotoSub(n) {
+  const q = filteredQuestions[currentModalIndex];
+  if (!hasSubMode(q)) return;
+  const total = q.sub_questions.length;
+  currentSubIndex = Math.max(0, Math.min(total - 1, Math.round(Number(n) || 1) - 1));
+  renderModalContent(q);
+}
+
+function prevSub() {
+  const q = filteredQuestions[currentModalIndex];
+  if (!hasSubMode(q) || currentSubIndex <= 0) return;
+  currentSubIndex--;
+  renderModalContent(q);
+}
+
+function nextSub() {
+  const q = filteredQuestions[currentModalIndex];
+  if (!hasSubMode(q) || currentSubIndex >= q.sub_questions.length - 1) return;
+  currentSubIndex++;
+  renderModalContent(q);
+}
+
+function applyMarkToSub(mark) {
+  const q = filteredQuestions[currentModalIndex];
+  if (!hasSubMode(q)) return;
+  setMark(subMarkKey(q, currentSubIndex), mark);
+  renderModalContent(q);
+  showMarkToast(MARKS[mark] ? MARKS[mark].label : mark);
+}
+
+function structuredAnswerHtml(q) {
+  if (!q.answer_structured) return '';
+  const s = q.answer_structured;
+  if (!s.canonical) return '';
+  const kindLabel = s.kind === 'choice' ? '选择题答案' : s.kind === 'fill' ? '填空题答案' : '答案';
+  const modeLabel = s.judge_mode === 'choice_exact' ? '精确判定'
+    : s.judge_mode === 'normalized_math' ? '归一化判定' : '人工判定';
+  const canonical = escapeHtml(String(s.canonical));
+  return `
+    <div class="q-structured-answer">
+      <span class="q-structured-label">${kindLabel}</span>
+      <span class="q-structured-canonical">${canonical}</span>
+      <span class="q-structured-mode">${modeLabel}</span>
+    </div>
+  `;
+}
+
+function answerHtml(q) {
+  // 优先显示结构化答案（选择题/填空题）
+  const structured = structuredAnswerHtml(q);
+
+  // 优先显示单题精准裁剪的答案图
+  if (q.answer_ref) {
+    const ansRef = typeof q.answer_ref === 'object' ? q.answer_ref.cropped : q.answer_ref;
+    return `
+      <details class="q-answer">
+        <summary>📖 查看答案</summary>
+        <div class="q-answer-content">
+          ${structured}
+          <img src="${ansRef}" alt="第 ${q.id} 题答案" onclick="zoomImage(this.src)" onerror="this.parentNode.innerHTML='<p style=\\'color:var(--muted)\\'>答案图加载失败：${escapeHtml(String(ansRef))}</p>'">
+        </div>
+      </details>
+    `;
+  }
+
+  // 退回到章节答案册翻页
+  const ch = bank.chapters.find(c => c.name === q.chapter);
+  if (!ch || !ch.answer_start || !ch.answer_end) {
+    // 即使没有答案图，也显示结构化答案
+    if (structured) {
+      return `
+        <details class="q-answer">
+          <summary>📖 查看答案</summary>
+          <div class="q-answer-content">${structured}</div>
+        </details>
+      `;
+    }
+    return '';
+  }
+  const pages = [];
+  for (let p = ch.answer_start; p <= ch.answer_end; p++) pages.push(p);
+  const first = pages[0];
+  return `
+    <details class="q-answer" id="answerDetails-${q.uid}">
+      <summary>📖 查看答案册（第 ${ch.answer_start}-${ch.answer_end} 页）</summary>
+      <div class="q-answer-content">
+        <div class="answer-pagination">
+          <button onclick="changeAnswerPage('${q.uid}', -1)">上一页</button>
+          <span class="answer-page-info" id="answerPageInfo-${q.uid}">1 / ${pages.length}</span>
+          <button onclick="changeAnswerPage('${q.uid}', 1)">下一页</button>
+        </div>
+        <div class="answer-image-wrap" id="answerImageWrap-${q.uid}" data-pages="${pages.join(',')}" data-index="0">
+          <img src="../answer_images/page_${String(first).padStart(3,'0')}.png" alt="答案册第 ${first} 页" onclick="zoomImage(this.src)">
+        </div>
+      </div>
+    </details>
+  `;
+}
+
+function changeAnswerPage(uid, delta) {
+  const wrap = document.getElementById(`answerImageWrap-${uid}`);
+  const info = document.getElementById(`answerPageInfo-${uid}`);
+  if (!wrap || !info) return;
+  const pages = wrap.dataset.pages.split(',').map(Number);
+  let idx = parseInt(wrap.dataset.index || '0', 10);
+  idx = Math.max(0, Math.min(pages.length - 1, idx + delta));
+  wrap.dataset.index = idx;
+  const page = pages[idx];
+  wrap.innerHTML = `<img src="../answer_images/page_${String(page).padStart(3,'0')}.png" alt="答案册第 ${page} 页" loading="lazy" onclick="zoomImage(this.src)">`;
+  info.textContent = `${idx + 1} / ${pages.length}`;
+}
+
+function notesHtml() {
+
+  return `
+
+    <details class="q-notes" id="detailNotes">
+
+      <summary>📝 我的笔记 <span class="notes-status" id="notesStatus"></span></summary>
+
+      <textarea id="notesTextarea" placeholder="记录思路、口诀、易错点；支持 $a^2+b^2=c^2$ 这样的公式" rows="5"></textarea>
+
+      <p class="q-notes-hint">公式用 $...$ 或 $$...$$，下方实时预览。笔记保存在本浏览器。</p>
+
+      <div class="q-notes-preview" id="notesPreview" hidden></div>
+
+    </details>
+
+  `;
+
+}
+
+
+
+function bindNotesUI(q) {
+
+  const ta = document.getElementById('notesTextarea');
+
+  if (!ta) return;
+
+  const preview = document.getElementById('notesPreview');
+
+  const status = document.getElementById('notesStatus');
+
+  const details = document.getElementById('detailNotes');
+
+  const existing = getNote(q.uid);
+
+  ta.value = existing;
+
+  if (existing) details.open = true;
+
+  const updateStatus = () => { status.textContent = ta.value ? '（已保存）' : ''; };
+
+  const updatePreview = () => {
+
+    const text = ta.value;
+
+    if (!text.trim()) { preview.hidden = true; preview.innerHTML = ''; details.classList.remove('has-note-preview'); return; }
+
+    preview.textContent = text;
+
+    renderKatex(preview);
+
+    preview.hidden = false;
+
+    details.classList.add('has-note-preview');
+
+  };
+
+  updateStatus();
+
+  updatePreview();
+
+  let saveTimer;
+
+  ta.addEventListener('input', () => {
+
+    updatePreview();
+
+    clearTimeout(saveTimer);
+
+    saveTimer = setTimeout(() => { setNote(q.uid, ta.value); updateStatus(); }, 400);
+
+  });
+
+  ta.addEventListener('blur', () => { setNote(q.uid, ta.value); updateStatus(); updatePreview(); });
+
+}
+
+
+
+function myAnswerHtml() {
+
+  return `
+
+    <div class="q-myanswer">
+
+      <div class="q-myanswer-label">我的答案</div>
+
+      <input type="text" class="q-myanswer-input" placeholder="写下你的答案，再点下方「查看答案」对照" autocomplete="off">
+
+    </div>
+
+  `;
+
+}
+
+
+
+function questionBodyHtml(q, opts) {
+  // 配图放在题干下方：题干写「如下图」时直接看到图，无需再点「查看原图」
+  // opts.hideSubs / hideAnswer：小题模式下由 submode-panel 接管子问与答案渲染
+  const hideSubs = !!(opts && opts.hideSubs);
+  const hideAnswer = !!(opts && opts.hideAnswer);
+  return `
+    <div class="q-text" data-role="qtext"></div>
+    ${q.has_image && q.image_ref ? imageHtml(q.image_ref) : ''}
+    ${renderOptionsHtml(q)}
+    ${hideSubs ? '' : renderSubHtml(q)}
+
+    ${q.type === '填空题' ? myAnswerHtml() : ''}
+    ${hideAnswer ? '' : answerHtml(q)}
+  `;
+}
+
+function renderQuestionBody(container, q) {
+  const qid = q.id;
+  const qtext = container.querySelector('[data-role="qtext"]');
+  if (qtext) { qtext.textContent = q.content; renderKatex(qtext); }
+
+
+
+  const fillInput = container.querySelector('.q-myanswer-input');
+
+  if (fillInput) {
+
+    fillInput.value = getMyAnswer(q.uid);
+
+    fillInput.addEventListener('input', () => saveMyAnswer(q.uid, fillInput.value));
+
+  }
+
+  if (q.options) {
+    const optMathEls = container.querySelectorAll('.opt-math');
+    const entries = Object.entries(q.options);
+    optMathEls.forEach((el, i) => {
+      if (entries[i]) { el.textContent = entries[i][1]; renderKatex(el); }
+    });
+  }
+
+  if (q.sub_questions) {
+    const subEls = container.querySelectorAll('[data-role="sub"]');
+    q.sub_questions.forEach((s, i) => {
+      if (subEls[i]) { subEls[i].textContent = s; renderKatex(subEls[i]); }
+    });
+  }
+
+  // 记录此题目中的渲染错误
+  recordKatexErrors(container, qid);
+}
+
+// ========================
+// Detail Modal
+// ========================
+function openDetail(index) {
+  currentModalIndex = index;
+  subModeActive = false;
+  currentSubIndex = 0;
+  const q = filteredQuestions[index];
+  renderModalContent(q);
+  saveCursor(q);
+  openModal('detailModal');
+}
+
+function closeModal() { closeModalById('detailModal'); }
+
+function prevQuestion() {
+  if (currentModalIndex > 0) {
+    currentModalIndex--;
+    subModeActive = false;
+    currentSubIndex = 0;
+    const q = filteredQuestions[currentModalIndex];
+    renderModalContent(q);
+    saveCursor(q);
+    document.querySelector('#detailModal .modal-body').scrollTop = 0;
+  }
+}
+
+function nextQuestion() {
+  if (currentModalIndex < filteredQuestions.length - 1) {
+    currentModalIndex++;
+    subModeActive = false;
+    currentSubIndex = 0;
+    const q = filteredQuestions[currentModalIndex];
+    renderModalContent(q);
+    saveCursor(q);
+    document.querySelector('#detailModal .modal-body').scrollTop = 0;
+  }
+}
+
+function imageHtml(imageRef) {
+  if (!imageRef) return '';
+  // cropped 路径相对于 math-bank/ 目录；pdf_images 回退需要 ../
+  const imgPath = imageRef.cropped
+    ? imageRef.cropped
+    : `../pdf_images/page_${String(imageRef.page).padStart(3, '0')}.png`;
+  const pageLabel = imageRef.page != null && imageRef.page !== ''
+    ? `第 ${imageRef.page} 页`
+    : '题目配图';
+  const note = escapeHtml(imageRef.note || '题目配图');
+  const safePath = escapeHtml(imgPath);
+  // 默认内联展示配图（题干「如下图」场景）；点击仍可放大
+  return `
+    <div class="q-image q-image-inline" data-role="qimage">
+      <div class="q-image-content">
+        <img src="${safePath}" alt="${escapeHtml(pageLabel)}" loading="lazy"
+          onclick="zoomImage(this.src)"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="q-image-error" style="display:none;">
+          <span class="q-image-error-icon">🖼️</span>
+          <span class="q-image-error-text">题图加载失败</span>
+          <span class="q-image-error-path">${safePath}</span>
+        </div>
+        <div class="q-image-note">${note} · ${escapeHtml(pageLabel)} <span style="color:#3b82f6">（点击放大）</span></div>
+      </div>
+    </div>
+  `;
+}
+
+function zoomImage(src) {
+  const overlay = document.createElement('div');
+  overlay.className = 'zoom-overlay';
+  overlay.tabIndex = 0;
+  overlay.setAttribute('role', 'button');
+  overlay.setAttribute('aria-label', '放大图片，按 Esc 或点击关闭');
+  overlay.onclick = () => overlay.remove();
+  overlay.onkeydown = (e) => {
+    if (e.key === 'Escape') overlay.remove();
+  };
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = '放大图片';
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+  overlay.focus();
+}
+
+function renderModalContent(q) {
+  const container = document.getElementById('modalContent');
+  const subMode = subModeActive && hasSubMode(q);
+  container.innerHTML = `
+    <div class="q-chapter">${escapeHtml(q.chapter)} · 第 ${q.page} 页</div>
+    <div class="q-id">${escapeHtml(q.id)} <span class="card-type">${q.type}</span></div>
+    ${markBarHtml(q.uid, true)}
+    ${hasSubMode(q) ? subModeToggleHtml(subMode) : ''}
+    ${subMode ? subModePanelHtml(q) : ''}
+    ${questionBodyHtml(q, subMode ? { hideSubs: true, hideAnswer: true } : null)}
+
+    ${notesHtml()}  `;
+  renderQuestionBody(container, q);
+  if (subMode) {
+    // 小题文本走 textContent + KaTeX，不做 HTML 注入
+    const el = container.querySelector('[data-role="submode-text"]');
+    if (el) {
+      const idx = Math.max(0, Math.min(q.sub_questions.length - 1, currentSubIndex));
+      currentSubIndex = idx;
+      el.textContent = q.sub_questions[idx] || '';
+      renderKatex(el);
+    }
+    recordKatexErrors(container, q.id);
+  }
+  bindNotesUI(q);
+  if (window.ViewerPlatformSync && ViewerPlatformSync.attachNoteReminderButton) {
+    ViewerPlatformSync.attachNoteReminderButton(
+      container.querySelector('.mark-bar') || container,
+      {
+        bank: (bank.title || document.title || '').replace(/题$/, ''),
+        uid: q.uid || '',
+        title: q.content || q.title || '',
+        chapter: q.chapter || '',
+      },
+    );
+  }
+}
+
+// ========================
+// Practice Mode
+// ========================
+function startPractice() {
+  const saved = loadProgress();
+  if (saved && saved.ids && saved.ids.length > 0) {
+    const choice = confirm(`发现上次未完成的练习（${saved.ids.length} 道题，进度 ${saved.index + 1}/${saved.ids.length}）。\n\n确定 = 继续上次练习\n取消 = 开始新练习`);
+    if (choice) {
+      if (resumePractice(saved)) return;
+    } else {
+      clearProgress();
+    }
+  }
+
+  const type = document.getElementById('typeFilter').value;
+  const feature = document.getElementById('featureFilter').value;
+  const mark = document.getElementById('markFilter').value;
+  const pool = filterQuestions(allQuestions, {chapter: selectedChapter, type, feature, mark});
+
+  if (pool.length === 0) {
+    alert('当前筛选条件下没有题目，请先调整筛选条件');
+    return;
+  }
+
+  practiceQueue = shuffleArray([...pool]);
+  practiceIndex = 0;
+  saveProgress();
+  renderPractice();
+  openModal('practiceModal');
+}
+
+function renderPractice() {
+  const q = practiceQueue[practiceIndex];
+  const container = document.getElementById('practiceContent');
+  const progress = `${practiceIndex + 1} / ${practiceQueue.length}`;
+  const pct = practiceQueue.length
+    ? Math.round(((practiceIndex + 1) / practiceQueue.length) * 100)
+    : 0;
+
+  container.innerHTML = `
+    <div class="practice-progress">${escapeHtml(q.chapter)} · ${escapeHtml(q.id)} · ${progress}</div>
+    <div class="practice-bar" aria-hidden="true"><i style="--p:${pct}%"></i></div>
+    <div class="practice-question">
+      <div class="q-id">${q.type} · 第 ${q.page} 页</div>
+      ${questionBodyHtml(q)}
+      ${markBarHtml(q.uid, true)}
+    </div>
+  `;
+
+  renderQuestionBody(container, q);
+  saveProgress();
+  saveCursor(q);
+}
+
+function nextPractice() {
+  if (practiceIndex < practiceQueue.length - 1) {
+    practiceIndex++;
+    renderPractice();
+  } else {
+    clearProgress();
+    alert('练习完成！共完成 ' + practiceQueue.length + ' 道题。');
+    closePractice();
+  }
+}
+
+function closePractice() { closeModalById('practiceModal'); }
+
+function prevPractice() {
+  if (practiceIndex > 0) {
+    practiceIndex--;
+    renderPractice();
+  }
+}
+
+function resumePractice(saved) {
+  const idMap = new Map(allQuestions.map(q => [questionKey(q), q]));
+  practiceQueue = saved.ids.map(k => idMap.get(k)).filter(Boolean);
+  if (practiceQueue.length === 0) return false;
+  practiceIndex = Math.min(saved.index, practiceQueue.length - 1);
+  renderPractice();
+  openModal('practiceModal');
+  return true;
+}
+
+// Practice Progress Persistence
+let PRACTICE_KEY = 'mathbank_practice_' + (bank.title || document.title || 'default');
+function saveProgress() { try { localStorage.setItem(PRACTICE_KEY, JSON.stringify({ids: practiceQueue.map(questionKey), index: practiceIndex})); } catch(e) {} }
+function loadProgress() { try { const r = localStorage.getItem(PRACTICE_KEY); return r ? JSON.parse(r) : null; } catch(e) { return null; } }
+function clearProgress() { try { localStorage.removeItem(PRACTICE_KEY); } catch(e) {} }
+
+function randomQuestion() {
+  if (filteredQuestions.length === 0) return;
+  let idx = Math.floor(Math.random() * filteredQuestions.length);
+  if (filteredQuestions.length > 1 && idx === lastRandomIdx) idx = (idx + 1) % filteredQuestions.length;
+  lastRandomIdx = idx;
+  openDetail(idx);
+}
+
+// ========================
+// Text Highlight
+// ========================
+function highlightText(element, term) {
+  if (!term || !element) return;
+  if (!element.textContent.toLowerCase().includes(term.toLowerCase())) return;
+  const lower = term.toLowerCase();
+  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+  const textNodes = [];
+  let node;
+  while ((node = walker.nextNode())) {
+    if (!node.parentElement || node.parentElement.closest('.katex')) continue;
+    textNodes.push(node);
+  }
+  textNodes.forEach(textNode => {
+    const text = textNode.textContent;
+    const indices = [];
+    let pos = 0;
+    while ((pos = text.toLowerCase().indexOf(lower, pos)) !== -1) {
+      indices.push(pos);
+      pos += lower.length;
+    }
+    if (indices.length === 0) return;
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    indices.forEach(idx => {
+      frag.appendChild(document.createTextNode(text.slice(last, idx)));
+      const mark = document.createElement('mark');
+      mark.className = 'search-mark';
+      mark.textContent = text.slice(idx, idx + lower.length);
+      frag.appendChild(mark);
+      last = idx + lower.length;
+    });
+    frag.appendChild(document.createTextNode(text.slice(last)));
+    textNode.parentNode.replaceChild(frag, textNode);
+  });
+}
+
+// ========================
+// KaTeX Rendering
+// ========================
+function renderKatex(element) {
+  if (!element || !window.katex) return;
+  let text = element.textContent;
+  if (!text) return;
+
+  // Data stores literal \n as a separator, not an actual newline
+  // Use negative lookbehind/lookahead to avoid matching \nu, \nabla, etc.
+  text = text.replace(/\\n(?![a-zA-Z])/g, '\n');
+
+  let html = '';
+  let i = 0;
+
+  while (i < text.length) {
+    const c = text[i];
+
+    if (c === '\n') {
+      html += '<br>';
+      i++;
+      continue;
+    }
+
+    // $$ display math
+    if (c === '$' && i + 1 < text.length && text[i + 1] === '$') {
+      const end = text.indexOf('$$', i + 2);
+      if (end !== -1) {
+        html += renderMath(text.slice(i + 2, end), true);
+        i = end + 2;
+        continue;
+      }
+    }
+
+    // $ inline math (auto display mode for \begin{...} environments)
+    if (c === '$') {
+      const end = text.indexOf('$', i + 1);
+      if (end !== -1) {
+        const mathContent = text.slice(i + 1, end);
+        const isDisplay = mathContent.includes('\\begin{');
+        html += renderMath(mathContent, isDisplay);
+        i = end + 1;
+        continue;
+      }
+    }
+
+    // \[...\] display math
+    if (c === '\\' && text[i + 1] === '[') {
+      const end = text.indexOf('\\]', i + 2);
+      if (end !== -1) {
+        html += renderMath(text.slice(i + 2, end), true);
+        i = end + 2;
+        continue;
+      }
+    }
+
+    // \(...\) inline math
+    if (c === '\\' && text[i + 1] === '(') {
+      const end = text.indexOf('\\)', i + 2);
+      if (end !== -1) {
+        html += renderMath(text.slice(i + 2, end), false);
+        i = end + 2;
+        continue;
+      }
+    }
+
+    // \\ (double backslash) = line break in LaTeX
+    if (c === '\\' && i + 1 < text.length && text[i + 1] === '\\') {
+      html += '<br>';
+      i += 2;
+      continue;
+    }
+
+    // raw latex command
+    if (c === '\\') {
+      const seg = parseLatexSegment(text, i);
+      html += renderMath(seg.latex, false);
+      i = seg.end;
+      continue;
+    }
+
+    html += escapeHtml(c);
+    i++;
+  }
+
+  element.innerHTML = html;
+}
+
+const katexCache = new Map();
+const KATEX_CACHE_LIMIT = 500;
+
+function renderMath(latex, displayMode) {
+  const key = (displayMode ? 'D:' : 'I:') + latex;
+  if (katexCache.has(key)) return katexCache.get(key);
+  let html;
+  try {
+    html = katex.renderToString(latex, {throwOnError: false, displayMode, strict: false});
+  } catch (e) {
+    html = `<span class="katex-error" title="${escapeHtml(e.message)}">${escapeHtml(latex)}</span>`;
+  }
+  if (katexCache.size >= KATEX_CACHE_LIMIT) {
+    const firstKey = katexCache.keys().next().value;
+    katexCache.delete(firstKey);
+  }
+  katexCache.set(key, html);
+  return html;
+}
+
+
+// ========================
+// 渲染错误检测器
+// ========================
+const katexErrorMap = new Map();  // question_id → error_count
+
+function recordKatexErrors(container, qid) {
+  const errors = container.querySelectorAll('.katex-error');
+  if (errors.length > 0) {
+    katexErrorMap.set(qid, errors.length);
+    errors.forEach(err => {
+      err.style.cursor = 'help';
+      err.title = '渲染错误：' + (err.title || 'LaTeX 语法无法识别');
+    });
+  }
+}
+
+function showKatexErrorSummary() {
+  if (katexErrorMap.size === 0) return;
+  const total = [...katexErrorMap.values()].reduce((a, b) => a + b, 0);
+  const ids = [...katexErrorMap.keys()];
+  const banner = document.createElement('div');
+  banner.style.cssText = `
+    position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+    background: var(--danger); color: #fff; padding: 12px 18px;
+    border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-size: 0.9rem; max-width: 360px; cursor: pointer;
+  `;
+  banner.innerHTML = `⚠️ 检测到 <strong>${total}</strong> 处渲染错误（${katexErrorMap.size} 道题）
+    <br><small>点击查看题目列表</small>`;
+  banner.onclick = () => {
+    const list = ids.slice(0, 30).map(id => `Q${id} (${katexErrorMap.get(id)} 处)`).join(', ');
+    alert('存在渲染错误的题目（前 30 道）：\n' + list);
+  };
+  document.body.appendChild(banner);
+}
+
+function parseLatexSegment(s, start) {
+  let i = start;
+
+  // \left...\right pair
+  if (s.startsWith('\\left', i)) {
+    i += 5;
+    while (i < s.length && /\s/.test(s[i])) i++;
+    const leftDelim = s[i] || '';
+    i++;
+
+    let depth = 1;
+    let j = i;
+    while (j < s.length && depth > 0) {
+      if (s.startsWith('\\left', j)) { depth++; j += 5; continue; }
+      if (s.startsWith('\\right', j)) {
+        depth--;
+        j += 6;
+        if (depth === 0) {
+          while (j < s.length && /\s/.test(s[j])) j++;
+          if (j < s.length) j++; // right delimiter
+          break;
+        }
+        continue;
+      }
+      j++;
+    }
+
+    const end = collectTrailingArgs(s, j);
+    return {latex: s.slice(start, end), end};
+  }
+
+  // \begin{env}...\end{env}
+  if (s.startsWith('\\begin', i)) {
+    i += 6;
+    while (i < s.length && s[i] !== '{') i++;
+    const envEnd = matchBrace(s, i);
+    const env = s.slice(i + 1, envEnd - 1);
+    i = envEnd;
+
+    let depth = 1;
+    let j = i;
+    const beginToken = `\\begin{${env}}`;
+    const endToken = `\\end{${env}}`;
+    while (j < s.length && depth > 0) {
+      if (s.startsWith(beginToken, j)) { depth++; j += beginToken.length; continue; }
+      if (s.startsWith(endToken, j)) {
+        depth--;
+        if (depth === 0) { j += endToken.length; break; }
+        j += endToken.length;
+        continue;
+      }
+      j++;
+    }
+
+    const end = collectTrailingArgs(s, j);
+    return {latex: s.slice(start, end), end};
+  }
+
+  // normal command
+  i++; // skip \
+  if (i < s.length && /[a-zA-Z]/.test(s[i])) {
+    while (i < s.length && /[a-zA-Z]/.test(s[i])) i++;
+  } else if (i < s.length) {
+    i++; // single-char command like \, \[ etc.
+  }
+
+  i = collectTrailingArgs(s, i);
+  return {latex: s.slice(start, i), end: i};
+}
+
+function collectTrailingArgs(s, i) {
+  while (i < s.length) {
+    if (s[i] === '^' || s[i] === '_') {
+      i++;
+      if (s[i] === '{') i = matchBrace(s, i);
+      else i++;
+    } else if (s[i] === '{' || s[i] === '[') {
+      i = matchBrace(s, i);
+    } else {
+      break;
+    }
+  }
+  return i;
+}
+
+function matchBrace(s, i) {
+  const open = s[i];
+  const close = open === '{' ? '}' : ']';
+  let depth = 1;
+  let j = i + 1;
+  while (j < s.length && depth > 0) {
+    if (s[j] === '\\' && j + 1 < s.length && (s[j + 1] === open || s[j + 1] === close)) {
+      // Escaped brace: skip both characters
+      j += 2;
+      continue;
+    }
+    if (s[j] === open) depth++;
+    else if (s[j] === close) depth--;
+    j++;
+  }
+  return j;
+}
+
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// ========================
+// Events
+// ========================
+function setupEvents() {
+  document.getElementById('searchInput').addEventListener('input', debounce(resetAndFilter, 200));
+  document.getElementById('typeFilter').addEventListener('change', resetAndFilter);
+  document.getElementById('featureFilter').addEventListener('change', resetAndFilter);
+  document.getElementById('markFilter').addEventListener('change', resetAndFilter);
+
+  // Sidebar chapter search
+  document.getElementById('chapterSearch').addEventListener('input', (e) => {
+    const term = e.target.value.trim().toLowerCase();
+    document.querySelectorAll('.chapter-item').forEach(item => {
+      const text = item.textContent.toLowerCase();
+      item.classList.toggle('hidden', term && !text.includes(term));
+    });
+  });
+
+  document.getElementById('btnPractice').addEventListener('click', startPractice);
+  document.getElementById('btnRandom').addEventListener('click', randomQuestion);
+  document.getElementById('btnWeak').addEventListener('click', () => {
+    clearAllFilters();
+    document.getElementById('markFilter').value = 'weak';
+    currentPage = 1;
+    applyFilters();
+  });
+  document.getElementById('toggleSidebar').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('open');
+  });
+  document.getElementById('sidebarOverlay').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+  });
+
+  // Card click/keyboard delegation
+  function handleCardActivation(e) {
+    if (e.type === 'keydown' && e.key !== 'Enter') return;
+    const card = e.target.closest('.question-card');
+    if (card) {
+      card.focus();
+      openDetail(Number(card.dataset.index));
+    }
+  }
+  document.getElementById('questionGrid').addEventListener('click', handleCardActivation);
+  document.getElementById('questionGrid').addEventListener('keydown', handleCardActivation);
+
+  // Option click delegation (detail modal + practice modal)
+  ['detailModal', 'practiceModal'].forEach(id => {
+    document.getElementById(id).addEventListener('click', (e) => {
+      const opt = e.target.closest('.option-item');
+      if (opt) {
+        const container = opt.closest('.q-options');
+        if (container) {
+          container.querySelectorAll('.option-item').forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+        }
+      }
+    });
+  });
+
+  // Update the badge shown on a question card after mark changes
+  function refreshCardMark(uid) {
+    const card = document.querySelector(`.question-card[data-uid="${uid}"]`);
+    if (!card) return;
+    const header = card.querySelector('.card-header div');
+    if (!header) return;
+    const badge = header.querySelector('.card-mark');
+    const newBadge = markBadgeHtml(uid);
+    if (badge) {
+      if (newBadge) badge.outerHTML = newBadge;
+      else badge.remove();
+    } else if (newBadge) {
+      header.insertAdjacentHTML('afterbegin', newBadge);
+    }
+  }
+
+  // Mark button delegation (detail / practice modals)
+  document.addEventListener('click', (e) => {
+    const syncSingleBtn = e.target.closest('.sync-btn');
+    if (syncSingleBtn) {
+      const uid = syncSingleBtn.dataset.uid;
+      if (!uid) return;
+      const mark = getMark(uid);
+      if (!mark || mark === 'none') {
+        showSyncToast('请先选择「已掌握 / 不熟 / 不会」再同步', 'error');
+        return;
+      }
+      doSync([{uid: uid, mark: mark}]).then(() => {});
+      return;
+    }
+
+    const btn = e.target.closest('.mark-btn');
+    if (btn) {
+      const uid = btn.dataset.uid;
+      const mark = btn.dataset.mark;
+      if (!uid || !mark) return;
+      setMark(uid, mark);
+      if (uid.includes('#')) {
+        // 小题标记（uid#N）：重绘弹窗以更新聚合进度与按钮态；不同步平台
+        const q = filteredQuestions[currentModalIndex];
+        if (q) renderModalContent(q);
+        return;
+      }
+      const bar = btn.closest('.mark-bar');
+      if (bar) bar.outerHTML = markBarHtml(uid, true);
+      refreshCardMark(uid);
+      renderMarkStats();
+      renderMarkDashboard();
+      return;
+    }    // Click badge on card to cycle through marks
+    const badge = e.target.closest('.card-mark.mark-clickable');
+    if (badge) {
+      const uid = badge.dataset.uid;
+      if (!uid) return;
+      const cycle = ['none', 'forgot', 'fuzzy', 'mastered'];
+      const current = getMark(uid);
+      const next = cycle[(cycle.indexOf(current) + 1) % cycle.length];
+      setMark(uid, next);
+      refreshCardMark(uid);
+      renderMarkStats();
+      renderMarkDashboard();
+    }
+  });
+
+  // Close modals on overlay click
+  ['detailModal', 'practiceModal'].forEach(id => {
+    document.getElementById(id).addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) closeModalById(id);
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (isTypingTarget(e.target)) return;
+    if (document.querySelector('.zoom-overlay')) {
+      if (e.key === 'Escape') return; // zoom handles itself
+      return;
+    }
+
+    if (e.key === 'Escape') {
+      closeModalById('detailModal');
+      closeModalById('practiceModal');
+      return;
+    }
+
+    const detailActive = document.getElementById('detailModal').classList.contains('active');
+    const practiceActive = document.getElementById('practiceModal').classList.contains('active');
+    if (!detailActive && !practiceActive) return;
+
+    if (e.key === 'ArrowLeft' || e.key === 'h') {
+      e.preventDefault();
+      if (detailActive) {
+        // 小题模式下方向键切换小题；h/l 保持整题切换
+        if (e.key === 'ArrowLeft' && subModeActive && hasSubMode(filteredQuestions[currentModalIndex])) prevSub();
+        else prevQuestion();
+      }
+      else prevPractice();
+      return;
+    }
+    if (e.key === 'ArrowRight' || e.key === 'l') {
+      e.preventDefault();
+      if (detailActive) {
+        if (e.key === 'ArrowRight' && subModeActive && hasSubMode(filteredQuestions[currentModalIndex])) nextSub();
+        else nextQuestion();
+      }
+      else nextPractice();
+      return;
+    }
+    if (e.key === 'm' || e.key === 'M') {
+      e.preventDefault();
+      cycleActiveMark();
+      return;
+    }
+    if (e.key === '1') { e.preventDefault(); applyMarkToActive('mastered'); return; }
+    if (e.key === '2') { e.preventDefault(); applyMarkToActive('fuzzy'); return; }
+    if (e.key === '3') { e.preventDefault(); applyMarkToActive('forgot'); return; }
+    if (e.key === '0') { e.preventDefault(); applyMarkToActive('none'); return; }
+  });
+
+  const btnResume = document.getElementById('btnResumePos');
+  const btnDismiss = document.getElementById('btnDismissResume');
+  if (btnResume) btnResume.addEventListener('click', resumeLastPosition);
+  if (btnDismiss) btnDismiss.addEventListener('click', clearCursor);
+
+  setupSyncEvents();
+}
+
+// ========================
+// Platform Sync
+// ========================
+const API_BASE = (function() {
+  try {
+    return location.origin;
+  } catch (e) {
+    return '';
+  }
+})();
+
+const isPlatformServed = (function() {
+  try {
+    return /\/banks\/math\//i.test(location.pathname);
+  } catch (e) {
+    return false;
+  }
+})();
+
+function updateSyncUi() {
+  const bar = document.getElementById('syncBar');
+  const warning = document.getElementById('standaloneWarning');
+  if (!bar || !warning) return;
+  if (!isPlatformServed) {
+    bar.style.display = 'none';
+    warning.style.display = 'inline-flex';
+  } else {
+    bar.style.display = 'inline-flex';
+    warning.style.display = 'none';
+  }
+}
+
+async function doSync(items) {
+  if (!isPlatformServed) {
+    showSyncToast('请从平台 http://127.0.0.1:8000/banks/math/ 打开后再同步', 'error');
+    return;
+  }
+  // 小题标记（uid#N）仅本地保存，同步时一律过滤
+  items = (items || []).filter(it => it && it.uid && !it.uid.includes('#'));
+  if (!items || items.length === 0) {
+    showSyncToast('没有可同步的标记题', 'error');
+    return;
+  }
+  const marked = items.filter(it => it.mark && it.mark !== 'none');
+  if (marked.length === 0) {
+    showSyncToast('没有可同步的标记题（请选已掌握/不熟/不会）', 'error');
+    return;
+  }
+
+  showSyncToast('正在同步 ' + marked.length + ' 道题...', 'info');
+
+  if (window.ViewerPlatformSync && ViewerPlatformSync.syncFromBank) {
+    const out = await ViewerPlatformSync.syncFromBank(
+      BANK_KEY || '',
+      marked.map(it => ({ uid: it.uid, mark: it.mark })),
+      null
+    );
+    if (!out.ok) {
+      showSyncToast('同步失败：' + (out.error || '未知错误'), 'error');
+      return;
+    }
+    const result = out.data || {};
+    let detail = '成功 ' + (result.ok_count || 0) + '，失败 ' + (result.failed_count || 0);
+    const failed = (result.failed || []).slice(0, 5);
+    if (failed.length) {
+      detail += '\n未匹配：' + failed.map(f => (f.uid || f.question_id) + '（' + (f.reason || '?') + '）').join('，');
+    }
+    showSyncToast(detail, result.failed_count ? 'warning' : 'success');
+    return;
+  }
+
+  // viewer-common 未加载（独立端口 / 网络异常）——不再内联手写 fetch 兜底
+  showSyncToast('同步组件未加载：请从平台 /banks/math/ 打开，或检查 vendor/viewer-common', 'error');
+}
+
+// ========================
+// 标记后自动同步（仿 bank-408 app.js 的防抖队列）
+// ========================
+// ponytail: 解析失败（not_found）的条目也会按退避重试，最坏每 30s 一次直到
+// 页面关闭——与 bank-408 行为一致；升级方向是区分「永久失败」出队。
+const _autoSyncQueue = [];
+let _autoSyncTimer = null;
+let _autoSyncInFlight = false;
+let _autoSyncRetryCount = 0;
+let _suppressAutoSync = false; // 平台→本地拉取回填时不反向推回
+const AUTO_SYNC_RETRY_DELAYS = [1500, 5000, 15000, 30000];
+
+function queueAutoSync(uid) {
+  if (!isPlatformServed || _suppressAutoSync || !uid) return;
+  if (uid.includes('#')) return; // 小题标记（uid#N）仅本地保存，不同步平台
+  const mark = getMark(uid);
+  if (!mark || mark === 'none') return; // 清除标记不同步（平台无清除语义）
+  const idx = _autoSyncQueue.findIndex(x => x.uid === uid);
+  const item = { uid: uid, mark: mark };
+  if (idx >= 0) _autoSyncQueue[idx] = item; else _autoSyncQueue.push(item);
+  _autoSyncRetryCount = 0;
+  clearTimeout(_autoSyncTimer);
+  _autoSyncTimer = setTimeout(flushAutoSyncQueue, 300);
+}
+
+async function flushAutoSyncQueue() {
+  _autoSyncTimer = null;
+  if (_autoSyncInFlight || !_autoSyncQueue.length) return;
+  if (!window.ViewerPlatformSync || !ViewerPlatformSync.syncFromBank) return;
+  _autoSyncInFlight = true;
+  const batch = _autoSyncQueue.splice(0, _autoSyncQueue.length);
+  let ok = false;
+  try {
+    const out = await ViewerPlatformSync.syncFromBank(BANK_KEY || '', batch, null);
+    ok = !!(out && out.ok && out.data && !(out.data.failed_count > 0));
+  } catch (e) {}
+  if (ok) {
+    _autoSyncRetryCount = 0;
+  } else {
+    // 失败重入队；相同 uid 以用户最新一次标记为准
+    batch.forEach(item => {
+      if (!_autoSyncQueue.some(x => x.uid === item.uid)) _autoSyncQueue.push(item);
+    });
+    const i = Math.min(_autoSyncRetryCount, AUTO_SYNC_RETRY_DELAYS.length - 1);
+    _autoSyncRetryCount++;
+    _autoSyncTimer = setTimeout(flushAutoSyncQueue, AUTO_SYNC_RETRY_DELAYS[i]);
+  }
+  _autoSyncInFlight = false;
+  if (_autoSyncQueue.length && !_autoSyncTimer) _autoSyncTimer = setTimeout(flushAutoSyncQueue, 300);
+}
+
+function gatherSyncItems(scope) {
+  if (scope === 'current') {
+    return filteredQuestions
+      .filter(q => q.uid)
+      .map(q => ({ uid: q.uid, mark: getMark(q.uid) }));
+  }
+  if (scope === 'weak') {
+    return allQuestions
+      .filter(q => {
+        const m = getMark(q.uid);
+        return q.uid && (m === 'forgot' || m === 'fuzzy');
+      })
+      .map(q => ({ uid: q.uid, mark: getMark(q.uid) }));
+  }
+  // all
+  return allQuestions
+    .filter(q => q.uid && getMark(q.uid) !== 'none')
+    .map(q => ({ uid: q.uid, mark: getMark(q.uid) }));
+}
+
+/** 平台 mark → 数学词表（兼容 408 familiar/unknown） */
+function platformMarkToMath(mark) {
+  const m = String(mark || '');
+  if (m === 'mastered') return 'mastered';
+  if (m === 'fuzzy' || m === 'familiar') return 'fuzzy';
+  if (m === 'forgot' || m === 'unknown') return 'forgot';
+  return 'none';
+}
+
+/**
+ * 平台 → 本地：拉取熟练度并合并到 questionMarks
+ * mode: fill | overwrite | prefer_weaker
+ */
+async function pullMasteryFromPlatform(opts) {
+  opts = opts || {};
+  if (!isPlatformServed) {
+    if (!opts.silent) showSyncToast('请从平台 /banks/math/ 打开后再拉取', 'error');
+    return { applied: 0, skipped: 0 };
+  }
+  if (!window.ViewerPlatformSync || !ViewerPlatformSync.pullMasteryFromPlatform) {
+    if (!opts.silent) showSyncToast('同步脚本未加载', 'error');
+    return { applied: 0, skipped: 0 };
+  }
+  const bank = (BANK_KEY || '').replace(/题$/, '') || BANK_KEY;
+  if (!bank) {
+    if (!opts.silent) showSyncToast('无法识别题册', 'error');
+    return { applied: 0, skipped: 0 };
+  }
+  if (!opts.silent) showSyncToast('正在从平台拉取熟练度…', 'info');
+
+  const out = await ViewerPlatformSync.pullMasteryFromPlatform(bank, { scheme: 'math' });
+  if (!out.ok) {
+    if (!opts.silent) showSyncToast('拉取失败：' + (out.error || '未知错误'), 'error');
+    return { applied: 0, skipped: 0 };
+  }
+  const items = ((out.data && out.data.items) || []).map(it => ({
+    uid: it.uid,
+    mark: platformMarkToMath(it.mark),
+  })).filter(it => it.uid && it.mark && it.mark !== 'none');
+
+  if (!items.length) {
+    if (!opts.silent) showSyncToast('平台暂无本册答题记录', 'info');
+    return { applied: 0, skipped: 0 };
+  }
+
+  const mode = opts.mode || 'prefer_weaker';
+  const localMap = {};
+  Object.keys(questionMarks || {}).forEach(uid => {
+    localMap[uid] = questionMarks[uid];
+  });
+  const merged = ViewerPlatformSync.mergeMasteryMarks
+    ? ViewerPlatformSync.mergeMasteryMarks(localMap, items, mode)
+    : { applied: 0, skipped: 0, map: localMap };
+
+  // 只写入本册存在的 uid
+  const known = new Set((allQuestions || []).map(q => q.uid).filter(Boolean));
+  let applied = 0;
+  let skipped = 0;
+  _suppressAutoSync = true; // 平台→本地回填不触发反向推送
+  try {
+    Object.keys(merged.map || {}).forEach(uid => {
+      if (!known.has(uid)) return;
+      const next = merged.map[uid];
+      const prev = getMark(uid);
+      if (!next || next === 'none') return;
+      if (prev === next) {
+        skipped++;
+        return;
+      }
+      // prefer_weaker / fill 已在 merge 中处理；这里直接落盘
+      setMark(uid, next);
+      applied++;
+    });
+  } finally {
+    _suppressAutoSync = false;
+  }
+  // merge 可能把已有的也拷过来但未改 — 用 applied 以 setMark 为准
+  if (applied > 0) {
+    try {
+      renderMarkStats();
+      renderMarkDashboard();
+      if (typeof applyFilters === 'function') applyFilters();
+      else if (typeof renderList === 'function') renderList();
+    } catch (e) {}
+  }
+  if (!opts.silent) {
+    showSyncToast(
+      '已从平台拉取：更新 ' + applied + ' 题' + (skipped ? '，跳过 ' + skipped : ''),
+      applied ? 'success' : 'info'
+    );
+  }
+  return { applied, skipped };
+}
+
+async function maybeAutoPullFromPlatform() {
+  if (!isPlatformServed) return;
+  let pulled = false;
+  try {
+    pulled = sessionStorage.getItem('mathbank_pull_' + (BANK_KEY || 'x')) === '1';
+  } catch (e) {}
+  if (pulled) return;
+  try {
+    await pullMasteryFromPlatform({ silent: true, mode: 'prefer_weaker' });
+    sessionStorage.setItem('mathbank_pull_' + (BANK_KEY || 'x'), '1');
+  } catch (e) {}
+}
+
+function showSyncToast(message, type) {
+  let el = document.getElementById('syncToast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'syncToast';
+    el.className = 'toast-sync';
+    document.body.appendChild(el);
+  }
+  const title = type === 'success' ? '同步完成' : type === 'error' ? '同步失败' : '同步中';
+  el.className = 'toast-sync show ' + (type === 'warning' ? 'success' : type);
+  el.innerHTML = '<div class="toast-title">' + title + '</div><div class="toast-detail">' + escapeHtml(message).replace(/\n/g, '<br>') + '</div>';
+  clearTimeout(showSyncToast._t);
+  showSyncToast._t = setTimeout(() => el.classList.remove('show'), type === 'error' ? 5000 : 3500);
+}
+
+function getBankProgressKeys() {
+  return {
+    theme: 'mathbank_theme',
+    last: 'mathbank_last',
+    cursor: CURSOR_KEY,
+    marks: MARKS_KEY,
+    practice: PRACTICE_KEY,
+  };
+}
+
+function exportProgress() {
+  const keys = getBankProgressKeys();
+  const data = { version: 2, bank: bank.title || document.title, exportedAt: Date.now() };
+  Object.entries(keys).forEach(([name, key]) => {
+    if (name === 'marks') {
+      // 分片存储时导出完整 map，而非单 key
+      data.marks = (window.ViewerStorage && ViewerStorage.loadShardedMap)
+        ? ViewerStorage.loadShardedMap(key)
+        : (function () {
+            try {
+              const raw = localStorage.getItem(key);
+              return raw ? JSON.parse(raw) : {};
+            } catch (e) { return {}; }
+          })();
+      return;
+    }
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw !== null) data[name] = JSON.parse(raw);
+    } catch (e) {}
+  });
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'mathbank-progress-' + (bank.title || 'bank') + '-' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showSyncToast('进度已导出', 'success');
+}
+
+function importProgress(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data || typeof data !== 'object') throw new Error('无效文件');
+      const keys = getBankProgressKeys();
+      Object.entries(keys).forEach(([name, key]) => {
+        if (data[name] === undefined) return;
+        if (name === 'marks') {
+          if (window.ViewerStorage && ViewerStorage.saveShardedMap) {
+            ViewerStorage.saveShardedMap(key, data[name] || {});
+          } else {
+            try { localStorage.setItem(key, JSON.stringify(data[name])); } catch (err) {}
+          }
+          return;
+        }
+        try {
+          if (window.ViewerStorage && ViewerStorage.setJSON) {
+            ViewerStorage.setJSON(key, data[name]);
+          } else {
+            localStorage.setItem(key, JSON.stringify(data[name]));
+          }
+        } catch (err) {}
+      });
+      loadMarks();
+      renderGrid();
+      showSyncToast('进度已导入，请刷新页面以完全生效', 'success');
+      setTimeout(() => location.reload(), 800);
+    } catch (err) {
+      showSyncToast('导入失败：' + err.message, 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function backupProgress() {
+  exportProgress();
+  showSyncToast('已触发备份下载', 'success');
+}
+
+function setupSyncEvents() {
+  updateSyncUi();
+
+  const toggle = document.getElementById('btnSyncToggle');
+  const dropdown = document.getElementById('syncDropdown');
+  if (!toggle || !dropdown) return;
+
+  function closeDropdown() { dropdown.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
+  function openDropdown() { dropdown.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); }
+
+  toggle.addEventListener('click', () => {
+    dropdown.classList.contains('open') ? closeDropdown() : openDropdown();
+  });
+
+  dropdown.querySelectorAll('button[data-scope]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeDropdown();
+      if (!isPlatformServed) {
+        showSyncToast('请从平台 /banks/math/ 打开后再同步', 'error');
+        return;
+      }
+      const scope = btn.dataset.scope;
+      const items = gatherSyncItems(scope);
+      doSync(items);
+    });
+  });
+
+  dropdown.querySelectorAll('button[data-action]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      closeDropdown();
+      const action = btn.dataset.action;
+      if (action === 'export' || action === 'backup') exportProgress();
+      else if (action === 'import') document.getElementById('importFile').click();
+      else if (action === 'pull') {
+        if (!isPlatformServed) {
+          showSyncToast('请从平台 /banks/math/ 打开后再拉取', 'error');
+          return;
+        }
+        pullMasteryFromPlatform({ silent: false, mode: 'prefer_weaker' });
+      }
+    });
+  });
+
+  const importFile = document.getElementById('importFile');
+  if (importFile) {
+    importFile.addEventListener('change', (e) => {
+      importProgress(e.target.files[0]);
+      e.target.value = '';
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!toggle.contains(e.target) && !dropdown.contains(e.target)) closeDropdown();
+  });
+
+  // 打开题库时静默从平台拉熟练度
+  maybeAutoPullFromPlatform();
+}
+
+// Initialize
+init();
+
+// 渲染完成后弹出错误汇总（1.5s 延迟，等用户看到题卡）
+setTimeout(showKatexErrorSummary, 1500);
+</script>
+</body>
+</html>

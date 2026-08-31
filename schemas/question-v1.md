@@ -85,6 +85,7 @@
 | `content` | string | 题干，数学公式用 `$...$` 包裹 |
 | `options` | object \| null | 选择题选项，如 `{"A":"...", "B":"..."}` |
 | `sub_questions` | string[] \| null | 子问题列表 |
+| `sub_answer_refs` | string[] | 可选；与 `sub_questions` 一一对应，仅供 viewer 显示各子题答案裁剪图 |
 | `page` | int | 题目所在 PDF 页码 |
 | `printed_page` | int \| null | 印刷页码（仅 660 有） |
 | `chapter` | string | 章节名 |
