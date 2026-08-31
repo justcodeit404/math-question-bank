@@ -1062,13 +1062,9 @@ body {
   min-width: 0;
 }
 
-/* 小题模式（sub_questions >= 2 的单题聚焦视图） */
-.submode-toggle-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 0 14px;
-}
+/* 小题模式（sub_questions >= 2 的单题聚焦视图）；开关渲染在弹窗固定头部 */
+#modalSubmodeSlot { display: inline-flex; align-items: center; }
+#modalSubmodeSlot:empty { display: none; }
 .submode-toggle {
   padding: 7px 14px;
   border: 1px solid var(--border);
@@ -2111,6 +2107,7 @@ body {
     <div class="modal-header">
       <h3 id="modalTitle">题目详情</h3>
       <div class="modal-header-actions">
+        <span id="modalSubmodeSlot"></span>
         <button class="modal-close" onclick="closeModal()" aria-label="关闭">&times;</button>
       </div>
     </div>
@@ -3185,9 +3182,8 @@ function subProgressCounts(q) {
 }
 
 function subModeToggleHtml(active) {
-  return `<div class="submode-toggle-bar">
-    <button type="button" class="submode-toggle${active ? ' active' : ''}" onclick="toggleSubMode()">${active ? '返回整题视图' : '小题模式'}</button>
-  </div>`;
+  // 渲染在弹窗固定头部（modal-header-actions），任何滚动位置都可见
+  return `<button type="button" class="submode-toggle${active ? ' active' : ''}" onclick="toggleSubMode()">${active ? '返回整题视图' : '小题模式'}</button>`;
 }
 
 function subAnswerHtml(q, i) {
@@ -3450,11 +3446,13 @@ function myAnswerHtml() {
 
 function questionBodyHtml(q, opts) {
   // 配图放在题干下方：题干写「如下图」时直接看到图，无需再点「查看原图」
-  // opts.hideSubs / hideAnswer：小题模式下由 submode-panel 接管子问与答案渲染
+  // opts.hideStem / hideSubs / hideAnswer：小题模式下由 submode-panel 接管题干/子问/答案渲染
+  // hideStem 隐藏 q-text——多小题题的 content 常内联全部小题（如 24 个积分），小题模式下不应再整段重复
+  const hideStem = !!(opts && opts.hideStem);
   const hideSubs = !!(opts && opts.hideSubs);
   const hideAnswer = !!(opts && opts.hideAnswer);
   return `
-    <div class="q-text" data-role="qtext"></div>
+    ${hideStem ? '' : '<div class="q-text" data-role="qtext"></div>'}
     ${q.has_image && q.image_ref ? imageHtml(q.image_ref) : ''}
     ${renderOptionsHtml(q)}
     ${hideSubs ? '' : renderSubHtml(q)}
@@ -3589,13 +3587,14 @@ function zoomImage(src) {
 function renderModalContent(q) {
   const container = document.getElementById('modalContent');
   const subMode = subModeActive && hasSubMode(q);
+  const submodeSlot = document.getElementById('modalSubmodeSlot');
+  if (submodeSlot) submodeSlot.innerHTML = hasSubMode(q) ? subModeToggleHtml(subMode) : '';
   container.innerHTML = `
     <div class="q-chapter">${escapeHtml(q.chapter)} · 第 ${q.page} 页</div>
     <div class="q-id">${escapeHtml(q.id)} <span class="card-type">${q.type}</span></div>
     ${markBarHtml(q.uid, true)}
-    ${hasSubMode(q) ? subModeToggleHtml(subMode) : ''}
     ${subMode ? subModePanelHtml(q) : ''}
-    ${questionBodyHtml(q, subMode ? { hideSubs: true, hideAnswer: true } : null)}
+    ${questionBodyHtml(q, subMode ? { hideStem: true, hideSubs: true, hideAnswer: true } : null)}
 
     ${notesHtml()}  `;
   renderQuestionBody(container, q);
