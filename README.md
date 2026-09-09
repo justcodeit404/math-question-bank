@@ -2,7 +2,7 @@
 
 本地静态数学题库系统，支持题目浏览、搜索、练习、抽检和质检。
 
-已收录：**2502 道题目** · **4 本题册** · **81 个章节**
+已收录：**2879 道题目** · **4 本题册** · **88 个章节**
 
 ## 在线预览
 
@@ -33,8 +33,7 @@ python scripts/server.py
 
 Windows 用户也可以直接双击：
 
-- `启动题库.bat` — 打开首页
-- `启动抽检.bat` — 打开抽检页面
+- `启动题库.bat` — 打开首页（等同 `python scripts/server.py`）
 
 ## 项目结构
 
@@ -92,7 +91,7 @@ python scripts/generate_data_js.py --bank all
 python scripts/generate_viewer.py --bank all
 ```
 
-本地使用 `scripts/server.py` 时，viewer 会从 `templates/math-bank.html` 动态渲染，无需运行本脚本。只有在 GitHub Pages 等静态托管场景才需要生成 `math-bank/index.html`。
+本地 `scripts/server.py` 会从 `templates/math-bank.html` 动态渲染，无需运行本脚本；但平台 `/banks/math` 是静态挂载、服务的是生成的 `math-bank/index.html`——**改模板后必须跑本脚本重出四册**（自动按内容 hash 打 `data.js?v=` 缓存戳），GitHub Pages 等静态托管同理。
 
 ### 质量检查
 
@@ -165,7 +164,7 @@ python scripts/extract_660_minimax.py --subject math --build-questions
 - 前端：原生 HTML / CSS / JavaScript + KaTeX（本地 vendor，离线可用）
 - 数据：JSON + 自研 Python 脚本流水线
 - OCR / 视觉提取：MiniMax-M3
-- 本地服务器：`python -m http.server`
+- 本地服务器：`scripts/server.py`（8123，动态渲染 viewer）
 
 ## 贡献与备份
 
