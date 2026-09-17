@@ -188,4 +188,4 @@ def test_data_js_includes_answer_structured_field():
     gen_script = SCRIPTS_DIR / "generate_data_js.py"
     assert gen_script.is_file()
     content = gen_script.read_text(encoding="utf-8")
-    assert "'answer_structured'" in content, "generate_data_js.py VIEWER_FIELDS缺少answer_structured"
+    assert '"answer_structured"' in content, "generate_data_js.py VIEWER_FIELDS缺少answer_structured"

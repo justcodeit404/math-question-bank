@@ -8,6 +8,8 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+import argparse
+
 from quality_check import check_question
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -159,8 +161,17 @@ def audit_book(name: str) -> dict:
     }
 
 
-def main() -> int:
-    books = [audit_book(name) for name in BOOKS]
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="数学四库发布前质量门禁")
+    parser.add_argument(
+        "--book",
+        action="append",
+        choices=BOOKS,
+        default=None,
+        help="只审核指定题库（可重复）；默认全部四库",
+    )
+    args = parser.parse_args(argv)
+    books = [audit_book(name) for name in (args.book or BOOKS)]
     summary = {
         "total_questions": sum(book["summary"]["total_questions"] for book in books),
         "verified": sum(book["summary"]["verified"] for book in books),

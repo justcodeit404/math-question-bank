@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "created_at": "2026-08-28T03:52:41.194629+00:00",
-  "updated_at": "2026-09-17T08:19:09.161932+00:00",
+  "updated_at": "2026-09-17T08:28:26.753187+00:00",
   "rule_version": "1.0.0",
   "total_questions": 2879,
   "entries": {
@@ -45877,7 +45877,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-09-17T08:19:09.161932+00:00",
+      "last_reviewed": "2026-09-17T08:28:26.753187+00:00",
       "model_request_count": 0
     },
     "1000-基础·多元函数微分学-16": {

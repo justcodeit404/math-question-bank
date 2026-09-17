@@ -2,10 +2,9 @@
 """应用已逐页对照原书确认的隔离题修复，并补生成缺失题图。"""
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
-
-import fitz
 
 ROOT = Path(__file__).resolve().parent.parent
 REPO_ROOT = ROOT.parent.parent
@@ -98,19 +97,26 @@ REPAIRS = {
     },
 }
 
+# (页码, 文件名, 裁剪矩形 x0,y0,x1,y1)；矩形在 create_missing_crops 内转 fitz.Rect，避免顶层依赖 fitz
 CROPS = {
-    33: ("一元函数微分学_例23_p33.png", fitz.Rect(40, 340, 560, 505)),
-    34: ("一元函数微分学_例24_p34.png", fitz.Rect(40, 35, 560, 175)),
-    35: ("方程根与零点问题_例1_p35.png", fitz.Rect(40, 110, 560, 235)),
-    57: ("凹凸性_例1_p57.png", fitz.Rect(40, 110, 560, 265)),
-    121: ("微积分应用_例7_p121.png", fitz.Rect(40, 260, 560, 365)),
-    122: ("微积分应用_例10_p122.png", fitz.Rect(40, 267, 560, 370)),
+    33: ("一元函数微分学_例23_p33.png", (40, 340, 560, 505)),
+    34: ("一元函数微分学_例24_p34.png", (40, 35, 560, 175)),
+    35: ("方程根与零点问题_例1_p35.png", (40, 110, 560, 235)),
+    57: ("凹凸性_例1_p57.png", (40, 110, 560, 265)),
+    121: ("微积分应用_例7_p121.png", (40, 260, 560, 365)),
+    122: ("微积分应用_例10_p122.png", (40, 267, 560, 370)),
 }
 
 
-def apply_repairs() -> None:
-    for book, repairs in REPAIRS.items():
-        path = ROOT / book / "questions.json"
+def apply_repairs(book: str | None = None, uid: str | None = None) -> None:
+    for book_name, repairs in REPAIRS.items():
+        if book is not None and book_name != book:
+            continue
+        if uid is not None:
+            if uid not in repairs:
+                raise RuntimeError(f"{book_name} 的修复清单中没有 UID: {uid}")
+            repairs = {uid: repairs[uid]}
+        path = ROOT / book_name / "questions.json"
         data = json.loads(path.read_text(encoding="utf-8"))
         by_uid = {
             str(question.get("uid") or ""): question
@@ -119,23 +125,25 @@ def apply_repairs() -> None:
         }
         missing = sorted(set(repairs) - set(by_uid))
         if missing:
-            raise RuntimeError(f"{book} 找不到 UID: {missing}")
-        for uid, fields in repairs.items():
-            by_uid[uid].update(fields)
+            raise RuntimeError(f"{book_name} 找不到 UID: {missing}")
+        for qid, fields in repairs.items():
+            by_uid[qid].update(fields)
         temporary = path.with_suffix(".json.tmp")
         temporary.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
         temporary.replace(path)
-        print(f"已修复 {book}: {len(repairs)} 题")
+        print(f"已修复 {book_name}: {len(repairs)} 题")
 
 
 def create_missing_crops() -> None:
+    import fitz  # 懒加载：只在裁图时需要（系统 Python 通常没装）
+
     source = REPO_ROOT / "资料" / "数学2" / "电子资料" / "01 27大雪深埋做题本（高数）.pdf"
     output = ROOT / "大学深埋" / "cropped_images"
     output.mkdir(parents=True, exist_ok=True)
     document = fitz.open(source)
     try:
         for page_no, (filename, clip) in CROPS.items():
-            pixmap = document[page_no - 1].get_pixmap(dpi=200, clip=clip, alpha=False)
+            pixmap = document[page_no - 1].get_pixmap(dpi=200, clip=fitz.Rect(*clip), alpha=False)
             pixmap.save(output / filename)
             print(f"已裁图: {filename}")
     finally:
@@ -143,5 +151,12 @@ def create_missing_crops() -> None:
 
 
 if __name__ == "__main__":
-    apply_repairs()
-    create_missing_crops()
+    parser = argparse.ArgumentParser(description="隔离题修复 / 补裁题图（互不相干，分开跑）")
+    sub = parser.add_subparsers(dest="command")
+    sub.add_parser("repairs", help="应用 REPAIRS 修复清单（默认）")
+    sub.add_parser("crops", help="补生成大学深埋缺失题图（依赖本机 PDF + fitz）")
+    args = parser.parse_args()
+    if args.command in (None, "repairs"):
+        apply_repairs()
+    if args.command == "crops":
+        create_missing_crops()
