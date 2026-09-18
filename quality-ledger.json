@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "created_at": "2026-08-28T03:52:41.194629+00:00",
-  "updated_at": "2026-09-18T11:26:45.453024+00:00",
+  "updated_at": "2026-09-18T11:50:02.236454+00:00",
   "rule_version": "1.0.0",
   "total_questions": 2900,
   "entries": {
@@ -71996,13 +71996,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-2": {
@@ -72021,13 +72023,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-3": {
@@ -72046,13 +72050,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-4": {
@@ -72071,13 +72077,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-5": {
@@ -72096,13 +72104,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-6": {
@@ -72121,13 +72131,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-7": {
@@ -72146,13 +72158,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-8": {
@@ -72171,13 +72185,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-9": {
@@ -72196,13 +72212,19 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
-      "conflicts": [],
-      "issue_codes": [],
-      "last_reviewed": null,
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "hold",
+      "overall_status": "hold",
+      "conflicts": [
+        "答案图底部裁切：主结论「x=[k,-k,0]^T」完整且知识点匹配，但图底残留半截向量「[1 -1 0]」被切断，不满足裁切完整要求"
+      ],
+      "issue_codes": [
+        "answer_crop_truncated"
+      ],
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-10": {
@@ -72221,13 +72243,19 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
-      "conflicts": [],
-      "issue_codes": [],
-      "last_reviewed": null,
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "hold",
+      "overall_status": "hold",
+      "conflicts": [
+        "答案图顶部裁切：题号10与解析主体（AB=O→特征值0,0,2→正交变换→二次型）与第10题知识点匹配，但顶部 B 矩阵被切断（仅见两行，缺首行 [1 -1 0]）"
+      ],
+      "issue_codes": [
+        "answer_crop_truncated"
+      ],
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-11": {
@@ -72246,13 +72274,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-12": {
@@ -72271,13 +72301,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-13": {
@@ -72296,13 +72328,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-14": {
@@ -72321,13 +72355,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-15": {
@@ -72346,13 +72382,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-16": {
@@ -72371,13 +72409,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-17": {
@@ -72396,13 +72436,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-18": {
@@ -72421,13 +72463,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-19": {
@@ -72446,13 +72490,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-20": {
@@ -72471,13 +72517,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-21": {
@@ -72496,13 +72544,15 @@
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
-      "model_versions": {},
-      "source_review_status": "pending",
-      "answer_review_status": "pending",
-      "overall_status": "pending",
+      "model_versions": {
+        "auditor": "mimo"
+      },
+      "source_review_status": "source_verified",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": null,
+      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
       "model_request_count": 0
     }
   },
