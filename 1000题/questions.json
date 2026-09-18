@@ -16923,7 +16923,7 @@
           "id": "19",
           "qnum": 19,
           "type": "证明题",
-          "content": "设 $f(x)$ 在 $[0,1]$ 上具有三阶连续导数，$f'(0)=f''(0)=0$，证明存在 $\\xi,\\eta,\\zeta\\in(0,1)$，使得 $\\mathrm{e}^\\xi f'''(\\eta)=6\\mathrm{e}^\\zeta f''(\\xi)$.",
+          "content": "设 $f(x)$ 在 $[0,1]$ 上具有三阶连续导数，$f'(0)=f''(0)=0$，证明存在 $\\xi,\\eta,\\zeta\\in(0,1)$，使得 $\\mathrm{e}^\\xi f'''(\\eta)=6\\mathrm{e}^\\zeta f'(\\xi)$.",
           "options": null,
           "sub_questions": null,
           "page": 137,

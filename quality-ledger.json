@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "created_at": "2026-08-28T03:52:41.194629+00:00",
-  "updated_at": "2026-09-18T09:03:07.174479+00:00",
+  "updated_at": "2026-09-18T10:07:39.392474+00:00",
   "rule_version": "1.0.0",
   "total_questions": 2879,
   "entries": {
@@ -61286,7 +61286,7 @@
       "chapter": "综合·测试卷四",
       "page": 136,
       "type": "证明题",
-      "content_hash": "e375d18913ae8db7a5c2cdf802a9fcb656a978ce75a080caf43404e1e3edcdd2",
+      "content_hash": "6e7fcf18f193e72e66b36d3ac0dcb2dc9b7a52c259a0a64deadcfb9a7b8e8e44",
       "answer_hash": "487ff9d101581daacac5e3df337dd3d6bc85f41bb1b2f33207a5bd7bd7befe39",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 136,
@@ -61302,7 +61302,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T10:07:39.392474+00:00",
       "model_request_count": 0
     },
     "1000-综合·测试卷四-20": {
