@@ -4669,7 +4669,7 @@
           "id": "3",
           "qnum": 3,
           "type": "填空题",
-          "content": "设函数 $f(u)$ 可导，$z=yf(xy^2)$，则 $2x\\frac{\\partial z}{\\partial x}+y\\frac{\\partial z}{\\partial y}=$______.",
+          "content": "设函数 $f(u)$ 可导，$z=yf(x^{y^2})$，则 $2x\\frac{\\partial z}{\\partial x}+y\\frac{\\partial z}{\\partial y}=$______.",
           "options": null,
           "sub_questions": null,
           "page": 36,

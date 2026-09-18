@@ -86,6 +86,9 @@ REPAIRS = {
     },
     "1000题": {
         "1000-综合·测试卷二-2": {"options": {"A": "0", "B": "1", "C": "2", "D": "3"}},
+        "1000-基础·多元函数微分学-3": {
+            "content": "设函数 $f(u)$ 可导，$z=yf(x^{y^2})$，则 $2x\\frac{\\partial z}{\\partial x}+y\\frac{\\partial z}{\\partial y}=$______."
+        },
         "1000-基础·多元函数微分学-15": {
             "content": "已知函数 $u(x,y)$ 满足 $2\\dfrac{\\partial^2 u}{\\partial x^2}-2\\dfrac{\\partial^2 u}{\\partial y^2}+3\\dfrac{\\partial u}{\\partial x}+3\\dfrac{\\partial u}{\\partial y}=0$，求 $a,b$ 的值使得在变换 $u(x,y)=v(x,y)e^{ax+by}$ 之下，上述等式可化为函数 $v(x,y)$ 的不含一阶偏导数的等式。"
         },
