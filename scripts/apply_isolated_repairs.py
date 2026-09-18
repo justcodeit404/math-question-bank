@@ -221,6 +221,29 @@ REPAIRS = {
         "1000-基础·二次型-8": {
             "content": "设 $A=\\begin{pmatrix}0&0&0&1\\\\0&0&1&0\\\\0&1&0&0\\\\1&0&0&0\\end{pmatrix}$，$B=\\begin{pmatrix}-1&0&0&0\\\\0&-1&0&0\\\\0&0&1&0\\\\0&0&0&1\\end{pmatrix}$，则 $A$ 和 $B$（    ）。"
         },
+        "1000-强化·一元函数积分学的应用(一)-12": {
+            "content": "设$f(x)$在$(-\\infty,+\\infty)$内非负连续，且$\\int_0^x t f(x^2)f(x^2-t^2)\\,\\mathrm{d}t=\\sin^2 x^2$，求$f(x)$在$[0,\\pi]$上的平均值。"
+        },
+        "1000-强化·多元函数微分学-40": {
+            "content": "设 $z=z(u,v)$ 具有二阶连续偏导数，且 $z=z(x-y,x+2y)$ 满足 $2\\dfrac{\\partial^2z}{\\partial x^2}+\\dfrac{\\partial^2z}{\\partial x\\partial y}-\\dfrac{\\partial^2z}{\\partial y^2}=2\\dfrac{\\partial z}{\\partial x}-\\dfrac{\\partial z}{\\partial y}$，$\\dfrac{\\mathrm{d}[z(0,v)]}{\\mathrm{d}v}=\\dfrac{1}{3}z(0,v)+\\mathrm{e}^{\\frac{v}{3}}$，$z(u,0)=\\sin u$.\n(1) 证明 $\\dfrac{\\partial^2z}{\\partial u\\partial v}=\\dfrac{1}{3}\\cdot\\dfrac{\\partial z}{\\partial u}$；\n(2) 求 $z=z(u,v)$ 的表达式."
+        },
+        "1000-强化·线性方程组-11": {
+            "sub_questions": [
+                "(1) 求 $a$；",
+                "(2) 求满足 $AP=B$ 的可逆矩阵 $P$.",
+            ]
+        },
+        "1000-强化·相似理论与二次型-5": {
+            "content": "设3阶矩阵 $P=[\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3]$，其中 $\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2$ 分别是3阶矩阵 $A$ 对应于特征值 $-1$ 与 $1$ 的特征向量，且 $(A-E)\\boldsymbol{\\alpha}_3-\\boldsymbol{\\alpha}_2=\\boldsymbol{0}$.\n(1) 证明 $P$ 可逆；\n(2) 计算 $P^{-1}A^*P$.",
+        },
+        "1000-综合·测试卷三-2": {
+            "options": {
+                "A": "当 $f'(x)<0$ 时，$f\\left(\\dfrac{1}{2}\\right)<\\int_0^1 f(x)\\mathrm{d}x$",
+                "B": "当 $f'(x)>0$ 时，$f\\left(\\dfrac{1}{2}\\right)<\\int_0^1 f(x)\\mathrm{d}x$",
+                "C": "当 $f''(x)<0$ 时，$f\\left(\\dfrac{1}{3}\\right)<\\int_0^1 f(x^2)\\mathrm{d}x$",
+                "D": "当 $f''(x)>0$ 时，$f\\left(\\dfrac{1}{3}\\right)<\\int_0^1 f(x^2)\\mathrm{d}x$",
+            }
+        },
     },
     "大学深埋": {
         "大学深埋-线代 · 行列式和矩阵-例41-p41": {

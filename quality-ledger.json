@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "created_at": "2026-08-28T03:52:41.194629+00:00",
-  "updated_at": "2026-09-18T07:38:00.036541+00:00",
+  "updated_at": "2026-09-18T09:03:07.174479+00:00",
   "rule_version": "1.0.0",
   "total_questions": 2879,
   "entries": {
@@ -58911,7 +58911,7 @@
       "chapter": "强化·相似理论与二次型",
       "page": 118,
       "type": "证明题",
-      "content_hash": "5beed6362e9e11289f65e373d6d579c0ba4200ed8bdf66d36abe77ed694158e8",
+      "content_hash": "97bd25bd85981f283ad82f3c2e553103ab2238c5775f9fae50c5e4934d9d8026",
       "answer_hash": "e42637365797a7c886c539b8efe7269fe886f20a9fa6684a3ccfbd872b0b0d21",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 118,
@@ -58927,7 +58927,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T09:03:07.083175+00:00",
       "model_request_count": 0
     },
     "1000-强化·相似理论与二次型-6": {
@@ -60861,7 +60861,7 @@
       "chapter": "综合·测试卷三",
       "page": 133,
       "type": "选择题",
-      "content_hash": "69317bc2ad958fc3de5b51086f720adbfea54fb30f93ebff48b770796a1d06bf",
+      "content_hash": "5a1d32259e0af14f1eb1458b08ce98f525548acc6941ccf6b83b4327dc15e418",
       "answer_hash": "dd55bcd662731230784f7e459d5d92bda91ef9e7e97ad53c48ee20cc2c0df0d8",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 133,
@@ -60877,7 +60877,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T09:03:07.174479+00:00",
       "model_request_count": 0
     },
     "1000-综合·测试卷三-3": {
