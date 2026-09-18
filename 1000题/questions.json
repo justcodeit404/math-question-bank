@@ -4844,7 +4844,7 @@
           "id": "13",
           "qnum": 13,
           "type": "计算题",
-          "content": "设函数 $f(u,v)$ 具有二阶连续偏导数，函数 $g(x,y)=f\\left(xy, \\dfrac{y}{x}\\right)$，求 $x^2\\dfrac{\\partial^2 g}{\\partial x^2}+2xy\\dfrac{\\partial^2 g}{\\partial x\\partial y}+y^2\\dfrac{\\partial^2 g}{\\partial y^2}$.",
+          "content": "设函数 $f(u,v)$ 具有二阶连续偏导数，函数 $g(x,y)=xy-f\\left(\\dfrac{y}{x}, \\dfrac{x}{y}\\right)$，求 $x^2\\dfrac{\\partial^2 g}{\\partial x^2}+2xy\\dfrac{\\partial^2 g}{\\partial x\\partial y}+y^2\\dfrac{\\partial^2 g}{\\partial y^2}$.",
           "options": null,
           "sub_questions": null,
           "page": 37,
@@ -4932,7 +4932,7 @@
           "id": "18",
           "qnum": 18,
           "type": "选择题",
-          "content": "设 $f(x,y)$ 在有界闭区域 $D$ 上连续，在 $D$ 内有一阶偏导数。若 $f(x,y)$ 在 $D$ 的边界 $\\partial D$ 上的值均为 $0$，且 $\\dfrac{\\partial}{\\partial x}[f(x,y)]^2+\\dfrac{\\partial}{\\partial y}[f(x,y)]^2=f(x,y)$，则 $f(x,y)$（    ）。",
+          "content": "设 $f(x,y)$ 在有界闭区域 $D$ 上连续，在 $D$ 内有一阶偏导数。若 $f(x,y)$ 在 $D$ 的边界 $\\partial D$ 上的值均为 $0$，且 $\\dfrac{\\partial[f(x,y)]}{\\partial x}+\\dfrac{\\partial[f(x,y)]}{\\partial y}=f(x,y)$，则 $f(x,y)$（    ）。",
           "options": {
             "A": "在 $D$ 内有正的最大值",
             "B": "在 $D$ 内有负的最小值",
@@ -4998,7 +4998,7 @@
           "id": "21",
           "qnum": 21,
           "type": "计算题",
-          "content": "求函数 $f(x,y)=x^3-3xy-y^3-y-9$ 的极值。",
+          "content": "求函数 $f(x,y)=x^3-3xy-y^2-y-9$ 的极值。",
           "options": null,
           "sub_questions": null,
           "page": 38,
@@ -5015,7 +5015,7 @@
           "id": "22",
           "qnum": 22,
           "type": "计算题",
-          "content": "求函数 $f(x,y)=x^2-2xy^2-4y^2+y^4$ 的极值。",
+          "content": "求函数 $f(x,y)=x^2\\left(2x^2-4y-\\dfrac{1}{7}x^5\\right)+y^2$ 的极值。",
           "options": null,
           "sub_questions": null,
           "page": 38,
@@ -5075,7 +5075,7 @@
           "id": "1",
           "qnum": 1,
           "type": "选择题",
-          "content": "设 $D$ 为由 $x=0$，$y=0$，$x+y=\\dfrac{1}{2}$，$x+y=1$ 所围成的区域，$I_1=\\iint\\limits_D [\\ln(x+y)]^3 d\\sigma$，$I_2=\\iint\\limits_D (x+y)^3 d\\sigma$，$I_3=\\iint\\limits_D \\sin^3(x+y) d\\sigma$，则（    ）。",
+          "content": "设 $D$ 为由 $x=0$，$y=0$，$x+y=\\dfrac{1}{2}$，$x+y=1$ 所围成的区域，$I_1=\\iint\\limits_D \\ln^7(x+y)\\,d\\sigma$，$I_2=\\iint\\limits_D (x+y)^7\\,d\\sigma$，$I_3=\\iint\\limits_D \\sin^7(x+y)\\,d\\sigma$，则（    ）。",
           "options": {
             "A": "$I_1<I_2<I_3$",
             "B": "$I_1<I_3<I_2$",
@@ -5119,12 +5119,12 @@
           "id": "3",
           "qnum": 3,
           "type": "选择题",
-          "content": "$\\lim\\limits_{\\rho\\to 0}\\dfrac{1}{\\pi\\rho^2}\\iint\\limits_{x^2+y^2\\leqslant \\rho^2} e^{x^2-y^2}\\cos(x+y)dxdy=$（    ）。",
+          "content": "$\\lim\\limits_{r\\to 0}\\dfrac{1}{\\pi r^2}\\iint\\limits_{x^2+y^2\\leqslant r^2} e^{x^2-y^2}\\cos(x+y)dxdy=$（    ）。",
           "options": {
             "A": "$0$",
             "B": "$1$",
-            "C": "$\\pi$",
-            "D": "$\\dfrac{1}{\\pi}$"
+            "C": "$\\pi r^2$",
+            "D": "$\\dfrac{1}{\\pi r^2}$"
           },
           "sub_questions": null,
           "page": 39,
@@ -5163,7 +5163,7 @@
           "id": "5",
           "qnum": 5,
           "type": "填空题",
-          "content": "$\\displaystyle\\int_0^1 dx\\int_{\\sqrt{x}}^1 e^{\\frac{x}{y}} dy=$ ______。",
+          "content": "$\\displaystyle\\int_0^1 dx\\int_0^{\\sqrt{x}} e^{\\frac{y^2}{2}} dy=$ ______。",
           "options": null,
           "sub_questions": null,
           "page": 39,
@@ -5180,7 +5180,7 @@
           "id": "6",
           "qnum": 6,
           "type": "填空题",
-          "content": "$\\displaystyle\\int_0^1 dy\\int_{1-\\sqrt{1-y^2}}^{y} xe^{y^2} dx=$ ______。",
+          "content": "$\\displaystyle\\int_0^1 dy\\int_0^{y^2} \\dfrac{x\\mathrm{e}^{x}}{1-\\sqrt{x}} dx=$ ______。",
           "options": null,
           "sub_questions": null,
           "page": 39,
@@ -5197,12 +5197,12 @@
           "id": "7",
           "qnum": 7,
           "type": "选择题",
-          "content": "$I=\\displaystyle\\int_1^e dx\\int_0^{\\ln x} f(x,y)dy$（其中 $f(x,y)$ 连续）交换积分次序得（    ）。",
+          "content": "$I=\\displaystyle\\int_1^e dy\\int_0^{\\ln y} f(x,y)dx$（其中 $f(x,y)$ 连续）交换积分次序得（    ）。",
           "options": {
-            "A": "$I=\\displaystyle\\int_0^1 dy\\int_{e^y}^e f(x,y)dx$",
-            "B": "$I=\\displaystyle\\int_0^1 dy\\int_{\\ln y}^e f(x,y)dx$",
-            "C": "$I=\\displaystyle\\int_0^1 dy\\int_{e^y}^{\\ln y} f(x,y)dx$",
-            "D": "$I=\\displaystyle\\int_0^e dy\\int_{1}^{\\ln y} f(x,y)dx$"
+            "A": "$I=\\displaystyle\\int_0^{\\ln y} dx\\int_1^e f(x,y)dy$",
+            "B": "$I=\\displaystyle\\int_0^1 dx\\int_{e^x}^e f(x,y)dy$",
+            "C": "$I=\\displaystyle\\int_1^e dx\\int_0^{\\ln y} f(x,y)dy$",
+            "D": "$I=\\displaystyle\\int_{e^x}^e dx\\int_0^1 f(x,y)dy$"
           },
           "sub_questions": null,
           "page": 39,
@@ -5219,12 +5219,12 @@
           "id": "8",
           "qnum": 8,
           "type": "选择题",
-          "content": "设 $f(x,y)$ 是连续函数，则 $\\displaystyle\\int_{\\frac{\\pi}{2}}^{\\frac{5\\pi}{6}} dx\\int_{\\sin x}^{\\frac{1}{2}} f(x,y)dy=$（    ）。",
+          "content": "设 $f(x,y)$ 是连续函数，则 $\\displaystyle\\int_{\\frac{\\pi}{2}}^{\\frac{5\\pi}{6}} dx\\int_{\\sin x}^{1} f(x,y)dy=$（    ）。",
           "options": {
-            "A": "$\\displaystyle\\int_{\\frac{1}{2}}^1 dy\\int_{\\frac{\\pi}{6}}^{\\arcsin y} f(x,y)dx$",
-            "B": "$\\displaystyle\\int_{\\frac{1}{2}}^1 dy\\int_{\\frac{\\pi}{6}}^{\\pi-\\arcsin y} f(x,y)dx$",
-            "C": "$\\displaystyle\\int_0^{\\frac{1}{2}} dy\\int_{\\arcsin y}^{\\frac{\\pi}{6}} f(x,y)dx$",
-            "D": "$\\displaystyle\\int_{\\frac{1}{2}}^1 dy\\int_{\\frac{\\pi}{2}}^{\\pi-\\arcsin y} f(x,y)dx$"
+            "A": "$\\displaystyle\\int_{\\frac{1}{2}}^1 dy\\int_{\\frac{\\pi}{2}}^{\\arcsin y} f(x,y)dx$",
+            "B": "$\\displaystyle\\int_{\\frac{1}{2}}^1 dy\\int_{\\pi-\\arcsin y}^{\\frac{5\\pi}{6}} f(x,y)dx$",
+            "C": "$\\displaystyle\\int_0^{\\frac{1}{2}} dy\\int_{\\frac{\\pi}{2}}^{\\arcsin y} f(x,y)dx$",
+            "D": "$\\displaystyle\\int_0^{\\frac{1}{2}} dy\\int_{\\pi-\\arcsin y}^{\\frac{\\pi}{2}} f(x,y)dx$"
           },
           "sub_questions": null,
           "page": 39,
@@ -5241,12 +5241,12 @@
           "id": "9",
           "qnum": 9,
           "type": "选择题",
-          "content": "设函数 $f(x,y)$ 连续，且 $f(x,y)=f(y,x)=f(-x,y)$，则 $\\displaystyle\\iint\\limits_{x^2+y^2\\leqslant 4} f(x,y)dxdy=$（    ）。",
+          "content": "设函数 $f(x,y)$ 连续，且 $f(x,y)=f(y,x)=f(-x,y)$，则 $\\displaystyle\\int_{-2}^2 dx\\int_{\\sqrt{4-x^2}}^{2} f(x,y)dy=$（    ）。",
           "options": {
-            "A": "$\\displaystyle\\int_{-2}^0 dx\\int_{-\\sqrt{4-x^2}}^{\\sqrt{4-x^2}} f(x,y)dy + \\int_0^2 dx\\int_{-\\sqrt{4-x^2}}^{\\sqrt{4-x^2}} f(x,y)dy$",
-            "B": "$\\displaystyle 2\\int_{-2}^2 dy\\int_0^{\\sqrt{4-y^2}} f(x,y)dx$",
-            "C": "$\\displaystyle 4\\int_0^{\\frac{\\pi}{2}} d\\theta\\int_0^{2\\sec\\theta} f(r\\cos\\theta,r\\sin\\theta)rdr$",
-            "D": "$\\displaystyle 4\\int_0^{\\frac{\\pi}{2}} d\\theta\\int_0^{2} f(r\\cos\\theta,r\\sin\\theta)rdr$"
+            "A": "$\\displaystyle\\int_0^2\\left[\\int_{-2}^{-\\sqrt{4-y^2}} f(x,y)\\,dx+\\int_{\\sqrt{4-y^2}}^2 f(x,y)\\,dx\\right]dy$",
+            "B": "$2\\displaystyle\\int_0^2\\left[\\int_{\\sqrt{4-y^2}}^2 f(x,y)\\,dy\\right]dx$",
+            "C": "$4\\displaystyle\\int_0^{\\frac{\\pi}{4}} d\\theta\\int_2^{2\\sec\\theta} f(r\\cos\\theta,r\\sin\\theta)rdr$",
+            "D": "$4\\displaystyle\\int_0^{\\arctan\\frac{1}{2}} d\\theta\\int_2^{2\\sec\\theta} f(r\\cos\\theta,r\\sin\\theta)rdr$"
           },
           "sub_questions": null,
           "page": 40,
@@ -5399,7 +5399,7 @@
           "id": "18",
           "qnum": 18,
           "type": "计算题",
-          "content": "计算 $I=\\displaystyle\\int_0^1 dx\\int_{1-\\sqrt{1-x^2}}^{\\sqrt{2x-x^2}} \\dfrac{1}{\\sqrt{x^2+y^2}\\sqrt{4-x^2-y^2}}dy$。",
+          "content": "计算 $I=\\displaystyle\\int_0^1 dy\\int_y^{\\sqrt{2y-y^2}} \\dfrac{1}{\\sqrt{x^2+y^2}\\sqrt{4-x^2-y^2}}dx$。",
           "options": null,
           "sub_questions": null,
           "page": 40,
@@ -6759,12 +6759,12 @@
           "id": "13",
           "qnum": 13,
           "type": "选择题",
-          "content": "设 $\\boldsymbol{\\alpha}_1=\\begin{pmatrix}1\\\\-1\\\\0\\end{pmatrix}$，$\\boldsymbol{\\alpha}_2=\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix}$，$\\boldsymbol{\\alpha}_3=\\begin{pmatrix}0\\\\0\\\\1\\end{pmatrix}$，记 $\\boldsymbol{\\beta}_1=\\boldsymbol{\\alpha}_1$，$\\boldsymbol{\\beta}_2=\\boldsymbol{\\alpha}_2-k_1\\boldsymbol{\\beta}_1$，$\\boldsymbol{\\beta}_3=\\boldsymbol{\\alpha}_3-k_2\\boldsymbol{\\beta}_1-k_3\\boldsymbol{\\beta}_2$，若 $\\boldsymbol{\\beta}_1$，$\\boldsymbol{\\beta}_2$，$\\boldsymbol{\\beta}_3$ 为正交向量组，则 $k_1$，$k_2$，$k_3$ 依次为（    ）。",
+          "content": "设 $\\boldsymbol{\\alpha}_1=\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix}$，$\\boldsymbol{\\alpha}_2=\\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix}$，$\\boldsymbol{\\alpha}_3=\\begin{pmatrix}-1\\\\0\\\\0\\end{pmatrix}$，记 $\\boldsymbol{\\beta}_1=\\boldsymbol{\\alpha}_1$，$\\boldsymbol{\\beta}_2=\\boldsymbol{\\alpha}_2-k_1\\boldsymbol{\\beta}_1$，$\\boldsymbol{\\beta}_3=\\boldsymbol{\\alpha}_3-k_2\\boldsymbol{\\beta}_1-k_3\\boldsymbol{\\beta}_2$，若 $\\boldsymbol{\\beta}_1$，$\\boldsymbol{\\beta}_2$，$\\boldsymbol{\\beta}_3$ 为正交向量组，则 $k_1$，$k_2$，$k_3$ 依次为（    ）。",
           "options": {
-            "A": "$k_1=\\dfrac{1}{2}$，$k_2=\\dfrac{1}{2}$，$k_3=\\dfrac{1}{2}$",
-            "B": "$k_1=\\dfrac{1}{2}$，$k_2=\\dfrac{1}{2}$，$k_3=\\dfrac{1}{3}$",
-            "C": "$k_1=\\dfrac{1}{2}$，$k_2=\\dfrac{1}{2}$，$k_3=1$",
-            "D": "$k_1=\\dfrac{1}{3}$，$k_2=\\dfrac{1}{12}$，$k_3=\\dfrac{1}{12}$"
+            "A": "$-\\dfrac{1}{2},\\ \\dfrac{1}{2},\\ -\\dfrac{1}{3}$",
+            "B": "$-\\dfrac{1}{2},\\ \\dfrac{1}{2},\\ \\dfrac{1}{3}$",
+            "C": "$\\dfrac{1}{2},\\ \\dfrac{1}{2},\\ \\dfrac{1}{3}$",
+            "D": "$\\dfrac{1}{2},\\ -\\dfrac{1}{2},\\ -\\dfrac{1}{3}$"
           },
           "sub_questions": null,
           "page": 51,
@@ -6781,7 +6781,7 @@
           "id": "14",
           "qnum": 14,
           "type": "填空题",
-          "content": "设向量组 $\\boldsymbol{\\alpha}_1=\\begin{pmatrix}a\\\\1\\\\1\\end{pmatrix}$，$\\boldsymbol{\\alpha}_2=\\begin{pmatrix}1\\\\a\\\\-1\\end{pmatrix}$，$\\boldsymbol{\\alpha}_3=\\begin{pmatrix}1\\\\-1\\\\a\\end{pmatrix}$ 不可由向量组 $\\boldsymbol{\\beta}_1=\\begin{pmatrix}1\\\\1\\\\2\\end{pmatrix}$，$\\boldsymbol{\\beta}_2=\\begin{pmatrix}3\\\\0\\\\7\\end{pmatrix}$，$\\boldsymbol{\\beta}_3=\\begin{pmatrix}0\\\\1\\\\-a\\end{pmatrix}$ 线性表示，则 $a$ 的取值范围为______。",
+          "content": "设向量组 $\\boldsymbol{\\alpha}_1=\\begin{pmatrix}1\\\\0\\\\-1\\end{pmatrix}$，$\\boldsymbol{\\alpha}_2=\\begin{pmatrix}a\\\\1\\\\1\\end{pmatrix}$，$\\boldsymbol{\\alpha}_3=\\begin{pmatrix}2\\\\1\\\\1\\end{pmatrix}$ 不可由向量组 $\\boldsymbol{\\beta}_1=\\begin{pmatrix}1\\\\1\\\\2\\end{pmatrix}$，$\\boldsymbol{\\beta}_2=\\begin{pmatrix}2\\\\3\\\\7\\end{pmatrix}$，$\\boldsymbol{\\beta}_3=\\begin{pmatrix}a\\\\0\\\\-a\\end{pmatrix}$ 线性表示，则 $a$ 的取值范围为______。",
           "options": null,
           "sub_questions": null,
           "page": 51,
@@ -6865,7 +6865,7 @@
           "id": "4",
           "qnum": 4,
           "type": "选择题",
-          "content": "设 $A$ 为 $n(n\\geqslant 2)$ 阶方阵，$r(A^*)=1$，$\\boldsymbol{\\alpha}_1$，$\\boldsymbol{\\alpha}_2$ 是非齐次线性方程组 $A\\boldsymbol{x}=\\boldsymbol{b}$ 的两个不同解，$k$ 为任意常数，则方程组 $A\\boldsymbol{x}=\\boldsymbol{b}$ 的通解为（    ）。",
+          "content": "设 $A$ 为 $n(n>2)$ 阶方阵，$r(A^*)=1$，$\\boldsymbol{\\alpha}_1$，$\\boldsymbol{\\alpha}_2$ 是非齐次线性方程组 $A\\boldsymbol{x}=\\boldsymbol{b}$ 的两个不同解，$k$ 为任意常数，则方程组 $A\\boldsymbol{x}=\\boldsymbol{b}$ 的通解为（    ）。",
           "options": {
             "A": "$(k-1)\\boldsymbol{\\alpha}_1+k\\boldsymbol{\\alpha}_2$",
             "B": "$(k-1)\\boldsymbol{\\alpha}_1-k\\boldsymbol{\\alpha}_2$",
@@ -6887,7 +6887,7 @@
           "id": "5",
           "qnum": 5,
           "type": "填空题",
-          "content": "设 $\\boldsymbol{\\alpha}_1=\\begin{pmatrix}4\\\\-2\\\\2\\end{pmatrix}$，$\\boldsymbol{\\alpha}_2=\\begin{pmatrix}2\\\\1\\\\-1\\end{pmatrix}$，$\\boldsymbol{\\alpha}_3=\\begin{pmatrix}7\\\\0\\\\4\\end{pmatrix}$，$\\boldsymbol{\\alpha}_4=\\begin{pmatrix}1\\\\-3\\\\-3\\end{pmatrix}$，$A=[\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4]$，则 $A\\boldsymbol{x}=\\boldsymbol{\\alpha}_1+2\\boldsymbol{\\alpha}_3+3\\boldsymbol{\\alpha}_4$ 的通解为______。",
+          "content": "设 $\\boldsymbol{\\alpha}_1=\\begin{pmatrix}4\\\\1\\\\2\\end{pmatrix}$，$\\boldsymbol{\\alpha}_2=\\begin{pmatrix}1\\\\1\\\\-1\\end{pmatrix}$，$\\boldsymbol{\\alpha}_3=\\begin{pmatrix}-2\\\\0\\\\4\\end{pmatrix}$，$\\boldsymbol{\\alpha}_4=\\begin{pmatrix}7\\\\2\\\\-3\\end{pmatrix}$，$A=[\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3,\\boldsymbol{\\alpha}_4]$，则 $A\\boldsymbol{x}=\\boldsymbol{\\alpha}_2+3\\boldsymbol{\\alpha}_4$ 的通解为______。",
           "options": null,
           "sub_questions": null,
           "page": 52,
@@ -6986,7 +6986,7 @@
           "id": "10",
           "qnum": 10,
           "type": "选择题",
-          "content": "已知线性方程组 $A\\boldsymbol{x}=k\\boldsymbol{\\beta}_1+\\boldsymbol{\\beta}_2$ 有解，其中 $A=\\begin{pmatrix}1&1&-1\\\\-1&-2&1\\\\1&-1&-1\\end{pmatrix}$，$\\boldsymbol{\\beta}_1=\\begin{pmatrix}1\\\\1\\\\3\\end{pmatrix}$，$\\boldsymbol{\\beta}_2=\\begin{pmatrix}2\\\\3\\\\-1\\end{pmatrix}$，则 $k$ 等于（    ）。",
+          "content": "已知线性方程组 $A\\boldsymbol{x}=k\\boldsymbol{\\beta}_1+\\boldsymbol{\\beta}_2$ 有解，其中 $A=\\begin{pmatrix}1&1&-1\\\\-1&-2&1\\\\1&-1&-1\\end{pmatrix}$，$\\boldsymbol{\\beta}_1=\\begin{pmatrix}2\\\\1\\\\3\\end{pmatrix}$，$\\boldsymbol{\\beta}_2=\\begin{pmatrix}1\\\\3\\\\-1\\end{pmatrix}$，则 $k$ 等于（    ）。",
           "options": {
             "A": "$1$",
             "B": "$-1$",
@@ -7028,12 +7028,12 @@
           "id": "12",
           "qnum": 12,
           "type": "选择题",
-          "content": "设3维列向量组 $\\boldsymbol{\\alpha}_1$，$\\boldsymbol{\\alpha}_2$，$\\boldsymbol{\\alpha}_3$ 与 $\\boldsymbol{\\beta}_1$，$\\boldsymbol{\\beta}_2$，$\\boldsymbol{\\beta}_3$ 等价，记 $A=[\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3]$，$B=[\\boldsymbol{\\beta}_1,\\boldsymbol{\\beta}_2,\\boldsymbol{\\beta}_3]$，则下列结论：① $A\\boldsymbol{x}=\\boldsymbol{0}$ 与 $B\\boldsymbol{x}=\\boldsymbol{0}$ 同解；② $A^\\mathrm{T}\\boldsymbol{x}=\\boldsymbol{0}$ 与 $B^\\mathrm{T}\\boldsymbol{x}=\\boldsymbol{0}$ 同解；③ $\\begin{pmatrix}A\\\\B^\\mathrm{T}\\end{pmatrix}\\boldsymbol{x}=\\boldsymbol{0}$ 与 $A\\boldsymbol{x}=\\boldsymbol{0}$ 同解；④ $\\begin{pmatrix}A^\\mathrm{T}\\\\B^\\mathrm{T}\\end{pmatrix}\\boldsymbol{x}=\\boldsymbol{0}$ 与 $A^\\mathrm{T}\\boldsymbol{x}=\\boldsymbol{0}$ 同解。所有正确结论的序号是（    ）。",
+          "content": "设3维列向量组 $\\boldsymbol{\\alpha}_1$，$\\boldsymbol{\\alpha}_2$，$\\boldsymbol{\\alpha}_3$ 与 $\\boldsymbol{\\beta}_1$，$\\boldsymbol{\\beta}_2$，$\\boldsymbol{\\beta}_3$ 等价，记 $A=[\\boldsymbol{\\alpha}_1,\\boldsymbol{\\alpha}_2,\\boldsymbol{\\alpha}_3]$，$B=[\\boldsymbol{\\beta}_1,\\boldsymbol{\\beta}_2,\\boldsymbol{\\beta}_3]$，则下列结论：① $A\\boldsymbol{x}=\\boldsymbol{0}$ 与 $B\\boldsymbol{x}=\\boldsymbol{0}$ 同解；② $A^\\mathrm{T}\\boldsymbol{x}=\\boldsymbol{0}$ 与 $B^\\mathrm{T}\\boldsymbol{x}=\\boldsymbol{0}$ 同解；③ $\\begin{pmatrix}A\\\\B\\end{pmatrix}\\boldsymbol{x}=\\boldsymbol{0}$ 与 $A\\boldsymbol{x}=\\boldsymbol{0}$ 同解；④ $\\begin{pmatrix}A^\\mathrm{T}\\\\B^\\mathrm{T}\\end{pmatrix}\\boldsymbol{x}=\\boldsymbol{0}$ 与 $A^\\mathrm{T}\\boldsymbol{x}=\\boldsymbol{0}$ 同解。所有正确结论的序号是（    ）。",
           "options": {
-            "A": "①③",
-            "B": "①④",
+            "A": "①②",
+            "B": "①③",
             "C": "②④",
-            "D": "②③"
+            "D": "①②③④"
           },
           "sub_questions": null,
           "page": 53,
@@ -7050,7 +7050,7 @@
           "id": "13",
           "qnum": 13,
           "type": "选择题",
-          "content": "设 $A$ 为 $m\\times n$ 矩阵，$\\boldsymbol{e}=[1,1,\\cdots,1]^\\mathrm{T}$。若方程组 $A\\boldsymbol{y}=\\boldsymbol{e}$ 有解，则对于 (I) $A\\boldsymbol{x}=\\boldsymbol{0}$ 与 (II) $\\begin{cases}A^\\mathrm{T}\\boldsymbol{x}=\\boldsymbol{0},\\\\\\boldsymbol{e}^\\mathrm{T}\\boldsymbol{x}=0,\\end{cases}$ 说法正确的是（    ）。",
+          "content": "设 $A$ 为 $m\\times n$ 矩阵，$\\boldsymbol{e}=[1,1,\\cdots,1]^\\mathrm{T}$。若方程组 $A\\boldsymbol{y}=\\boldsymbol{e}$ 有解，则对于 (I) $A^\\mathrm{T}\\boldsymbol{x}=\\boldsymbol{0}$ 与 (II) $\\begin{cases}A^\\mathrm{T}\\boldsymbol{x}=\\boldsymbol{0},\\\\\\boldsymbol{e}^\\mathrm{T}\\boldsymbol{x}=0,\\end{cases}$ 说法正确的是（    ）。",
           "options": {
             "A": "(I) 的解都是 (II) 的解，但 (II) 的解未必是 (I) 的解",
             "B": "(II) 的解都是 (I) 的解，但 (I) 的解未必是 (II) 的解",
@@ -7205,7 +7205,7 @@
           "id": "6",
           "qnum": 6,
           "type": "选择题",
-          "content": "设 $A$ 是3阶矩阵，将 $A$ 的第2列加到第3列得矩阵 $B$，再将 $B$ 的第3行的 $-1$ 倍加到第2行得 $\\begin{pmatrix}0&2&0\\\\0&2&a\\\\0&2&a\\end{pmatrix}$，其中 $a$ 为常数，则 $A$ 的特征值为（    ）。",
+          "content": "设 $A$ 是3阶矩阵，将 $A$ 的第2列加到第3列得矩阵 $B$，再将 $B$ 的第3行的 $-1$ 倍加到第2行得 $\\begin{pmatrix}1&1&0\\\\0&2&0\\\\0&2&a\\end{pmatrix}$，其中 $a$ 为常数，则 $A$ 的特征值为（    ）。",
           "options": {
             "A": "$1,2,a$",
             "B": "$1,2,-2$",
@@ -7231,8 +7231,8 @@
           "options": {
             "A": "$\\begin{pmatrix}1&2&-1\\\\2&0&1\\\\-1&1&0\\end{pmatrix}$",
             "B": "$\\begin{pmatrix}3&2&1\\\\0&2&1\\\\0&0&0\\end{pmatrix}$",
-            "C": "$\\begin{pmatrix}2&0&0\\\\0&2&0\\\\0&0&0\\end{pmatrix}$",
-            "D": "$\\begin{pmatrix}0&1&0\\\\0&0&1\\\\1&0&0\\end{pmatrix}$"
+            "C": "$\\begin{pmatrix}2&0&0\\\\0&2&0\\\\1&0&1\\end{pmatrix}$",
+            "D": "$\\begin{pmatrix}0&0&0\\\\1&2&0\\\\0&1&2\\end{pmatrix}$"
           },
           "sub_questions": null,
           "page": 56,
@@ -7249,7 +7249,7 @@
           "id": "8",
           "qnum": 8,
           "type": "填空题",
-          "content": "设 $A$ 为2阶矩阵，$\\boldsymbol{\\alpha}=\\begin{pmatrix}1\\\\0\\end{pmatrix}$ 是方程组 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的解，$\\boldsymbol{\\beta}=\\begin{pmatrix}0\\\\1\\end{pmatrix}$ 是方程组 $A\\boldsymbol{x}=\\boldsymbol{\\beta}$ 的解，则矩阵 $A=$______。",
+          "content": "设 $A$ 为2阶矩阵，$\\boldsymbol{\\alpha}=\\begin{pmatrix}1\\\\0\\end{pmatrix}$ 是方程组 $A\\boldsymbol{x}=\\boldsymbol{0}$ 的解，$\\boldsymbol{\\beta}=\\begin{pmatrix}1\\\\1\\end{pmatrix}$ 是方程组 $A\\boldsymbol{x}=\\boldsymbol{\\beta}$ 的解，则矩阵 $A=$______。",
           "options": null,
           "sub_questions": null,
           "page": 56,
@@ -7266,7 +7266,7 @@
           "id": "9",
           "qnum": 9,
           "type": "填空题",
-          "content": "已知 $A$ 为2阶方阵，可逆矩阵 $P=[\\boldsymbol{\\alpha},\\boldsymbol{\\beta}]$ 使得 $P^{-1}AP=\\begin{pmatrix}2&0\\\\0&3\\end{pmatrix}$，$Q=[\\boldsymbol{\\beta},\\boldsymbol{\\alpha}]$，则 $Q^{-1}AQ=$______。",
+          "content": "已知 $A$ 为2阶方阵，可逆矩阵 $P=[\\boldsymbol{\\alpha},\\boldsymbol{\\beta}]$ 使得 $P^{-1}AP=\\begin{pmatrix}1&0\\\\0&2\\end{pmatrix}$，$Q=[\\boldsymbol{\\beta},\\boldsymbol{\\alpha}]$，则 $Q^{-1}A^*Q=$______。",
           "options": null,
           "sub_questions": null,
           "page": 56,
@@ -7283,7 +7283,7 @@
           "id": "10",
           "qnum": 10,
           "type": "选择题",
-          "content": "设 $1$ 与 $-1$ 是矩阵 $A=\\begin{pmatrix}3&1&-2\\\\-1&a&0\\\\4&1&-3\\end{pmatrix}$ 的特征值，若矩阵 $A$ 可相似对角化，则 $a=$（    ）。",
+          "content": "设 $1$ 与 $-1$ 是矩阵 $A=\\begin{pmatrix}3&1&-2\\\\-a&-1&a\\\\4&1&-3\\end{pmatrix}$ 的特征值，若矩阵 $A$ 可相似对角化，则 $a=$（    ）。",
           "options": {
             "A": "$-1$",
             "B": "$0$",
@@ -7339,7 +7339,7 @@
           "id": "13",
           "qnum": 13,
           "type": "填空题",
-          "content": "设 $A$ 是3阶实对称矩阵，满足 $A+A^2+A^3=\\boldsymbol{0}$，则 $r(A)=$______。",
+          "content": "设 $A$ 是3阶实对称矩阵，满足 $A+A^2+\\dfrac{1}{2}A^3=\\boldsymbol{0}$，则 $r(A)=$______。",
           "options": null,
           "sub_questions": null,
           "page": 56,
@@ -7578,7 +7578,7 @@
             "A": "$a=-1$",
             "B": "$a=1$",
             "C": "$a\\geqslant 0$",
-            "D": "$a\\leqslant 0$"
+            "D": "$a<0$"
           },
           "sub_questions": null,
           "page": 58,
@@ -7614,7 +7614,7 @@
           "type": "选择题",
           "content": "设二次型 $f(x_1,x_2,x_3)=a(x_1^2+x_2^2+x_3^2)+4(x_1x_2+x_1x_3+x_2x_3)$ 经正交变换可化为标准形 $f=5y_1^2-y_2^2-y_3^2$，则 $a=$（    ）。",
           "options": {
-            "A": "$-1$",
+            "A": "$0$",
             "B": "$1$",
             "C": "$2$",
             "D": "$3$"
@@ -7636,8 +7636,8 @@
           "type": "选择题",
           "content": "设二次型 $f(x_1,x_2,x_3)$ 在正交变换 $\\boldsymbol{x}=P\\boldsymbol{y}$ 下的标准形为 $y_1^2+y_2^2-2y_3^2$，其中 $P=[\\boldsymbol{e}_1,\\boldsymbol{e}_2,\\boldsymbol{e}_3]$。若 $Q=[-\\boldsymbol{e}_3,\\boldsymbol{e}_2,\\boldsymbol{e}_1]$，则 $f(x_1,x_2,x_3)$ 在正交变换 $\\boldsymbol{x}=Q\\boldsymbol{y}$ 下的标准形为（    ）。",
           "options": {
-            "A": "$2y_1^2-2y_2^2+y_3^2$",
-            "B": "$2y_1^2+y_2^2-2y_3^2$",
+            "A": "$2y_1^2-y_2^2+y_3^2$",
+            "B": "$2y_1^2+y_2^2-y_3^2$",
             "C": "$-2y_1^2+y_2^2+y_3^2$",
             "D": "$-2y_1^2-y_2^2+y_3^2$"
           },
@@ -7680,7 +7680,7 @@
           "options": null,
           "sub_questions": [
             "(1) 求 $a$ 的值和正交矩阵 $Q$。",
-            "(2) 设矩阵 $B=\\begin{pmatrix}1&0&0\\\\c&b&0\\\\-1&-1&1\\end{pmatrix}$，若 $A$ 与 $B$ 相似，求 $b$，$c$ 的值。在此情形下，是否存在正交矩阵 $P$，使 $P^{-1}AP=B$？若存在，求 $P$；若不存在，请说明理由。"
+            "(2) 设矩阵 $B=\\begin{pmatrix}1&0&0\\\\c&b&0\\\\-1&-1&1\\end{pmatrix}$，若 $A$ 与 $B$ 相似，求 $b$，$c$ 的值。在此情形下，是否存在正交矩阵 $P$，使 $P^{\\mathrm{T}}AP=B$？若存在，求 $P$；若不存在，请说明理由。"
           ],
           "page": 58,
           "printed_page": null,
@@ -7696,7 +7696,7 @@
           "id": "8",
           "qnum": 8,
           "type": "选择题",
-          "content": "设 $A=\\begin{pmatrix}0&0&0&1\\\\-1&0&0&0\\\\0&0&1&0\\\\0&-1&0&0\\end{pmatrix}$，$B=\\begin{pmatrix}0&1&0&0\\\\1&0&0&0\\\\0&0&0&1\\\\0&0&1&0\\end{pmatrix}$，则 $A$ 和 $B$（    ）。",
+          "content": "设 $A=\\begin{pmatrix}0&0&0&1\\\\0&0&1&0\\\\0&1&0&0\\\\1&0&0&0\\end{pmatrix}$，$B=\\begin{pmatrix}-1&0&0&0\\\\0&-1&0&0\\\\0&0&1&0\\\\0&0&0&1\\end{pmatrix}$，则 $A$ 和 $B$（    ）。",
           "options": {
             "A": "合同且相似",
             "B": "合同但不相似",

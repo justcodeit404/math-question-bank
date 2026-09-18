@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "created_at": "2026-08-28T03:52:41.194629+00:00",
-  "updated_at": "2026-09-18T06:45:27.648573+00:00",
+  "updated_at": "2026-09-18T07:38:00.036541+00:00",
   "rule_version": "1.0.0",
   "total_questions": 2879,
   "entries": {
@@ -45811,7 +45811,7 @@
       "chapter": "基础·多元函数微分学",
       "page": 37,
       "type": "计算题",
-      "content_hash": "782a6939c0bf1e998318745e8f2af3c7594cc552aaa4ad034707d2da04b95e3d",
+      "content_hash": "7b6fb716ad3c045b326d360e0e57a9c11c875a1c93ffdef9500dcbf6ab22acc9",
       "answer_hash": "68e0a36b8dd5bd3414ecb4c703533c12c73065b449545f31cc6ae6030a5605c5",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 37,
@@ -45827,7 +45827,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:57.235538+00:00",
       "model_request_count": 0
     },
     "1000-基础·多元函数微分学-14": {
@@ -45936,7 +45936,7 @@
       "chapter": "基础·多元函数微分学",
       "page": 37,
       "type": "选择题",
-      "content_hash": "09bc02890f6b46c21381cb8307df4424cef32200c234719f82495fe7232ab190",
+      "content_hash": "c2514cd5031add44a66645ff9e9e6c54073389e3725cfa548c0432388e22c384",
       "answer_hash": "7d0b14d5455a7243a7559a49d1432ea1152736be852a621803a4933479a0b6c2",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 37,
@@ -45952,7 +45952,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:57.333567+00:00",
       "model_request_count": 0
     },
     "1000-基础·多元函数微分学-19": {
@@ -46011,7 +46011,7 @@
       "chapter": "基础·多元函数微分学",
       "page": 38,
       "type": "计算题",
-      "content_hash": "22832ac7977655c40c18d5e14cd6cb4cf316397de2de2b993f4c18e2acb53c2b",
+      "content_hash": "00ab552a532de3bd044b85e3056867359b013b11823d89bf8f252876b3fd4166",
       "answer_hash": "c80628d1bbcd4a5bf85f2ae3a9490b0c0fe62f64941014894807fc47204dd97d",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 38,
@@ -46027,7 +46027,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:57.430677+00:00",
       "model_request_count": 0
     },
     "1000-基础·多元函数微分学-22": {
@@ -46036,7 +46036,7 @@
       "chapter": "基础·多元函数微分学",
       "page": 38,
       "type": "计算题",
-      "content_hash": "2f7e84e332767a96dddc982206580b18e7a87ad11aba0e3ae6add4268a445b3b",
+      "content_hash": "02987359fface5492a1a1c3b2567372f00091dbc8c25f9eae882e87466a9efb5",
       "answer_hash": "9ba1bcedc1bc370d6b29c552f46dfbcdb132c06e8a1bcb642fc38b7877861c80",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 38,
@@ -46052,7 +46052,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:57.526720+00:00",
       "model_request_count": 0
     },
     "1000-基础·多元函数微分学-23": {
@@ -46111,7 +46111,7 @@
       "chapter": "基础·二重积分",
       "page": 39,
       "type": "选择题",
-      "content_hash": "e2783018b2ecb24d2267d033312da7b60251115901bd41ece2b30a42015fd09f",
+      "content_hash": "17515bc7bc84318f009e317e673d5f80b13aa65cfae6cbbb77651d1b985c35f6",
       "answer_hash": "76c8b283b55e20807cbb192d2eef25a2fd9a68572768577870a349895bb5feac",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 39,
@@ -46127,7 +46127,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:57.627814+00:00",
       "model_request_count": 0
     },
     "1000-基础·二重积分-2": {
@@ -46161,7 +46161,7 @@
       "chapter": "基础·二重积分",
       "page": 39,
       "type": "选择题",
-      "content_hash": "eb4a8bf9b6ccadd39cec70a741102ec095ed4692d876fc0d26000e3379e96a10",
+      "content_hash": "3b90618b2912b1c0e66178acdfaba2f737920b3786df9fc6b274f47e04ad26c7",
       "answer_hash": "cbed2e433ae8014eaf85dfac6100d36e4002de35ea45c8eba24b210cb28861a7",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 39,
@@ -46177,7 +46177,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:57.729302+00:00",
       "model_request_count": 0
     },
     "1000-基础·二重积分-4": {
@@ -46211,7 +46211,7 @@
       "chapter": "基础·二重积分",
       "page": 39,
       "type": "填空题",
-      "content_hash": "42655d2876f2b079095463c2c5f49f7d62596924b749c0f7e9c6f3ad4fae9ac8",
+      "content_hash": "6d029680d2cac6f78efd6a573a9d2919e166f56482c6023f2d0eccce2b7125c6",
       "answer_hash": "7f20990112be355e88a0ba3edd2d9b853b76778a0884e49839798b91b485c50b",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 39,
@@ -46227,7 +46227,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:57.824038+00:00",
       "model_request_count": 0
     },
     "1000-基础·二重积分-6": {
@@ -46236,7 +46236,7 @@
       "chapter": "基础·二重积分",
       "page": 39,
       "type": "填空题",
-      "content_hash": "5dd546d6ff487c91ce438fd2333554135e7bad8c38d0e27a214980e8a0c29782",
+      "content_hash": "d0dbff60038e6a45fe748373188847d5e1d6d9a664731dbc77bed42b0505696d",
       "answer_hash": "7aef535b76a1c1d862795fb24be7ef530c138ea22b4cda973c845586021fb9fb",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 39,
@@ -46252,7 +46252,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:57.918964+00:00",
       "model_request_count": 0
     },
     "1000-基础·二重积分-7": {
@@ -46261,7 +46261,7 @@
       "chapter": "基础·二重积分",
       "page": 39,
       "type": "选择题",
-      "content_hash": "61353c953fbf0c5d49b52676bbfbbd58e59cc83f3b9b3bcbb58bd7e0aef74400",
+      "content_hash": "0ebe041333d2539865533f22b17db25f67b1581725b0ec9ccaf7f7d33a2060f0",
       "answer_hash": "814560eb5011551dc7a3030cc79631ecb30662e0bbc396a78a033e1346387dc4",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 39,
@@ -46277,7 +46277,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:58.009975+00:00",
       "model_request_count": 0
     },
     "1000-基础·二重积分-8": {
@@ -46286,7 +46286,7 @@
       "chapter": "基础·二重积分",
       "page": 39,
       "type": "选择题",
-      "content_hash": "37f11e8b64359ff06e5aaccdbd53a0407448d29d467b7ccca1c034b68e382165",
+      "content_hash": "8be41edc9365436fd80deafb76db533292e2a544e3847ceef5371824befabbc9",
       "answer_hash": "5562b387f30c93cca2951b61fb960e77a78c9dd5c207f2d94f86648013881e11",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 39,
@@ -46302,7 +46302,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:58.105555+00:00",
       "model_request_count": 0
     },
     "1000-基础·二重积分-9": {
@@ -46311,7 +46311,7 @@
       "chapter": "基础·二重积分",
       "page": 40,
       "type": "选择题",
-      "content_hash": "4b478f509bb3d3c9e99bde9ea68b31f67aab8ad6df06722dfa2ee6d66cc1df2e",
+      "content_hash": "8b048cdec2b041a26a77d5b7e9d653ffb93f3637a5744d0d902cfa01bcd8dffe",
       "answer_hash": "cf3c3ced746d95b24cf195756406c5197d57ceb54a72379953efaa4672d58a81",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 40,
@@ -46327,7 +46327,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:58.206852+00:00",
       "model_request_count": 0
     },
     "1000-基础·二重积分-10": {
@@ -46536,7 +46536,7 @@
       "chapter": "基础·二重积分",
       "page": 40,
       "type": "计算题",
-      "content_hash": "e0574f67da5c5f829d21a250f77d5ed4ae241b7b7a0f4a35f83eb1e8778590d5",
+      "content_hash": "e930bee07ab3940f4bd89898fdf34b1733b6c5c1c6d6fb6e2480092d5372bd3b",
       "answer_hash": "b83fac52646df305d3ecfada25781bad07212dcde1603e313eb51698826f98ca",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 40,
@@ -46552,7 +46552,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:58.305465+00:00",
       "model_request_count": 0
     },
     "1000-基础·二重积分-19": {
@@ -48261,7 +48261,7 @@
       "chapter": "基础·向量组",
       "page": 51,
       "type": "选择题",
-      "content_hash": "c1728945f43a31051bf2ea185a99dfe6958e0b7cc6340c60dd7a36d0eef23e46",
+      "content_hash": "59dbc96247acdd20e4048676a7c83d82232eca6114d0926d73f74294122528e1",
       "answer_hash": "2ca7efd5a6231ada72502cf8d3a73df7c263548d3b7d94fd5f688f2f7f3cbd8b",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 51,
@@ -48277,7 +48277,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:58.402872+00:00",
       "model_request_count": 0
     },
     "1000-基础·向量组-14": {
@@ -48286,7 +48286,7 @@
       "chapter": "基础·向量组",
       "page": 51,
       "type": "填空题",
-      "content_hash": "2cf12918ffe1bd4f73669ed3a54f93b83d5df6e2b713e76b44711ba9871c25ea",
+      "content_hash": "199cd60ae0cb862a31ea9a50215047a8d991415a66e996f34250696cf9c1a4a0",
       "answer_hash": "7d82e6f3fd49d839092a71abbf8d5f7adc6f55642c2b4a3b868d68be7db16ef1",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 51,
@@ -48302,7 +48302,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:58.498447+00:00",
       "model_request_count": 0
     },
     "1000-基础·线性方程组-1": {
@@ -48386,7 +48386,7 @@
       "chapter": "基础·线性方程组",
       "page": 52,
       "type": "选择题",
-      "content_hash": "19076329f5e773bc6733202fe52236e180b5d61fd1955d5b4c15f8c04d4f1913",
+      "content_hash": "541375483500f8be9024b10fa15efd89626a1a2ae4e8508b2a91854df90e7fda",
       "answer_hash": "563e7c7a015562d1f0f80155c945c590a7bc9916d0285b52daaccf0e6daa246a",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 52,
@@ -48402,7 +48402,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:58.597388+00:00",
       "model_request_count": 0
     },
     "1000-基础·线性方程组-5": {
@@ -48411,7 +48411,7 @@
       "chapter": "基础·线性方程组",
       "page": 52,
       "type": "填空题",
-      "content_hash": "60f8da20bedb924e05157ba65686f84b39a2864b4421753f76fa0b1b055e56c0",
+      "content_hash": "73d225c937ac7001c80e3354d9d497552874cb7ea4ab0c3df9b96783de4853a7",
       "answer_hash": "922b49948447c1cebb2a330a676f532ec0b91b5ae6a08ce14470ccc80c8c7f3b",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 52,
@@ -48427,7 +48427,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:58.687541+00:00",
       "model_request_count": 0
     },
     "1000-基础·线性方程组-6": {
@@ -48536,7 +48536,7 @@
       "chapter": "基础·线性方程组",
       "page": 53,
       "type": "选择题",
-      "content_hash": "833d54a2e98f6609afaa9ac8437c4d7d1bf4338fe8362bf7090723f630ffcc58",
+      "content_hash": "42c384a975ddbb36e863db20048e2ee45138bc066d1b47b89ab88a8a9e47a1c4",
       "answer_hash": "a8721d41aace4d353f0f51f97808923d3ec4552aa2f9ee881e72ed8be092dc64",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 53,
@@ -48552,7 +48552,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:58.789713+00:00",
       "model_request_count": 0
     },
     "1000-基础·线性方程组-11": {
@@ -48586,7 +48586,7 @@
       "chapter": "基础·线性方程组",
       "page": 53,
       "type": "选择题",
-      "content_hash": "d7868b193d4655ea74250596a6242253d2338351dc7f0feadcf641322d9c674f",
+      "content_hash": "932d465890d2c34f3fb196fcfbd531a0e87c7e5a38ede559d6ebe89dd29b303f",
       "answer_hash": "7efcb6907b25d3923ab53375ce0f18672181b84a1c1da230738b028fe0de7d3d",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 53,
@@ -48602,7 +48602,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:58.884919+00:00",
       "model_request_count": 0
     },
     "1000-基础·线性方程组-13": {
@@ -48611,7 +48611,7 @@
       "chapter": "基础·线性方程组",
       "page": 53,
       "type": "选择题",
-      "content_hash": "e3531825b52620dfb8efc18211de579cb19948453a97f0fc9bb67b874d6b2635",
+      "content_hash": "27b134c28bfe81597a9930551e635ed9701588c29656523561b5c4f2c273616f",
       "answer_hash": "33b4c64d82336594ade53939b5a784de161d1a3b0c50f33afe3a392478f34c53",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 53,
@@ -48627,7 +48627,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:58.988531+00:00",
       "model_request_count": 0
     },
     "1000-基础·线性方程组-14": {
@@ -48786,7 +48786,7 @@
       "chapter": "基础·特征值与特征向量",
       "page": 55,
       "type": "选择题",
-      "content_hash": "df6551010052b775f603a53be5857c34f55eafd5cab62cc16250a9d11f219652",
+      "content_hash": "96fdcffbe629f3830d42a8f469ead3ba1af145bd770dc35b377edc95c5557503",
       "answer_hash": "a020b80bbf2c015b9a3903aca5634b099f0375b8f2bd502b496e01e23aeb35fd",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 55,
@@ -48802,7 +48802,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:59.087419+00:00",
       "model_request_count": 0
     },
     "1000-基础·特征值与特征向量-7": {
@@ -48811,7 +48811,7 @@
       "chapter": "基础·特征值与特征向量",
       "page": 56,
       "type": "选择题",
-      "content_hash": "d467f0fe1c97867ec16e35cd9adcf0461a4d31d61e5e453869f828621bc1baee",
+      "content_hash": "20036c49c26de9080852374338ea4395bdd4af3d2f1c39b1702890aa008de568",
       "answer_hash": "6d8ca30ae2e51255e785519ee5df2c8c1746b2e40008dbd6972ed8985d470a7b",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 56,
@@ -48827,7 +48827,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:59.179770+00:00",
       "model_request_count": 0
     },
     "1000-基础·特征值与特征向量-8": {
@@ -48836,7 +48836,7 @@
       "chapter": "基础·特征值与特征向量",
       "page": 56,
       "type": "填空题",
-      "content_hash": "e8b93213914eb5862c90b088ce89ae87f1adcf860e97f711593c2b8abb4b8983",
+      "content_hash": "6a0177eae258866ae12db61b4d40f890891bc25b3646f8856e10fb1edf4cf5d2",
       "answer_hash": "5d29d6916735c503ca599612b86d62f6732eebf4ec06936b135ad571beaada79",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 56,
@@ -48852,7 +48852,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:59.270304+00:00",
       "model_request_count": 0
     },
     "1000-基础·特征值与特征向量-9": {
@@ -48861,7 +48861,7 @@
       "chapter": "基础·特征值与特征向量",
       "page": 56,
       "type": "填空题",
-      "content_hash": "e0f139eb73056197b402f961bf1cc82a8478126bcfd0ebebc44a1a50ea3050ac",
+      "content_hash": "c0eb53785da8226af3e6824edf9552eb472c0ff894ce6f61c66202beb1976546",
       "answer_hash": "03641259a5b97111162a5bd6551a0d691022df7b0f73df4491787a1417e7cf11",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 56,
@@ -48877,7 +48877,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:59.364225+00:00",
       "model_request_count": 0
     },
     "1000-基础·特征值与特征向量-10": {
@@ -48886,7 +48886,7 @@
       "chapter": "基础·特征值与特征向量",
       "page": 56,
       "type": "选择题",
-      "content_hash": "8e9c7b6bcb51d156d32f9e648a71d50e3e14f142e568cdc8ab6995f867bdce2f",
+      "content_hash": "f6771cdea48ada347d3ac37f720589f4200524445f058556ee244de90ffbeadd",
       "answer_hash": "f73168fce0ab20a465b2b1d3e8c580fa7cfe7c83d39e01783a90071eb15b470e",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 56,
@@ -48902,7 +48902,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:59.466203+00:00",
       "model_request_count": 0
     },
     "1000-基础·特征值与特征向量-11": {
@@ -48961,7 +48961,7 @@
       "chapter": "基础·特征值与特征向量",
       "page": 56,
       "type": "填空题",
-      "content_hash": "e89ab34f733dd7b26756683288159e3078b77e1923b6284f5833a0ecc4fd77d9",
+      "content_hash": "a5349a3724341466ac69f6926e5c02005a478bc509adbbb55b88472f9c35bfb9",
       "answer_hash": "48e3a56297ba51dde47aa85746f7424eca56e0317f827c3be4bc0c184140afca",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 56,
@@ -48977,7 +48977,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:59.555800+00:00",
       "model_request_count": 0
     },
     "1000-基础·特征值与特征向量-14": {
@@ -49261,7 +49261,7 @@
       "chapter": "基础·二次型",
       "page": 58,
       "type": "选择题",
-      "content_hash": "0b1ffd39510053c2e664fa9d3a41613c9391109513814992bcd54c60a63d87ec",
+      "content_hash": "a84ec878b0942eb044e33e7b79b2c7708376be1b75974567ee277bb90007203f",
       "answer_hash": "8ffda806b1f1c856505e24d3e5aa6e971b3ecf35649f5d23cd362c313cdf5bbe",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 58,
@@ -49277,7 +49277,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:59.656896+00:00",
       "model_request_count": 0
     },
     "1000-基础·二次型-3": {
@@ -49311,7 +49311,7 @@
       "chapter": "基础·二次型",
       "page": 58,
       "type": "选择题",
-      "content_hash": "60b00762bcdb31c8b827f882a456b4ded31cc9c32f541d51edbf3ac70d311242",
+      "content_hash": "faf873ef1bdf1deb1c818fde5d62c7a0d5556ea47adf0690ccc4c29d48e06151",
       "answer_hash": "0e33ed5af43a0d9d2b2dec0a7bf53e881f67461791ad8f1f985892e7cdeedcc9",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 58,
@@ -49327,7 +49327,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:59.750001+00:00",
       "model_request_count": 0
     },
     "1000-基础·二次型-5": {
@@ -49336,7 +49336,7 @@
       "chapter": "基础·二次型",
       "page": 58,
       "type": "选择题",
-      "content_hash": "58825824ad37eeb3eb40df6eb6bfca50f7e56d98b037ea6b00d7e19f9fc8c145",
+      "content_hash": "8322c520026e6d7d4fc0792aea0821997fbf2ea3f85cf57cbb09cb47572ec93a",
       "answer_hash": "8bac44f8916a87089eca7e1734da4fd3e0d14f67e311439b088f1989fca7795f",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 58,
@@ -49352,7 +49352,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:59.851343+00:00",
       "model_request_count": 0
     },
     "1000-基础·二次型-6": {
@@ -49386,7 +49386,7 @@
       "chapter": "基础·二次型",
       "page": 58,
       "type": "计算题",
-      "content_hash": "ab8ac62e983d0a2004774572dd78a97fa92048a2f3232c2e671c7aac059b305e",
+      "content_hash": "31a1c091e862f6dbe2aba59213f29f5ea6a797243d1293779c71b165f138edf1",
       "answer_hash": "5c841a73ae2946f9280ad6e2e10e8366bc224db9743033baa78ab4c298523c6e",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 58,
@@ -49402,7 +49402,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:37:59.943221+00:00",
       "model_request_count": 0
     },
     "1000-基础·二次型-8": {
@@ -49411,7 +49411,7 @@
       "chapter": "基础·二次型",
       "page": 58,
       "type": "选择题",
-      "content_hash": "23440a5084afbbf09c88a00c453ac800ef4d3678a54b3dd3b1c6ebb1c1efa070",
+      "content_hash": "9e2dafdb10f4228e67a427e8656094a9e1c25ae3b3d2f2a9a4da53892433a1e4",
       "answer_hash": "e8b9d6c039c9045b37a9c1007f9f0cf5559e15eb9736ede18f47fb91eacb1f2d",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 58,
@@ -49427,7 +49427,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-09-18T07:38:00.036541+00:00",
       "model_request_count": 0
     },
     "1000-强化·函数极限与连续-19": {
