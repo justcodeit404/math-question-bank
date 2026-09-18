@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "created_at": "2026-08-28T03:52:41.194629+00:00",
-  "updated_at": "2026-09-18T11:50:02.236454+00:00",
+  "updated_at": "2026-09-18T12:03:14.045470+00:00",
   "rule_version": "1.0.0",
   "total_questions": 2900,
   "entries": {
@@ -72208,23 +72208,20 @@
       "source_page": 121,
       "source_page_render_hash": null,
       "image_hash": null,
-      "answer_image_hash": "f283d77b6bdcdffb",
+      "answer_image_hash": "fd389381c8c74ebc",
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
       "model_versions": {
-        "auditor": "mimo"
+        "auditor": "mimo",
+        "fix": "kimi-re-crop"
       },
       "source_review_status": "source_verified",
-      "answer_review_status": "hold",
-      "overall_status": "hold",
-      "conflicts": [
-        "答案图底部裁切：主结论「x=[k,-k,0]^T」完整且知识点匹配，但图底残留半截向量「[1 -1 0]」被切断，不满足裁切完整要求"
-      ],
-      "issue_codes": [
-        "answer_crop_truncated"
-      ],
-      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
+      "conflicts": [],
+      "issue_codes": [],
+      "last_reviewed": "2026-09-18T12:03:14.044389+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-10": {
@@ -72239,23 +72236,20 @@
       "source_page": 121,
       "source_page_render_hash": null,
       "image_hash": null,
-      "answer_image_hash": "6a4558d0309e9f8b",
+      "answer_image_hash": "8da2e70fa0732f2c",
       "rule_version": "1.0.0",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
       "model_versions": {
-        "auditor": "mimo"
+        "auditor": "mimo",
+        "fix": "kimi-re-crop"
       },
       "source_review_status": "source_verified",
-      "answer_review_status": "hold",
-      "overall_status": "hold",
-      "conflicts": [
-        "答案图顶部裁切：题号10与解析主体（AB=O→特征值0,0,2→正交变换→二次型）与第10题知识点匹配，但顶部 B 矩阵被切断（仅见两行，缺首行 [1 -1 0]）"
-      ],
-      "issue_codes": [
-        "answer_crop_truncated"
-      ],
-      "last_reviewed": "2026-09-18T11:50:02.236454+00:00",
+      "answer_review_status": "answer_verified",
+      "overall_status": "strictly_verified",
+      "conflicts": [],
+      "issue_codes": [],
+      "last_reviewed": "2026-09-18T12:03:14.045470+00:00",
       "model_request_count": 0
     },
     "1000-强化·二次型-11": {
