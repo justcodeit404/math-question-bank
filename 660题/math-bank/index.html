@@ -2794,11 +2794,31 @@ function loadNoteImgsMap() {
 
 function saveNoteImgsMap() {
 
-  if (!noteImgsMapCache) return;
+  if (!noteImgsMapCache) return false;
 
-  if (window.ViewerStorage && ViewerStorage.saveShardedMap) { ViewerStorage.saveShardedMap(noteImgsKey(), noteImgsMapCache); return; }
+  if (window.ViewerStorage && ViewerStorage.saveShardedMap) { return ViewerStorage.saveShardedMap(noteImgsKey(), noteImgsMapCache); }
 
-  try { localStorage.setItem(noteImgsKey(), JSON.stringify(noteImgsMapCache)); } catch (e) {}
+  try { localStorage.setItem(noteImgsKey(), JSON.stringify(noteImgsMapCache)); return true; } catch (e) { return false; }
+
+}
+
+
+
+function readNoteImgsFresh() {
+
+  if (window.ViewerStorage && ViewerStorage.loadShardedMap) return ViewerStorage.loadShardedMap(noteImgsKey()) || {};
+
+  try { return JSON.parse(localStorage.getItem(noteImgsKey()) || '{}'); } catch (e) { return {}; }
+
+}
+
+
+
+function readNotesMapFresh() {
+
+  if (window.ViewerStorage && ViewerStorage.loadShardedMap) return ViewerStorage.loadShardedMap(notesKey()) || {};
+
+  try { return JSON.parse(localStorage.getItem(notesKey()) || '{}'); } catch (e) { return {}; }
 
 }
 
@@ -3620,7 +3640,11 @@ const NOTE_IMG_RE = /!\[([^\]]*)\]\((noteimg:[A-Za-z0-9]+|data:image\/(?:png|jpe
 function storeNoteImage(dataUrl) {
   const token = 'noteimg:' + Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36);
   loadNoteImgsMap()[token] = dataUrl;
-  saveNoteImgsMap();
+  if (!saveNoteImgsMap()) {
+    // 存储失败：回滚并返回 null，调用方退回内联 base64，绝不静默丢图
+    delete loadNoteImgsMap()[token];
+    return null;
+  }
   return token;
 }
 
@@ -3635,33 +3659,38 @@ function stripNoteImages(text) {
     .replace(/!\[([^\]]*)\]\((?:noteimg:[A-Za-z0-9]+|data:image\/[^)]+)\)/g, '（图片）');
 }
 
-/** 旧版笔记把 base64 直接内联在文本里：搬到图片 map 并换成短占位符（幂等） */
+/** 旧版笔记把 base64 直接内联在文本里：搬到图片 map 并换成短占位符（幂等）。
+ *  存不下就保留内联形态，不丢图。 */
 function migrateLegacyNoteImages() {
   let changed = false;
   Object.keys(notesMapCache || {}).forEach((key) => {
     const text = notesMapCache[key];
     if (typeof text !== 'string' || text.indexOf('data:image/') === -1) return;
     notesMapCache[key] = text.replace(/!\[([^\]]*)\]\(data:image\/(?:png|jpeg);base64,[^)\s]+\)/g, (m, alt, ref) => {
+      const token = storeNoteImage(ref);
+      if (!token) return m;
       changed = true;
-      return `![${alt}](${storeNoteImage(ref)})`;
+      return `![${alt}](${token})`;
     });
   });
   if (changed) saveNotesMap();
 }
 
-/** 删除笔记时回收不再被任何笔记引用的图片 */
+/** 删除笔记时回收不再被任何笔记引用的图片。
+ *  从盘上重新读笔记/图片再合并内存，避免旧标签页凭过期内存把别的标签页刚存的图回收掉。 */
 function gcNoteImages() {
+  const freshNotes = readNotesMapFresh();
   const referenced = new Set();
-  Object.values(loadNotesMap()).forEach((text) => {
+  Object.values(freshNotes).forEach((text) => {
     if (typeof text !== 'string') return;
     let m;
     const re = /!\[([^\]]*)\]\((noteimg:[A-Za-z0-9]+)\)/g;
     while ((m = re.exec(text)) !== null) referenced.add(m[2]);
   });
-  const imgs = loadNoteImgsMap();
+  noteImgsMapCache = Object.assign({}, readNoteImgsFresh(), loadNoteImgsMap());
   let changed = false;
-  Object.keys(imgs).forEach((token) => {
-    if (!referenced.has(token)) { delete imgs[token]; changed = true; }
+  Object.keys(noteImgsMapCache).forEach((token) => {
+    if (!referenced.has(token)) { delete noteImgsMapCache[token]; changed = true; }
   });
   if (changed) saveNoteImgsMap();
 }
@@ -3873,7 +3902,9 @@ function bindNotesUI(q) {
 
       .then((dataUrl) => {
 
-        insertTextAtCursor(ta, `![图片](${storeNoteImage(dataUrl)})`);
+        const token = storeNoteImage(dataUrl);
+
+        insertTextAtCursor(ta, token ? `![图片](${token})` : `![图片](${dataUrl})`);
 
         maybeConvertNoteImage(ta, dataUrl);
 
@@ -3903,7 +3934,9 @@ function bindNotesUI(q) {
 
         .then((dataUrl) => {
 
-          insertTextAtCursor(ta, `![图片](${storeNoteImage(dataUrl)})`);
+          const token = storeNoteImage(dataUrl);
+
+          insertTextAtCursor(ta, token ? `![图片](${token})` : `![图片](${dataUrl})`);
 
           maybeConvertNoteImage(ta, dataUrl);
 
@@ -4981,10 +5014,12 @@ function getNoteImagesForExport() {
 
 function applyNoteImagesImport(map) {
   if (!map || typeof map !== 'object') return;
+  // 合并而非整体覆盖：旧备份里没有图片字段，避免把现有图库清空
+  const merged = Object.assign({}, readNoteImgsFresh(), map);
   if (window.ViewerStorage && ViewerStorage.saveShardedMap) {
-    ViewerStorage.saveShardedMap(noteImgsKey(), map);
+    ViewerStorage.saveShardedMap(noteImgsKey(), merged);
   } else {
-    try { localStorage.setItem(noteImgsKey(), JSON.stringify(map)); } catch (e) {}
+    try { localStorage.setItem(noteImgsKey(), JSON.stringify(merged)); } catch (e) {}
   }
   noteImgsMapCache = null;
 }
