@@ -1429,6 +1429,44 @@ body {
 
 
 
+.q-notes-preview .note-img {
+
+  display: block;
+
+  max-width: 100%;
+
+  max-height: 320px;
+
+  margin: 6px 0;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-sm);
+
+}
+
+
+
+.q-notes-preview .note-img-missing {
+
+  display: inline-block;
+
+  margin: 6px 0;
+
+  padding: 4px 10px;
+
+  border: 1px dashed var(--border);
+
+  border-radius: var(--radius-sm);
+
+  color: var(--muted);
+
+  font-size: 0.8rem;
+
+}
+
+
+
 .q-notes-actions {
 
   display: flex;
@@ -2662,6 +2700,50 @@ function notesKey() {
 
 
 
+function noteImgsKey() {
+
+  return 'mathbank_noteimgs_' + (bank.title || document.title || 'default');
+
+}
+
+
+
+let noteImgsMapCache = null;
+
+
+
+function loadNoteImgsMap() {
+
+  if (noteImgsMapCache) return noteImgsMapCache;
+
+  if (window.ViewerStorage && ViewerStorage.loadShardedMap) {
+
+    noteImgsMapCache = ViewerStorage.loadShardedMap(noteImgsKey()) || {};
+
+  } else {
+
+    try { noteImgsMapCache = JSON.parse(localStorage.getItem(noteImgsKey()) || '{}'); } catch (e) { noteImgsMapCache = {}; }
+
+  }
+
+  return noteImgsMapCache;
+
+}
+
+
+
+function saveNoteImgsMap() {
+
+  if (!noteImgsMapCache) return;
+
+  if (window.ViewerStorage && ViewerStorage.saveShardedMap) { ViewerStorage.saveShardedMap(noteImgsKey(), noteImgsMapCache); return; }
+
+  try { localStorage.setItem(noteImgsKey(), JSON.stringify(noteImgsMapCache)); } catch (e) {}
+
+}
+
+
+
 function loadNotesMap() {
 
   if (notesMapCache) return notesMapCache;
@@ -2675,6 +2757,10 @@ function loadNotesMap() {
     try { notesMapCache = JSON.parse(localStorage.getItem(notesKey()) || '{}'); } catch (e) { notesMapCache = {}; }
 
   }
+
+  loadNoteImgsMap();
+
+  migrateLegacyNoteImages();
 
   return notesMapCache;
 
@@ -2706,13 +2792,13 @@ function setNote(uid, text) {
 
   saveNotesMap();
 
+  if (!text) gcNoteImages();
+
 }
 
 function textNotePayload(q, markdown) {
-  // 平台文本笔记限 20000 字符，内联图片只存本浏览器：同步时替换为占位
-  const md = String(markdown || '')
-    .replace(/!\[([^\]]*)\]\(data:image\/[^)]+\)/g, '（图片）')
-    .trim();
+  // 平台文本笔记限 20000 字符，图片只存本浏览器：同步时替换为占位
+  const md = stripNoteImages(markdown).trim();
   if (!md || !q || !q.uid) return null;
   return {
     bank: BANK_KEY || 'math',
@@ -3468,8 +3554,57 @@ function insertTextAtCursor(ta, snippet) {
   ta.dispatchEvent(new Event('input', { bubbles: true }));
 }
 
-// 仅放行我们自己生成的 data:image/(png|jpeg) 内联图，其他地址一律不渲染（防 XSS）
-const NOTE_IMG_RE = /!\[([^\]]*)\]\((data:image\/(?:png|jpeg);base64,[^)\s]+)\)/g;
+// 图片在笔记文本里只存短占位符 `![图片](noteimg:xxx)`，本体在图片 map（分片）；兼容识别旧的 data: 内联图
+const NOTE_IMG_RE = /!\[([^\]]*)\]\((noteimg:[A-Za-z0-9]+|data:image\/(?:png|jpeg);base64,[^)\s]+)\)/g;
+
+function storeNoteImage(dataUrl) {
+  const token = 'noteimg:' + Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36);
+  loadNoteImgsMap()[token] = dataUrl;
+  saveNoteImgsMap();
+  return token;
+}
+
+function resolveNoteImage(ref) {
+  if (ref.indexOf('noteimg:') === 0) return loadNoteImgsMap()[ref] || null;
+  return ref.indexOf('data:image/') === 0 ? ref : null;
+}
+
+/** 同步用：把图片占位符替换为（图片），避免大 base64 进平台 */
+function stripNoteImages(text) {
+  return String(text == null ? '' : text)
+    .replace(/!\[([^\]]*)\]\((?:noteimg:[A-Za-z0-9]+|data:image\/[^)]+)\)/g, '（图片）');
+}
+
+/** 旧版笔记把 base64 直接内联在文本里：搬到图片 map 并换成短占位符（幂等） */
+function migrateLegacyNoteImages() {
+  let changed = false;
+  Object.keys(notesMapCache || {}).forEach((key) => {
+    const text = notesMapCache[key];
+    if (typeof text !== 'string' || text.indexOf('data:image/') === -1) return;
+    notesMapCache[key] = text.replace(/!\[([^\]]*)\]\(data:image\/(?:png|jpeg);base64,[^)\s]+\)/g, (m, alt, ref) => {
+      changed = true;
+      return `![${alt}](${storeNoteImage(ref)})`;
+    });
+  });
+  if (changed) saveNotesMap();
+}
+
+/** 删除笔记时回收不再被任何笔记引用的图片 */
+function gcNoteImages() {
+  const referenced = new Set();
+  Object.values(loadNotesMap()).forEach((text) => {
+    if (typeof text !== 'string') return;
+    let m;
+    const re = /!\[([^\]]*)\]\((noteimg:[A-Za-z0-9]+)\)/g;
+    while ((m = re.exec(text)) !== null) referenced.add(m[2]);
+  });
+  const imgs = loadNoteImgsMap();
+  let changed = false;
+  Object.keys(imgs).forEach((token) => {
+    if (!referenced.has(token)) { delete imgs[token]; changed = true; }
+  });
+  if (changed) saveNoteImgsMap();
+}
 
 function appendNoteTextSegment(el, segment) {
   if (!segment) return;
@@ -3486,11 +3621,19 @@ function renderNotePreview(el, text) {
   let m;
   while ((m = NOTE_IMG_RE.exec(text)) !== null) {
     if (m.index > last) appendNoteTextSegment(el, text.slice(last, m.index));
-    const img = document.createElement('img');
-    img.className = 'note-img';
-    img.alt = m[1] || '笔记图片';
-    img.src = m[2];
-    el.appendChild(img);
+    const dataUrl = resolveNoteImage(m[2]);
+    if (dataUrl) {
+      const img = document.createElement('img');
+      img.className = 'note-img';
+      img.alt = m[1] || '笔记图片';
+      img.src = dataUrl;
+      el.appendChild(img);
+    } else {
+      const missing = document.createElement('span');
+      missing.className = 'note-img-missing';
+      missing.textContent = '（图片缺失）';
+      el.appendChild(missing);
+    }
     last = NOTE_IMG_RE.lastIndex;
   }
   NOTE_IMG_RE.lastIndex = 0;
@@ -3591,7 +3734,7 @@ function bindNotesUI(q) {
 
     processNoteImage(item.getAsFile())
 
-      .then((dataUrl) => insertTextAtCursor(ta, `![图片](${dataUrl})`))
+      .then((dataUrl) => insertTextAtCursor(ta, `![图片](${storeNoteImage(dataUrl)})`))
 
       .catch(() => showMarkToast('图片插入失败'));
 
@@ -3615,7 +3758,7 @@ function bindNotesUI(q) {
 
       processNoteImage(file)
 
-        .then((dataUrl) => insertTextAtCursor(ta, `![图片](${dataUrl})`))
+        .then((dataUrl) => insertTextAtCursor(ta, `![图片](${storeNoteImage(dataUrl)})`))
 
         .catch(() => showMarkToast('图片插入失败'));
 
@@ -4678,9 +4821,28 @@ function getBankProgressKeys() {
   };
 }
 
+// 笔记图片 map（分片存储，随进度导出/导入备份）
+function getNoteImagesForExport() {
+  return (window.ViewerStorage && ViewerStorage.loadShardedMap)
+    ? (ViewerStorage.loadShardedMap(noteImgsKey()) || {})
+    : (function () {
+        try { return JSON.parse(localStorage.getItem(noteImgsKey()) || '{}'); } catch (e) { return {}; }
+      })();
+}
+
+function applyNoteImagesImport(map) {
+  if (!map || typeof map !== 'object') return;
+  if (window.ViewerStorage && ViewerStorage.saveShardedMap) {
+    ViewerStorage.saveShardedMap(noteImgsKey(), map);
+  } else {
+    try { localStorage.setItem(noteImgsKey(), JSON.stringify(map)); } catch (e) {}
+  }
+  noteImgsMapCache = null;
+}
+
 function exportProgress() {
   const keys = getBankProgressKeys();
-  const data = { version: 2, bank: bank.title || document.title, exportedAt: Date.now() };
+  const data = { version: 2, bank: bank.title || document.title, exportedAt: Date.now(), noteImages: getNoteImagesForExport() };
   Object.entries(keys).forEach(([name, key]) => {
     if (name === 'marks') {
       // 分片存储时导出完整 map，而非单 key
@@ -4718,6 +4880,7 @@ function importProgress(file) {
     try {
       const data = JSON.parse(e.target.result);
       if (!data || typeof data !== 'object') throw new Error('无效文件');
+      applyNoteImagesImport(data.noteImages);
       const keys = getBankProgressKeys();
       Object.entries(keys).forEach(([name, key]) => {
         if (data[name] === undefined) return;
