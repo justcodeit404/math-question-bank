@@ -2255,7 +2255,6 @@ body {
         <span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>0</kbd> 掌握/不熟/不会/清除</span>
       </div>
       <div style="display:flex;gap:10px;">
-        <button type="button" onclick="reportAndSkip(false)">这题有误</button>
         <button onclick="prevQuestion()">上一题</button>
         <button class="btn-primary" onclick="nextQuestion()">下一题</button>
       </div>
@@ -2277,7 +2276,6 @@ body {
     </div>
     <div class="modal-footer">
       <button onclick="closePractice()">退出</button>
-      <button type="button" onclick="reportAndSkip(true)">这题有误</button>
       <button onclick="prevPractice()">上一题</button>
       <button class="btn-primary" onclick="nextPractice()">下一题</button>
     </div>
@@ -2603,48 +2601,6 @@ function getActiveQuestion() {
     return practiceQueue[practiceIndex];
   }
   return null;
-}
-
-async function reportAndSkip(fromPractice) {
-  const q = getActiveQuestion();
-  if (!q) return;
-  const note = prompt('这题哪里有问题？提交后先从练习里拿掉', '题干、选项或答案与原书不一致');
-  if (!note) return;
-  hideBadQuestion(q);
-  const sync = window.ViewerPlatformSync;
-  if (sync && sync.submitQuestionIssue && q.uid) {
-    try {
-      await sync.submitQuestionIssue({
-        bank: 'math',
-        source_uid: String(q.uid),
-        chapter: String(q.chapter || ''),
-        question_id: String(q.id || ''),
-        page: q.page || null,
-        issue_type: 'answer',
-        description: note,
-        snapshot: { title: q.content || '', answer: (q.answer_structured && q.answer_structured.canonical) || '', version: '' },
-      });
-    } catch (e) {}
-  }
-  if (fromPractice) {
-    practiceQueue = practiceQueue.filter(item => !isHiddenBad(item));
-    if (!practiceQueue.length) {
-      closePractice();
-      alert('这题已拿掉，当前没有其他题');
-      return;
-    }
-    if (practiceIndex >= practiceQueue.length) practiceIndex = practiceQueue.length - 1;
-    saveProgress();
-    renderPractice();
-    return;
-  }
-  applyFilters();
-  if (!filteredQuestions.length) {
-    closeModal();
-    return;
-  }
-  if (currentModalIndex >= filteredQuestions.length) currentModalIndex = filteredQuestions.length - 1;
-  renderModalContent(filteredQuestions[currentModalIndex]);
 }
 
 function applyMarkToActive(mark) {
@@ -3280,25 +3236,9 @@ function renderMarkStats() {
 // ========================
 // Filtering & Search
 // ========================
-const HIDDEN_BAD_KEY = 'mathbank_hidden_bad_v1';
-function hiddenBadMap() {
-  try { return JSON.parse(localStorage.getItem(HIDDEN_BAD_KEY) || '{}') || {}; } catch (e) { return {}; }
-}
-function isHiddenBad(q) {
-  const uid = q && (q.uid || questionKey(q));
-  return !!(uid && hiddenBadMap()[uid]);
-}
-function hideBadQuestion(q) {
-  const uid = q && (q.uid || questionKey(q));
-  if (!uid) return;
-  const map = hiddenBadMap();
-  map[uid] = 1;
-  try { localStorage.setItem(HIDDEN_BAD_KEY, JSON.stringify(map)); } catch (e) {}
-}
 function filterQuestions(source, opts) {
   const searchTokens = opts.search ? opts.search.split(/\s+/).filter(Boolean) : [];
   return source.filter(q => {
-    if (isHiddenBad(q)) return false;
     if (opts.chapter && q.chapter !== opts.chapter) return false;
     if (opts.type && q.type !== opts.type) return false;
     if (opts.feature === 'sub' && !q.sub_questions) return false;
@@ -4287,7 +4227,7 @@ function prevPractice() {
 
 function resumePractice(saved) {
   const idMap = new Map(allQuestions.map(q => [questionKey(q), q]));
-  practiceQueue = saved.ids.map(k => idMap.get(k)).filter(q => q && !isHiddenBad(q));
+  practiceQueue = saved.ids.map(k => idMap.get(k)).filter(Boolean);
   if (practiceQueue.length === 0) return false;
   practiceIndex = Math.min(saved.index, practiceQueue.length - 1);
   renderPractice();
