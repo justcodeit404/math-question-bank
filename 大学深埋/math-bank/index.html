@@ -1555,6 +1555,76 @@ body {
 
 }
 
+.chapter-note {
+
+  margin: 4px 14px 10px;
+
+  border: 1px solid var(--border, rgba(128,128,128,0.25));
+
+  border-radius: 8px;
+
+  background: var(--surface);
+
+  padding: 8px 10px;
+
+}
+
+.chapter-note-head {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  font-size: 0.78rem;
+
+  font-weight: 600;
+
+  margin-bottom: 6px;
+
+}
+
+.chapter-note-head a {
+
+  font-size: 0.72rem;
+
+  font-weight: 400;
+
+  color: var(--accent, #6c8cff);
+
+  text-decoration: none;
+
+}
+
+.chapter-note-body {
+
+  font-size: 0.85rem;
+
+  line-height: 1.6;
+
+  overflow-x: auto;
+
+}
+
+.chapter-note-sep {
+
+  border-top: 1px dashed var(--border, rgba(128,128,128,0.25));
+
+  margin: 8px 0;
+
+}
+
+.chapter-note-label {
+
+  font-size: 0.72rem;
+
+  color: var(--muted);
+
+  margin-bottom: 4px;
+
+}
+
 
 
 /* Answer book images */
@@ -3828,6 +3898,22 @@ function notesHtml() {
 
       </div>
 
+      <div class="chapter-note" id="chapterNoteBlock" hidden>
+
+        <div class="chapter-note-head">
+
+          <span>📖 章节笔记</span>
+
+          <a id="chapterNoteLink" href="/notes" target="_blank" rel="noreferrer">在平台编辑 ↗</a>
+
+        </div>
+
+        <div class="chapter-note-body" id="chapterNoteBody"></div>
+
+      </div>
+
+      <p class="q-notes-hint" id="chapterNoteEmpty" hidden>本章暂无章节笔记，可在平台「笔记」页编写。</p>
+
     </details>
 
   `;
@@ -3835,6 +3921,70 @@ function notesHtml() {
 }
 
 
+
+// ========================
+// 章节笔记：平台 chapter methods 只读合并展示（数据走 /api/methods/，章键 math:{章节名}）
+// ========================
+
+let chapterNotesCache = null;
+let chapterNotesLoading = null;
+
+function loadChapterNotes() {
+  if (chapterNotesCache) return Promise.resolve(chapterNotesCache);
+  if (chapterNotesLoading) return chapterNotesLoading;
+  var sync = window.ViewerPlatformSync;
+  if (!sync || !sync.onPlatformHost || !sync.onPlatformHost()) return Promise.resolve(null);
+  chapterNotesLoading = (sync.ensureAuth ? sync.ensureAuth() : Promise.resolve(null))
+    .then(function (auth) {
+      if (auth && auth.ok === false) return null;
+      var headers = {};
+      if (auth && auth.token) headers.Authorization = 'Bearer ' + auth.token;
+      return fetch('/api/methods/', { credentials: 'include', headers: headers });
+    })
+    .then(function (res) { return res && res.ok ? res.json() : null; })
+    .then(function (data) {
+      chapterNotesCache = (data && data.chapters) || [];
+      return chapterNotesCache;
+    })
+    .catch(function () { return null; });
+  return chapterNotesLoading;
+}
+
+function renderChapterNote(q) {
+  var block = document.getElementById('chapterNoteBlock');
+  var body = document.getElementById('chapterNoteBody');
+  var empty = document.getElementById('chapterNoteEmpty');
+  if (!block || !body || !empty) return;
+  block.hidden = true;
+  empty.hidden = true;
+  body.innerHTML = '';
+  loadChapterNotes().then(function (chapters) {
+    if (!chapters || !q || !q.chapter) return;
+    var key = 'math:' + q.chapter;
+    var ch = null;
+    for (var i = 0; i < chapters.length; i++) {
+      if (chapters[i].chapter_key === key) { ch = chapters[i]; break; }
+    }
+    if (!ch) return; // 章不在平台章节表（如非数学章），静默
+    var manual = (ch.manual_note || '').trim();
+    var ai = (ch.ai_note || '').trim();
+    if (!manual && !ai) { empty.hidden = false; return; }
+    if (manual) appendNoteTextSegment(body, manual);
+    if (ai) {
+      if (manual) {
+        var sep = document.createElement('div');
+        sep.className = 'chapter-note-sep';
+        body.appendChild(sep);
+      }
+      var label = document.createElement('div');
+      label.className = 'chapter-note-label';
+      label.textContent = 'AI 补充';
+      body.appendChild(label);
+      appendNoteTextSegment(body, ai);
+    }
+    block.hidden = false;
+  });
+}
 
 function bindNotesUI(q) {
 
@@ -3873,6 +4023,8 @@ function bindNotesUI(q) {
   updateStatus();
 
   updatePreview();
+
+  renderChapterNote(q);
 
   let saveTimer;
 
