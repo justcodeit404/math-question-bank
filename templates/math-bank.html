@@ -1803,6 +1803,9 @@ body {
 .katex { font-size: 1.15em; color: var(--text); }
 .q-text .katex, .sub-item .katex, .option-item .katex { font-size: 1.18em; }
 .card-content .katex { font-size: 1.1em; }
+.q-text .katex-display, .sub-text .katex-display,
+.sub-item .katex-display, .option-item .katex-display,
+.card-content .katex-display { margin: 0.4em 0; }
 
 .q-text, .opt-math, .sub-text,
 .modal-content .q-text,
@@ -4478,7 +4481,9 @@ function renderKatex(element) {
       const end = text.indexOf('$', i + 1);
       if (end !== -1) {
         const mathContent = text.slice(i + 1, end);
-        const isDisplay = mathContent.includes('\\begin{');
+        // 只对真正的多行环境升级 display；矩阵/cases 等保持行内（块级会撑爆题干行距）
+        const DISPLAY_ENVS = /\\begin\{(align|aligned|alignat|gather|gathered|eqnarray|multline|split)\*?\}/;
+        const isDisplay = DISPLAY_ENVS.test(mathContent);
         html += renderMath(mathContent, isDisplay);
         i = end + 1;
         continue;
