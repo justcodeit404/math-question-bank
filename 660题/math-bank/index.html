@@ -22,16 +22,18 @@
 <script src="../../vendor/katex/katex.min.js"></script>
 <script>
 /* viewer-common：平台 /banks/common，独立端口用 vendor 副本 */
+/* ?v=bc0843d7 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
 (function () {
   var base = (location.pathname || '').indexOf('/banks/') === 0
     ? '/banks/common/'
     : '../../vendor/viewer-common/';
-  document.write('<script src="' + base + 'storage.js"><\/script>');
-  document.write('<script src="' + base + 'platform-sync.js?v=5"><\/script>');
-      document.write('<link rel="stylesheet" href="' + base + 'scratch-pad.css?v=7">');
-      document.write('<script src="' + base + 'scratch-ink.js?v=7"><\/script>');
-      document.write('<script src="' + base + 'scratch-pad.js?v=7"><\/script>');
-  document.write('<script src="' + base + 'question-notes.js"><\/script>');
+  var v = 'bc0843d7';
+  document.write('<script src="' + base + 'storage.js?v=' + v + '"><\/script>');
+  document.write('<script src="' + base + 'platform-sync.js?v=' + v + '"><\/script>');
+  document.write('<link rel="stylesheet" href="' + base + 'scratch-pad.css?v=' + v + '">');
+  document.write('<script src="' + base + 'scratch-ink.js?v=' + v + '"><\/script>');
+  document.write('<script src="' + base + 'scratch-pad.js?v=' + v + '"><\/script>');
+  document.write('<script src="' + base + 'question-notes.js?v=' + v + '"><\/script>');
 })();
 </script>
 <style>

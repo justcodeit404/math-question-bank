@@ -14,6 +14,16 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 ROOT = Path(__file__).resolve().parent.parent
 TEMPLATE = ROOT / 'templates' / 'math-bank.html'
+VIEWER_COMMON = ROOT.parent / 'viewer-common'
+# 与 tools/sync_viewer_common.ps1 的 $RuntimeFiles 保持一致
+VC_RUNTIME_FILES = (
+    'platform-sync.js',
+    'question-notes.js',
+    'scratch-ink.js',
+    'scratch-pad.js',
+    'scratch-pad.css',
+    'storage.js',
+)
 
 BANKS = {
     '660': ROOT / '660题' / 'math-bank' / 'index.html',
@@ -24,6 +34,15 @@ BANKS = {
 
 
 DATA_SCRIPT_PLACEHOLDER = '<!-- DATA_SCRIPT -->'
+VC_VER_PLACEHOLDER = '@VC_VER@'
+
+
+def viewer_common_ver() -> str:
+    """viewer-common 运行时文件内容 hash，作为统一缓存戳（任一文件变则戳变）。"""
+    h = hashlib.sha256()
+    for name in VC_RUNTIME_FILES:
+        h.update((VIEWER_COMMON / name).read_bytes())
+    return h.hexdigest()[:8]
 
 
 def data_script_tag(dest: Path) -> str:
@@ -39,6 +58,7 @@ def generate(bank, dest):
     dest.parent.mkdir(parents=True, exist_ok=True)
     text = TEMPLATE.read_text(encoding='utf-8')
     text = text.replace(DATA_SCRIPT_PLACEHOLDER, data_script_tag(dest))
+    text = text.replace(VC_VER_PLACEHOLDER, viewer_common_ver())
     dest.write_text(text, encoding='utf-8')
     print(f'Generated {dest}')
 
