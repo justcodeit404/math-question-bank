@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "created_at": "2026-08-28T03:52:41.194629+00:00",
-  "updated_at": "2026-09-18T12:03:14.045470+00:00",
+  "updated_at": "2026-09-30",
   "rule_version": "1.0.0",
   "total_questions": 2900,
   "entries": {
@@ -48967,7 +48967,7 @@
       "source_page": 56,
       "source_page_render_hash": null,
       "image_hash": null,
-      "answer_image_hash": "29a9c150e153bdeb",
+      "answer_image_hash": "865b785fdbc1be35",
       "rule_version": "rule_scan_v2",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
@@ -48992,7 +48992,7 @@
       "source_page": 56,
       "source_page_render_hash": null,
       "image_hash": null,
-      "answer_image_hash": "6fa041229daadd37",
+      "answer_image_hash": "880124bba573d19e",
       "rule_version": "rule_scan_v2",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
@@ -49017,7 +49017,7 @@
       "source_page": 56,
       "source_page_render_hash": null,
       "image_hash": null,
-      "answer_image_hash": "c4352a915b838355",
+      "answer_image_hash": "4f9beab9f82e5f18",
       "rule_version": "rule_scan_v2",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
@@ -49042,7 +49042,7 @@
       "source_page": 56,
       "source_page_render_hash": null,
       "image_hash": null,
-      "answer_image_hash": "13ded939a2f6eb99",
+      "answer_image_hash": "67070abbd88819fd",
       "rule_version": "rule_scan_v2",
       "source_prompt_version": "1.0.0",
       "answer_prompt_version": "1.0.0",
@@ -72550,7 +72550,7 @@
       "model_request_count": 0
     }
   },
-  "last_updated": "2026-08-28T05:50:31.946313+00:00",
+  "last_updated": "2026-09-30",
   "stats": {
     "total": 2900,
     "rule_passed": 2879,
