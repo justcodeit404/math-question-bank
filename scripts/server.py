@@ -14,6 +14,7 @@ import socketserver
 import subprocess
 import sys
 from pathlib import Path
+from urllib.parse import unquote
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -21,8 +22,37 @@ ROOT = Path(__file__).resolve().parent.parent
 PID_FILE = ROOT / 'temp' / 'server.pid'
 
 VIEWER_TEMPLATE = ROOT / 'templates' / 'math-bank.html'
+VIEWER_COMMON = ROOT.parent / 'viewer-common'
 DATA_SCRIPT_PLACEHOLDER = '<!-- DATA_SCRIPT -->'
 DATA_SCRIPT_TAG = '<script src="data.js"></script>'
+VC_VER_PLACEHOLDER = '@VC_VER@'
+CROPS_VER_PLACEHOLDER = '@CROPS_VER@'
+
+
+def viewer_common_ver() -> str:
+    """与 scripts/generate_viewer.py 相同口径：viewer-common 运行时文件内容 hash。"""
+    import hashlib
+
+    h = hashlib.sha256()
+    for name in ('platform-sync.js', 'question-notes.js', 'scratch-ink.js',
+                 'scratch-pad.js', 'scratch-pad.css', 'storage.js'):
+        f = VIEWER_COMMON / name
+        if f.exists():
+            h.update(f.read_bytes())
+    return h.hexdigest()[:8]
+
+
+def crops_ver(book_dir: Path) -> str:
+    """与 scripts/generate_viewer.py 相同口径：answer_crops 文件名+大小 hash。"""
+    import hashlib
+
+    h = hashlib.sha256()
+    crops = book_dir / 'answer_crops'
+    if crops.exists():
+        for f in sorted(crops.glob('*.png')):
+            h.update(f.name.encode())
+            h.update(str(f.stat().st_size).encode())
+    return h.hexdigest()[:8]
 
 
 class BankHandler(http.server.SimpleHTTPRequestHandler):
@@ -35,6 +65,9 @@ class BankHandler(http.server.SimpleHTTPRequestHandler):
             if VIEWER_TEMPLATE.exists():
                 body = VIEWER_TEMPLATE.read_text(encoding='utf-8')
                 body = body.replace(DATA_SCRIPT_PLACEHOLDER, DATA_SCRIPT_TAG)
+                body = body.replace(VC_VER_PLACEHOLDER, viewer_common_ver())
+                book_dir = (ROOT / unquote(path).lstrip('/').replace('/', os.sep)).parent
+                body = body.replace(CROPS_VER_PLACEHOLDER, crops_ver(book_dir))
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html; charset=utf-8')
                 self.send_header('Cache-Control', 'no-store')

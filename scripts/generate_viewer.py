@@ -35,6 +35,7 @@ BANKS = {
 
 DATA_SCRIPT_PLACEHOLDER = '<!-- DATA_SCRIPT -->'
 VC_VER_PLACEHOLDER = '@VC_VER@'
+CROPS_VER_PLACEHOLDER = '@CROPS_VER@'
 
 
 def viewer_common_ver() -> str:
@@ -54,11 +55,23 @@ def data_script_tag(dest: Path) -> str:
     return '<script src="data.js"></script>'
 
 
+def crops_ver(dest: Path) -> str:
+    """answer_crops 文件名+大小 hash，作为答案图统一缓存戳（重裁同名图后自动变）。"""
+    h = hashlib.sha256()
+    crops = dest.parent / 'answer_crops'
+    if crops.exists():
+        for f in sorted(crops.glob('*.png')):
+            h.update(f.name.encode())
+            h.update(str(f.stat().st_size).encode())
+    return h.hexdigest()[:8]
+
+
 def generate(bank, dest):
     dest.parent.mkdir(parents=True, exist_ok=True)
     text = TEMPLATE.read_text(encoding='utf-8')
     text = text.replace(DATA_SCRIPT_PLACEHOLDER, data_script_tag(dest))
     text = text.replace(VC_VER_PLACEHOLDER, viewer_common_ver())
+    text = text.replace(CROPS_VER_PLACEHOLDER, crops_ver(dest))
     dest.write_text(text, encoding='utf-8')
     print(f'Generated {dest}')
 

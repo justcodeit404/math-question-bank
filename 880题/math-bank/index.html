@@ -23,6 +23,8 @@
 <script>
 /* viewer-common：平台 /banks/common，独立端口用 vendor 副本 */
 /* ?v=bc0843d7 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
+/* daf9e7c0 由 generate_viewer.py 按 answer_crops 文件名+大小 hash 打戳，重裁答案图后自动失效缓存 */
+var BANK_CROPS_VER = 'daf9e7c0';
 (function () {
   var base = (location.pathname || '').indexOf('/banks/') === 0
     ? '/banks/common/'
@@ -1655,7 +1657,6 @@ body {
 
 .q-answer img {
   max-width: 100%;
-  max-height: 70vh;
   border-radius: 4px;
   cursor: zoom-in;
   background: #fff;
@@ -1837,14 +1838,13 @@ body {
   background: rgb(0 0 0 / 0.92);
   z-index: 2000;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: auto;
   cursor: zoom-out;
 }
 .zoom-overlay img {
+  margin: auto;
   max-width: 95%;
-  max-height: 95%;
-  object-fit: contain;
+  height: auto;
 }
 
 .sidebar-overlay {
@@ -3509,7 +3509,7 @@ function subAnswerHtml(q, i) {
     <details class="q-answer">
       <summary>查看本题答案</summary>
       <div class="q-answer-content">
-        <img src="${safeSrc}" alt="第 ${i + 1} 小题答案" onclick="zoomImage(this.src)" onerror="this.parentNode.innerHTML='<p style=\\'color:var(--muted)\\'>答案图加载失败：${safeSrc}</p>'">
+        <img src="${safeSrc}?v=${BANK_CROPS_VER}" alt="第 ${i + 1} 小题答案" onclick="zoomImage(this.src)" onerror="this.parentNode.innerHTML='<p style=\\'color:var(--muted)\\'>答案图加载失败：${safeSrc}</p>'">
       </div>
     </details>
   `;
@@ -3605,7 +3605,7 @@ function answerHtml(q) {
         <summary>📖 查看答案</summary>
         <div class="q-answer-content">
           ${structured}
-          <img src="${ansRef}" alt="第 ${q.id} 题答案" onclick="zoomImage(this.src)" onerror="this.parentNode.innerHTML='<p style=\\'color:var(--muted)\\'>答案图加载失败：${escapeHtml(String(ansRef))}</p>'">
+          <img src="${ansRef}?v=${BANK_CROPS_VER}" alt="第 ${q.id} 题答案" onclick="zoomImage(this.src)" onerror="this.parentNode.innerHTML='<p style=\\'color:var(--muted)\\'>答案图加载失败：${escapeHtml(String(ansRef))}</p>'">
         </div>
       </details>
     `;
@@ -3770,6 +3770,50 @@ function gcNoteImages() {
   if (changed) saveNoteImgsMap();
 }
 
+/** 按表格 | 分列：$...$/$$...$$/\(...\)/\[...\] 内的 | 视为绝对值/行列式；紧贴非空白的 |（如 |A|）也不切。 */
+function splitTableRow(line) {
+  let s = String(line).trim();
+  if (s.startsWith('|')) s = s.slice(1);
+  if (s.endsWith('|')) s = s.slice(0, -1);
+  const cells = [];
+  let cur = '';
+  let i = 0;
+  let inMath = false;
+  let mathDelim = '';
+  const isContentPipe = (pos) => {
+    const prev = pos > 0 ? s[pos - 1] : '';
+    const next = pos + 1 < s.length ? s[pos + 1] : '';
+    const prevGlued = prev !== '' && !/\s/.test(prev);
+    const nextGlued = next !== '' && !/\s/.test(next);
+    return prevGlued || nextGlued;
+  };
+  while (i < s.length) {
+    const c = s[i];
+    if (!inMath) {
+      if (c === '$' && s[i + 1] === '$') { inMath = true; mathDelim = '$$'; cur += '$$'; i += 2; continue; }
+      if (c === '$') { inMath = true; mathDelim = '$'; cur += '$'; i += 1; continue; }
+      if (c === '\\' && (s[i + 1] === '(' || s[i + 1] === '[')) {
+        inMath = true; mathDelim = s[i + 1] === '(' ? '\\(' : '\\[';
+        cur += s.slice(i, i + 2); i += 2; continue;
+      }
+      if (c === '|' && !isContentPipe(i)) {
+        cells.push(cur.trim());
+        cur = '';
+        i += 1;
+        continue;
+      }
+      cur += c; i += 1; continue;
+    }
+    if (mathDelim === '$$' && s.startsWith('$$', i)) { inMath = false; cur += '$$'; i += 2; continue; }
+    if (mathDelim === '$' && c === '$') { inMath = false; cur += '$'; i += 1; continue; }
+    if (mathDelim === '\\(' && s.startsWith('\\)', i)) { inMath = false; cur += '\\)'; i += 2; continue; }
+    if (mathDelim === '\\[' && s.startsWith('\\]', i)) { inMath = false; cur += '\\]'; i += 2; continue; }
+    cur += c; i += 1;
+  }
+  cells.push(cur.trim());
+  return cells;
+}
+
 function appendNoteTextSegment(el, segment) {
   if (!segment) return;
   const lines = segment.split('\n');
@@ -3782,7 +3826,7 @@ function appendNoteTextSegment(el, segment) {
     el.appendChild(span);
   };
   const buildNoteTable = (rows) => {
-    const cells = (r) => r.trim().replace(/^\||\|$/g, '').split('|').map((s) => s.trim());
+    const cells = splitTableRow;
     const table = document.createElement('table');
     table.className = 'note-table';
     const headTr = document.createElement('tr');
