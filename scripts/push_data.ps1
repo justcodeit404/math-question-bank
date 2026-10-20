@@ -91,7 +91,58 @@ if (Test-Path -LiteralPath $stats) {
         $toPush.Add([pscustomobject]@{ Key = "stats.js"; Local = $stats; RemoteSub = ""; Name = "stats.js"; Enc = "" })
     }
 }
-if ($toPush.Count -eq 0) { Write-Host "no changes, nothing to push"; exit 0 }
+
+# ---- static figures: images/ + answer_crops/ 也在 live 树里，改图必须跟着上云 ----
+$assetDirs = @("images", "answer_crops")
+$assetFiles = @()
+foreach ($b in $Books) {
+    $bankDir = Join-Path $Root $b.Dir
+    foreach ($d in $assetDirs) {
+        $dir = Join-Path $bankDir $d
+        if (-not (Test-Path -LiteralPath $dir -PathType Container)) { continue }
+        Get-ChildItem -LiteralPath $dir -Recurse -File | ForEach-Object {
+            $rel = $_.FullName.Substring($dir.Length + 1).Replace("\", "/")
+            $assetFiles += [pscustomobject]@{
+                Book  = $b.Name
+                Enc   = $b.Enc
+                Dir   = $d
+                Rel   = $rel
+                Key   = "$($b.Enc)/$d/$rel"
+                Local = $_.FullName
+                Hash  = (Sha256 $_.FullName)
+            }
+        }
+    }
+}
+
+# 首次接入：用云端现有文件哈希回填基线，避免把 1GB 题图全量重传。
+# 所有书目合并成一次 SSH，减少建连（云端对短时间多次 SSH 建连有限流）。
+if (@($assetFiles | Where-Object { -not $old.ContainsKey($_.Key) }).Count -gt 0) {
+    $seedParts = foreach ($b in $Books) {
+        $dir = "`$D/$($b.Name)/math-bank"
+        "if [ -d `"$dir`" ]; then echo `"##$($b.Enc)`"; (cd `"$dir`" && find images answer_crops -type f -exec sha256sum {} + 2>/dev/null); fi"
+    }
+    $remoteSeed = "D='$RemoteDir'; " + ($seedParts -join '; ')
+    $currentEnc = $null
+    foreach ($line in @(& $Ssh -o BatchMode=yes -o ConnectTimeout=15 $Server $remoteSeed 2>$null)) {
+        if ($line -match '^##(.+)$') { $currentEnc = $matches[1]; continue }
+        if ($currentEnc -and $line -match '^([0-9a-f]{64})\s+(.+)$') {
+            $old["$currentEnc/$($matches[2])"] = $matches[1]
+        }
+    }
+    Start-Sleep -Seconds 3
+}
+
+$assetDrift = @{}
+foreach ($a in $assetFiles) {
+    $new[$a.Key] = $a.Hash
+    if ($old[$a.Key] -ne $a.Hash) { $assetDrift["$($a.Book)|$($a.Dir)"] = $true }
+}
+
+if ($toPush.Count -eq 0 -and $assetDrift.Count -eq 0) {
+    Write-Host "no changes, nothing to push"
+    exit 0
+}
 Write-Host ("pushing {0} file(s) to {1}:{2}" -f $toPush.Count, $Server, $RemoteDir)
 
 foreach ($g in ($toPush | Group-Object RemoteSub)) {
@@ -99,19 +150,70 @@ foreach ($g in ($toPush | Group-Object RemoteSub)) {
     $sub = $g.Name
     $dest = if ($sub) { "${Server}:${RemoteDir}/$sub/" } else { "${Server}:${RemoteDir}/" }
     Invoke-WithRetry "scp $sub" { & $Scp -C $src $dest }
+    Start-Sleep -Seconds 2
+}
+
+# 漂移的题图目录：整目录 tar → scp → 远端解包（PNG 已压缩，不再 -C）
+# 解包和文件数校验放在同一次 SSH 里，减少建连次数。
+if ($assetDrift.Count -gt 0) {
+    $Tar = Join-Path $env:SystemRoot "System32\tar.exe"
+    if (-not (Test-Path -LiteralPath $Tar)) { Die "tar.exe not found for asset push" }
+    foreach ($item in @($assetDrift.Keys)) {
+        $bookName, $dirName = $item -split '\|', 2
+        $bankDir = Join-Path $Root (Join-Path $bookName "math-bank")
+        $remoteBank = "$RemoteDir/$bookName/math-bank"
+        $tarName = ".bankmath-$([guid]::NewGuid().ToString('N')).tar"
+        $tmpTar = Join-Path $env:TEMP $tarName
+        $localCount = @($assetFiles | Where-Object { $_.Book -eq $bookName -and $_.Dir -eq $dirName }).Count
+        try {
+            & $Tar -C $bankDir -cf $tmpTar $dirName
+            if ($LASTEXITCODE -ne 0) { Die "tar pack failed: $item" }
+            Invoke-WithRetry "scp $item" { & $Scp $tmpTar "${Server}:/tmp/$tarName" }
+            $remoteCount = $null
+            for ($i = 1; $i -le 5 -and $null -eq $remoteCount; $i++) {
+                $out = & $Ssh -o BatchMode=yes -o ConnectTimeout=15 $Server "tar -C '$remoteBank' -xf '/tmp/$tarName' && rm -f '/tmp/$tarName' && find '$remoteBank/$dirName' -type f | wc -l" 2>&1
+                if ($LASTEXITCODE -eq 0 -and "$out".Trim() -match '^\d+$') {
+                    $remoteCount = [int]("$out".Trim())
+                } else {
+                    Write-Host "ssh extract $item failed (attempt $i/5): $($out -join ' ')"
+                    Start-Sleep -Seconds 15
+                }
+            }
+            if ($null -eq $remoteCount) { Die "ssh extract failed: $item" }
+            if ($remoteCount -ne $localCount) {
+                Die "asset count mismatch at $item (local=$localCount remote=$remoteCount)"
+            }
+            Write-Host "assets ok: $item ($localCount)"
+        } finally {
+            if (Test-Path -LiteralPath $tmpTar) { Remove-Item -LiteralPath $tmpTar -Force }
+        }
+        Start-Sleep -Seconds 2
+    }
 }
 
 $expectArg = ($stamps.GetEnumerator() | ForEach-Object { "$($_.Key)=$($_.Value)" }) -join " "
-$remoteScript = 'set -e; for pair in {0}; do enc=${{pair%%=*}}; ver=${{pair#*=}}; html=$(curl -fsS "http://127.0.0.1:8000/banks/math/$enc/math-bank/index.html"); printf ''%s'' "$html" | grep -q "data.js?v=$ver" && echo "$enc stamp_ok" || {{ echo "$enc stamp_miss"; exit 1; }}; code=$(curl -sS -o /dev/null -w ''%{{http_code}}'' "http://127.0.0.1:8000/banks/math/$enc/math-bank/data.js"); echo "$enc data $code"; [ "$code" = 200 ] || exit 1; done' -f $expectArg
-$remoteOut = $null
-for ($i = 1; $i -le 5 -and -not $remoteOut; $i++) {
-    $remoteOut = & $Ssh -o BatchMode=yes -o ConnectTimeout=15 $Server $remoteScript 2>$null
-    if (-not $remoteOut) { Write-Host "verify ssh failed (attempt $i/5), retrying..."; Start-Sleep -Seconds 15 }
+
+# 发布校验直接看公网 HTTP，不再额外建 SSH 连接（云端对短时间多次 SSH 建连有限流）。
+$httpBase = "http://122.51.26.195"
+function Get-Http([string]$Url) {
+    for ($i = 1; $i -le 5; $i++) {
+        try {
+            return Invoke-WebRequest -Uri $Url -UseBasicParsing -TimeoutSec 20
+        } catch {
+            if ($i -eq 5) { Die "HTTP failed: $Url ($($_.Exception.Message))" }
+            Start-Sleep -Seconds 5
+        }
+    }
 }
-if (-not $remoteOut) { Die "verify ssh failed after 5 attempts" }
-Write-Host "remote: $($remoteOut -join '; ')"
-foreach ($line in $remoteOut) {
-    if ($line -match "stamp_miss|data (?!200)") { Die "remote check failed: '$line'" }
+foreach ($pair in $stamps.GetEnumerator()) {
+    $enc = $pair.Key
+    $ver = $pair.Value
+    $html = (Get-Http "$httpBase/banks/math/$enc/math-bank/index.html").Content
+    if ($html -notmatch [regex]::Escape("data.js?v=$ver")) { Die "$enc stamp_miss (expect $ver)" }
+    $code = (Get-Http "$httpBase/banks/math/$enc/math-bank/data.js").StatusCode
+    if ($code -ne 200) { Die "$enc data $code" }
+    Write-Host "remote: $enc stamp_ok data 200"
 }
+
 ($new.GetEnumerator() | Sort-Object Name | ForEach-Object { "$($_.Key)=$($_.Value)" }) | Set-Content -LiteralPath $StateFile -Encoding UTF8
-Write-Host "OK: $($toPush.Count) file(s) hot-updated (no service restart)"
+Write-Host "OK: $($toPush.Count) file(s) + $($assetDrift.Count) asset dir(s) hot-updated (no service restart)"
