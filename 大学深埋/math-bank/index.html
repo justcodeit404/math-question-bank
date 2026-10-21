@@ -22,14 +22,14 @@
 <script src="../../vendor/katex/katex.min.js"></script>
 <script>
 /* viewer-common：平台 /banks/common，独立端口用 vendor 副本 */
-/* ?v=37b474ed 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
+/* ?v=2a6ccb40 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
 /* e3b0c442 由 generate_viewer.py 按 answer_crops 文件名+大小 hash 打戳，重裁答案图后自动失效缓存 */
 var BANK_CROPS_VER = 'e3b0c442';
 (function () {
   var base = (location.pathname || '').indexOf('/banks/') === 0
     ? '/banks/common/'
     : '../../vendor/viewer-common/';
-  var v = '37b474ed';
+  var v = '2a6ccb40';
   document.write('<script src="' + base + 'storage.js?v=' + v + '"><\/script>');
   document.write('<script src="' + base + 'platform-sync.js?v=' + v + '"><\/script>');
   document.write('<link rel="stylesheet" href="' + base + 'scratch-pad.css?v=' + v + '">');
@@ -3695,7 +3695,18 @@ function processNoteImage(file) {
   });
 }
 
-/** 在光标处插入片段（图片 markdown 独占一行），并触发 input 走防抖保存。 */
+/** 用编辑命令写入指定区间：直接赋值 textarea.value 会清空浏览器原生撤销栈。 */
+function insertTextRange(ta, start, end, text) {
+  ta.focus();
+  ta.setSelectionRange(start, end);
+  let ok = false;
+  try { ok = document.execCommand && document.execCommand('insertText', false, text); } catch (e) { ok = false; }
+  if (!ok) ta.setRangeText(text, start, end, 'end');
+  // execCommand 在部分浏览器不派发 input；统一补一次，预览与防抖保存都靠它
+  ta.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+/** 在光标处插入片段（图片 markdown 独占一行）。 */
 function insertTextAtCursor(ta, snippet) {
   const start = ta.selectionStart != null ? ta.selectionStart : ta.value.length;
   const end = ta.selectionEnd != null ? ta.selectionEnd : start;
@@ -3703,10 +3714,14 @@ function insertTextAtCursor(ta, snippet) {
   const after = ta.value.slice(end);
   const lead = before && !before.endsWith('\n') ? '\n' : '';
   const tail = after && !after.startsWith('\n') ? '\n' : '';
-  ta.value = before + lead + snippet + tail + after;
-  const pos = (before + lead + snippet).length;
-  ta.setSelectionRange(pos, pos);
-  ta.dispatchEvent(new Event('input', { bubbles: true }));
+  insertTextRange(ta, start, end, lead + snippet + tail);
+}
+
+/** 识别结果插到图片占位符后面而不是当前光标：连粘多张图时结果不会互相插错位置。 */
+function insertAfterAnchor(ta, anchor, snippet) {
+  const i = anchor ? ta.value.indexOf(anchor) : -1;
+  if (i < 0) { insertTextAtCursor(ta, snippet); return; }
+  insertTextRange(ta, i + anchor.length, i + anchor.length, '\n\n' + snippet);
 }
 
 // 图片在笔记文本里只存短占位符 `![图片](noteimg:xxx)`，本体在图片 map（分片）；兼容识别旧的 data: 内联图
@@ -3897,32 +3912,110 @@ function renderNotePreview(el, text) {
   if (last < text.length) appendNoteTextSegment(el, text.slice(last));
 }
 
-/** 平台挂载 + 已登录：把刚插入的图片送视觉模型复现为 Markdown（表格→Markdown 表格），
- *  成功后追加到笔记里供校对；任何失败静默（图片本体已在笔记中，不丢内容）。 */
-function maybeConvertNoteImage(ta, dataUrl) {
-  if (!window.ViewerPlatformSync || !ViewerPlatformSync.onPlatformHost || !ViewerPlatformSync.onPlatformHost()) return;
+/** 平台挂载 + 已登录：把图片（File/Blob 或 dataURL）送视觉模型复现为 Markdown（表格→Markdown 表格）。
+ *  传原文件而不是本地压缩副本——公式下标在 1200px 压缩图里容易糊。
+ *  返回 Promise：{ok:true, markdown} 或 {ok:false, status}。 */
+function convertNoteImageSource(src) {
+  if (!window.ViewerPlatformSync || !ViewerPlatformSync.onPlatformHost || !ViewerPlatformSync.onPlatformHost()) {
+    return Promise.resolve({ ok: false, status: 'not_platform' });
+  }
   var sync = window.ViewerPlatformSync;
   var authP = sync.ensureAuth ? sync.ensureAuth() : Promise.resolve(null);
-  authP.then(function (auth) {
-    if (auth && auth.ok === false) return null;
+  return authP.then(function (auth) {
+    if (auth && auth.ok === false) return { ok: false, status: 'not_logged_in' };
     var headers = {};
     if (auth && auth.token) headers.Authorization = 'Bearer ' + auth.token;
-    return fetch(dataUrl)
-      .then(function (r) { return r.blob(); })
+    var bodyP = (src instanceof Blob)
+      ? Promise.resolve(src)
+      : fetch(src).then(function (r) { return r.blob(); });
+    return bodyP
       .then(function (blob) {
         var form = new FormData();
         form.append('image', blob, 'note.jpg');
         return fetch('/api/notes/image-to-markdown', { method: 'POST', credentials: 'include', headers: headers, body: form });
+      })
+      .then(function (res) {
+        if (!res.ok) return { ok: false, status: res.status };
+        return res.json().then(function (data) {
+          var md = ((data && data.markdown) || '').trim();
+          return md ? { ok: true, markdown: md } : { ok: false, status: 'empty' };
+        });
       });
-  }).then(function (res) {
-    if (!res || !res.ok) return null;
-    return res.json();
-  }).then(function (data) {
-    var md = ((data && data.markdown) || '').trim();
-    if (!md) return;
-    insertTextAtCursor(ta, md);
-    showMarkToast('图片已转文字，请校对');
-  }).catch(function () { /* 转换是增值路径，失败静默 */ });
+  }).catch(function () { return { ok: false, status: 'error' }; });
+}
+
+let _noteConvertNotPlatformToasted = false;
+/** 转文字失败的分级提示；图片本体已保存，不影响笔记。not_platform 每次会话只提示一次。 */
+function noteImageConvertFailToast(status) {
+  if (status === 'not_platform') {
+    if (_noteConvertNotPlatformToasted) return;
+    _noteConvertNotPlatformToasted = true;
+    showMarkToast('图片已保存；转文字需从学习平台打开题库');
+    return;
+  }
+  var msg = {
+    not_logged_in: '图片已保存；转文字需先登录学习平台',
+    empty: '图片已保存；转文字结果为空，可重试',
+    error: '图片已保存；转文字失败，可稍后重试',
+  }[status];
+  if (!msg) {
+    if (status === 403) msg = '图片已保存；转文字仅管理员可用';
+    else if (status === 503) msg = '图片已保存；服务端未开启图片转文字';
+    else if (status === 429) msg = '图片已保存；转文字限流，请稍后重试';
+    else msg = '图片已保存；转文字失败（' + status + '），可稍后重试';
+  }
+  showMarkToast(msg);
+}
+
+/** 转写成功的图片把 alt 标成「已转」（图片本体不动），「图中文字」据此跳过已转过的图。 */
+function markNoteImageConverted(ta, anchor) {
+  var i = anchor ? ta.value.indexOf(anchor) : -1;
+  if (i < 0) return;
+  var marked = anchor.replace(/^!\[[^\]]*\]/, '![已转]');
+  if (marked !== anchor) insertTextRange(ta, i, i + anchor.length, marked);
+}
+
+/** 插入图片后的增值路径：结果贴在该图片后面供校对；失败按原因提示（不再静默）。 */
+function maybeConvertNoteImage(ta, src, anchor) {
+  if (window.ViewerPlatformSync && ViewerPlatformSync.onPlatformHost && ViewerPlatformSync.onPlatformHost()) {
+    showMarkToast('图片已插入，正在转文字…');
+  }
+  convertNoteImageSource(src).then(function (r) {
+    if (r.ok) {
+      insertAfterAnchor(ta, anchor, r.markdown);
+      markNoteImageConverted(ta, anchor);
+      showMarkToast('图片已转为文字，请校对');
+    } else {
+      noteImageConvertFailToast(r.status);
+    }
+  });
+}
+
+/** 「📝 图中文字」按钮：转换笔记里第一张还没转过的图片，成功后追加到该图后面，图片占位符保留。 */
+function convertFirstNoteImage(ta) {
+  var re = /!\[([^\]]*)\]\((noteimg:[A-Za-z0-9]+)\)/g;
+  var target = null;
+  var m;
+  while ((m = re.exec(ta.value || '')) !== null) {
+    if (m[1].indexOf('已转') === -1) { target = m; break; }
+  }
+  if (!target) {
+    showMarkToast(ta.value && ta.value.indexOf('noteimg:') !== -1 ? '笔记里的图片都已转过文字' : '笔记里没有可转换的图片');
+    return;
+  }
+  var dataUrl = resolveNoteImage(target[2]);
+  if (!dataUrl) { showMarkToast('图片本体缺失，无法转换'); return; }
+  showMarkToast('正在转换图片文字…');
+  var anchor = target[0];
+  convertNoteImageSource(dataUrl).then(function (r) {
+    if (r.ok) {
+      insertAfterAnchor(ta, anchor, r.markdown);
+      markNoteImageConverted(ta, anchor);
+      showMarkToast('图片已转为文字，请校对');
+    } else {
+      noteImageConvertFailToast(r.status);
+    }
+  });
 }
 
 function notesHtml() {
@@ -3942,6 +4035,8 @@ function notesHtml() {
       <div class="q-notes-actions">
 
         <button type="button" class="btn btn-secondary btn-sm" id="btnInsertNoteImg">🖼 插入图片</button>
+
+        <button type="button" class="btn btn-secondary btn-sm" id="btnConvertNoteImg" title="把笔记里已插入的图片转为文字">📝 图中文字</button>
 
         <input type="file" id="noteImgInput" accept="image/*" hidden>
 
@@ -4099,15 +4194,19 @@ function bindNotesUI(q) {
 
     e.preventDefault();
 
-    processNoteImage(item.getAsFile())
+    const file = item.getAsFile();
+
+    processNoteImage(file)
 
       .then((dataUrl) => {
 
         const token = storeNoteImage(dataUrl);
 
-        insertTextAtCursor(ta, token ? `![图片](${token})` : `![图片](${dataUrl})`);
+        const anchor = token ? `![图片](${token})` : `![图片](${dataUrl})`;
 
-        maybeConvertNoteImage(ta, dataUrl);
+        insertTextAtCursor(ta, anchor);
+
+        maybeConvertNoteImage(ta, file, anchor);
 
       })
 
@@ -4137,9 +4236,11 @@ function bindNotesUI(q) {
 
           const token = storeNoteImage(dataUrl);
 
-          insertTextAtCursor(ta, token ? `![图片](${token})` : `![图片](${dataUrl})`);
+          const anchor = token ? `![图片](${token})` : `![图片](${dataUrl})`;
 
-          maybeConvertNoteImage(ta, dataUrl);
+          insertTextAtCursor(ta, anchor);
+
+          maybeConvertNoteImage(ta, file, anchor);
 
         })
 
@@ -4148,6 +4249,10 @@ function bindNotesUI(q) {
     };
 
   }
+
+  const convertImgBtn = document.getElementById('btnConvertNoteImg');
+
+  if (convertImgBtn) convertImgBtn.onclick = () => convertFirstNoteImage(ta);
 
   ta.addEventListener('blur', () => { setNote(q.uid, ta.value); updateStatus(); updatePreview(); syncOneTextNote(q); });
 
