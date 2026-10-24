@@ -2735,6 +2735,9 @@ function isTypingTarget(el) {
 
 let allQuestions = [];
 let filteredQuestions = [];
+// 质量隔离题：不参与浏览/随机/练习；章节计数按可刷题数显示
+let drillableChapterCounts = {};
+let heldQuestionCount = 0;
 let currentPage = 1;
 const pageSize = 20;
 let currentModalIndex = -1;
@@ -3068,10 +3071,19 @@ function closeModalById(id) {
   modalFocusReturn = null;
 }
 
-function init() {
-  allQuestions = [];
-  bank.chapters.forEach(ch => {
-    ch.questions.forEach(q => {
+// 质量隔离题（quality-hold.json → data.js 的 quality_hold）不进任何抽题/浏览路径：
+// 浏览、搜索、随机、练习、存档恢复都从 allQuestions 派生，过滤一次即可全覆盖。
+function isDrillableQuestion(question) {
+  return !(question && question.quality_hold);
+}
+
+function collectDrillableQuestions(bankData) {
+  const list = [];
+  const chapterCounts = {};
+  let held = 0;
+  ((bankData && bankData.chapters) || []).forEach(ch => {
+    (ch.questions || []).forEach(q => {
+      if (!isDrillableQuestion(q)) { held++; return; }
       const entry = {...q, chapter: ch.name};
       entry._searchText = (q.content + ' ' + (q.sub_questions || []).join(' ') + ' ' + ch.name + ' ' + q.id)
         .toLowerCase()
@@ -3079,9 +3091,18 @@ function init() {
         .replace(/[^a-z0-9\u4e00-\u9fa5\s]+/g, ' ')
         .replace(/\s+/g, ' ')
         .trim();
-      allQuestions.push(entry);
+      list.push(entry);
+      chapterCounts[ch.name] = (chapterCounts[ch.name] || 0) + 1;
     });
   });
+  return { list, chapterCounts, held };
+}
+
+function init() {
+  const collected = collectDrillableQuestions(bank);
+  allQuestions = collected.list;
+  drillableChapterCounts = collected.chapterCounts;
+  heldQuestionCount = collected.held;
 
   loadMarks();
   // 平台「去刷题」深链：?chapter=基础·函数极限与连续 直接选中对应章
@@ -3200,9 +3221,9 @@ function renderChapters() {
     el.innerHTML = `
       <div class="chapter-item-top">
         <span style="display:flex;align-items:center;min-width:0;">${isCursor ? '<span class="cursor-dot" title="上次练习章节"></span>' : ''}<span style="overflow:hidden;text-overflow:ellipsis;">${escapeHtml(ch.name)}</span></span>
-        <span class="count">${ch.question_count}</span>
+        <span class="count">${drillableChapterCounts[ch.name] || 0}</span>
       </div>
-      ${chapterMasteryHtml(ch.name, ch.question_count)}`;
+      ${chapterMasteryHtml(ch.name, drillableChapterCounts[ch.name] || 0)}`;
     el.onclick = () => selectChapter(ch.name);
     container.appendChild(el);
   });
@@ -3344,7 +3365,8 @@ function applyFilters() {
   filteredQuestions = filterQuestions(allQuestions, {chapter: selectedChapter, type, feature, mark, search});
 
   document.getElementById('resultText').textContent =
-    `共 ${filteredQuestions.length} 道题目${selectedChapter ? ' · ' + selectedChapter : ''}`;
+    `共 ${filteredQuestions.length} 道题目${selectedChapter ? ' · ' + selectedChapter : ''}`
+    + (heldQuestionCount ? ` · 已隔离 ${heldQuestionCount} 题（质量复核中，暂不参与练习）` : '');
 
   currentPage = Math.min(currentPage, Math.max(1, getTotalPages()));
   renderGrid(search);

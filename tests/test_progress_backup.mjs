@@ -51,6 +51,8 @@ const FN = [
   'applyNoteImagesImport',
   'buildProgressData',
   'applyProgressData',
+  'isDrillableQuestion',
+  'collectDrillableQuestions',
 ];
 const body = FN.map((name) => extractFunction(viewerSrc, name)).join('\n');
 
@@ -63,7 +65,7 @@ let PRACTICE_KEY = 'mathbank_practice_880';
 let notesMapCache = null;
 let noteImgsMapCache = null;
 ${body}
-return { buildProgressData, applyProgressData, notesKey, noteImgsKey, fillAnswersKey, getBankProgressKeys };`;
+return { buildProgressData, applyProgressData, notesKey, noteImgsKey, fillAnswersKey, getBankProgressKeys, isDrillableQuestion, collectDrillableQuestions };`;
 
 const api = new Function(harness)();
 const VS = globalThis.ViewerStorage;
@@ -143,4 +145,48 @@ assert.deepEqual(VS.loadShardedMap(api.getBankProgressKeys().marks), { '880-3': 
 assert.throws(() => api.applyProgressData(null), /无效文件/);
 
 resetStorage();
+
+// ---- 4. 质量隔离题不进入浏览/随机/练习/存档恢复 ----
+const mixed = {
+  chapters: [
+    {
+      name: '强化·二次型',
+      questions: [
+        { uid: '880-81', id: '81', content: '正常题', type: '选择题' },
+        { uid: '880-93', id: '93', content: '隔离题', type: '选择题', quality_hold: true },
+        { uid: '880-95', id: '95', content: '正常题二', type: '填空题' },
+      ],
+    },
+  ],
+};
+assert.equal(api.isDrillableQuestion({ quality_hold: true }), false);
+assert.equal(api.isDrillableQuestion({ quality_hold: false }), true);
+assert.equal(api.isDrillableQuestion({}), true);
+const collected = api.collectDrillableQuestions(mixed);
+assert.equal(collected.list.length, 2, '隔离题不进题池');
+assert.equal(collected.held, 1);
+assert.equal(collected.chapterCounts['强化·二次型'], 2, '章节计数按可刷题数');
+assert.equal(collected.list.some((q) => q.uid === '880-93'), false);
+assert.ok(collected.list.every((q) => typeof q._searchText === 'string'), '搜索索引照常构建');
+
+// 真实 880 数据：927 道里 4 道隔离，正式池应为 923
+const dataSrc = readFileSync(join(root, '880题', 'math-bank', 'data.js'), 'utf8');
+const realBank = new Function(dataSrc + '\nreturn QUESTION_BANK;')();
+const real = api.collectDrillableQuestions(realBank);
+assert.equal(realBank.total_questions, 927, '880 源题数');
+assert.equal(real.held, 4, '880 隔离题数');
+assert.equal(real.list.length, 923, '880 正式池应为 923');
+for (const uid of ['880-81', '880-93', '880-165', '880-245']) {
+  assert.equal(real.list.some((q) => q.uid === uid), false, uid + ' 不应进池');
+}
+
+// 其他三册：没有 hold 就不应改变题数
+for (const book of ['660题', '1000题', '大学深埋']) {
+  const src = readFileSync(join(root, book, 'math-bank', 'data.js'), 'utf8');
+  const data = new Function(src + '\nreturn QUESTION_BANK;')();
+  const out = api.collectDrillableQuestions(data);
+  assert.equal(out.held, 0, book + ' 无隔离题');
+  assert.equal(out.list.length, data.total_questions, book + ' 题池不应缩水');
+}
+
 console.log('test_progress_backup: ok');
