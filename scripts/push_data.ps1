@@ -139,7 +139,30 @@ foreach ($a in $assetFiles) {
     if ($old[$a.Key] -ne $a.Hash) { $assetDrift["$($a.Book)|$($a.Dir)"] = $true }
 }
 
-if ($toPush.Count -eq 0 -and $assetDrift.Count -eq 0) {
+# ---- 本地删除/改名的文件云端也要删 ----
+# 只按哈希增量推的话，重命名过的裁图、删掉的题库文件会永远留在云上（同名 URL 还能命中旧图）。
+# 范围限定在本次运行涉及的书目（-Book 时不能误删其它书），stats.js 单独算。
+$scopePrefixes = @($Books | ForEach-Object { "$($_.Enc)/" }) + @("stats.js")
+$removed = New-Object System.Collections.Generic.List[string]
+foreach ($k in @($old.Keys)) {
+    if ($new.ContainsKey($k)) { continue }
+    if (-not ($scopePrefixes | Where-Object { $k -eq "stats.js" -or $k.StartsWith($_) })) { continue }
+    $removed.Add($k)
+}
+# 本次没涉及的书目（-Book 过滤）保持原样写回状态文件，否则下次要重新 SSH 回填基线
+foreach ($k in @($old.Keys)) {
+    if (-not $new.ContainsKey($k) -and -not $removed.Contains($k)) { $new[$k] = $old[$k] }
+}
+# key 里的书目段是 percent-encoded（只作标识），真实路径要用目录名
+function RemoteRelPath([string]$Key) {
+    if ($Key -eq "stats.js") { return $Key }
+    foreach ($b in $Books) {
+        if ($Key.StartsWith("$($b.Enc)/")) { return "$($b.Name)/math-bank/" + $Key.Substring($b.Enc.Length + 1) }
+    }
+    return $null
+}
+
+if ($toPush.Count -eq 0 -and $assetDrift.Count -eq 0 -and $removed.Count -eq 0) {
     Write-Host "no changes, nothing to push"
     exit 0
 }
@@ -188,6 +211,16 @@ if ($assetDrift.Count -gt 0) {
             if (Test-Path -LiteralPath $tmpTar) { Remove-Item -LiteralPath $tmpTar -Force }
         }
         Start-Sleep -Seconds 2
+    }
+}
+
+# 删除放在推送之后：先让新文件落地，再清旧路径，中间不会出现「文件先没了」的窗口
+if ($removed.Count -gt 0) {
+    $rmPaths = @($removed | ForEach-Object { $rel = RemoteRelPath $_; if ($rel) { "'" + $rel + "'" } })
+    if ($rmPaths.Count -gt 0) {
+        Write-Host ("removing {0} deleted file(s) from remote" -f $rmPaths.Count)
+        $rmScript = "cd '$RemoteDir' && rm -f -- " + ($rmPaths -join ' ')
+        Invoke-WithRetry "remote rm" { & $Ssh -o BatchMode=yes -o ConnectTimeout=15 $Server $rmScript }
     }
 }
 
