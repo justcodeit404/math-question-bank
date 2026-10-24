@@ -2448,6 +2448,15 @@ let BANK_KEY = '';
   else if (path.includes('/660题/')) BANK_KEY = '660题';
 })();
 
+// 平台笔记宿主契约：bank 用平台册名（不带「题」），uid 就是平台 source_uid
+function platformBankCode() {
+  return (BANK_KEY || '').replace(/题$/, '') || 'math';
+}
+
+function platformSourceUid(question) {
+  return String((question && question.uid) || '');
+}
+
 function loadCursor() {
   try {
     const raw = localStorage.getItem(CURSOR_KEY);
