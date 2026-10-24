@@ -22,14 +22,14 @@
 <script src="../../vendor/katex/katex.min.js"></script>
 <script>
 /* viewer-common：平台 /banks/common，独立端口用 vendor 副本 */
-/* ?v=2a6ccb40 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
+/* ?v=ca9c3ca5 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
 /* e3b0c442 由 generate_viewer.py 按 answer_crops 文件名+大小 hash 打戳，重裁答案图后自动失效缓存 */
 var BANK_CROPS_VER = 'e3b0c442';
 (function () {
   var base = (location.pathname || '').indexOf('/banks/') === 0
     ? '/banks/common/'
     : '../../vendor/viewer-common/';
-  var v = '2a6ccb40';
+  var v = 'ca9c3ca5';
   document.write('<script src="' + base + 'storage.js?v=' + v + '"><\/script>');
   document.write('<script src="' + base + 'platform-sync.js?v=' + v + '"><\/script>');
   document.write('<link rel="stylesheet" href="' + base + 'scratch-pad.css?v=' + v + '">');
@@ -5316,48 +5316,85 @@ function getBankProgressKeys() {
   };
 }
 
+// 分片存储的 map 整份读写：>80 条会被拆成多个 key，只读主 key 会丢数据
+function readShardedMap(key) {
+  if (window.ViewerStorage && ViewerStorage.loadShardedMap) return ViewerStorage.loadShardedMap(key) || {};
+  try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch (e) { return {}; }
+}
+
+function mergeShardedMap(key, incoming) {
+  if (!incoming || typeof incoming !== 'object') return;
+  const merged = Object.assign({}, readShardedMap(key), incoming);
+  if (window.ViewerStorage && ViewerStorage.saveShardedMap) {
+    ViewerStorage.saveShardedMap(key, merged);
+    return;
+  }
+  try { localStorage.setItem(key, JSON.stringify(merged)); } catch (e) {}
+}
+
 // 笔记图片 map（分片存储，随进度导出/导入备份）
 function getNoteImagesForExport() {
-  return (window.ViewerStorage && ViewerStorage.loadShardedMap)
-    ? (ViewerStorage.loadShardedMap(noteImgsKey()) || {})
-    : (function () {
-        try { return JSON.parse(localStorage.getItem(noteImgsKey()) || '{}'); } catch (e) { return {}; }
-      })();
+  return readShardedMap(noteImgsKey());
 }
 
 function applyNoteImagesImport(map) {
   if (!map || typeof map !== 'object') return;
   // 合并而非整体覆盖：旧备份里没有图片字段，避免把现有图库清空
-  const merged = Object.assign({}, readNoteImgsFresh(), map);
-  if (window.ViewerStorage && ViewerStorage.saveShardedMap) {
-    ViewerStorage.saveShardedMap(noteImgsKey(), merged);
-  } else {
-    try { localStorage.setItem(noteImgsKey(), JSON.stringify(merged)); } catch (e) {}
-  }
+  mergeShardedMap(noteImgsKey(), map);
   noteImgsMapCache = null;
 }
 
-function exportProgress() {
+function buildProgressData() {
   const keys = getBankProgressKeys();
-  const data = { version: 2, bank: bank.title || document.title, exportedAt: Date.now(), noteImages: getNoteImagesForExport() };
+  const data = {
+    version: 3,
+    bank: bank.title || document.title,
+    exportedAt: Date.now(),
+    noteImages: getNoteImagesForExport(),
+    // 手写笔记正文和填空答案：旧版（version<=2）备份漏了这两项，导入后等于把它们清空
+    notes: readShardedMap(notesKey()),
+    fill: readShardedMap(fillAnswersKey()),
+  };
   Object.entries(keys).forEach(([name, key]) => {
-    if (name === 'marks') {
-      // 分片存储时导出完整 map，而非单 key
-      data.marks = (window.ViewerStorage && ViewerStorage.loadShardedMap)
-        ? ViewerStorage.loadShardedMap(key)
-        : (function () {
-            try {
-              const raw = localStorage.getItem(key);
-              return raw ? JSON.parse(raw) : {};
-            } catch (e) { return {}; }
-          })();
-      return;
-    }
+    // 分片存储时导出完整 map，而非单 key
+    if (name === 'marks') { data.marks = readShardedMap(key); return; }
     try {
       const raw = localStorage.getItem(key);
       if (raw !== null) data[name] = JSON.parse(raw);
     } catch (e) {}
   });
+  return data;
+}
+
+function applyProgressData(data) {
+  if (!data || typeof data !== 'object') throw new Error('无效文件');
+  // 旧备份没有这些字段：缺失即不动本地数据，避免「导入旧备份 = 清空笔记」
+  applyNoteImagesImport(data.noteImages);
+  mergeShardedMap(notesKey(), data.notes);
+  mergeShardedMap(fillAnswersKey(), data.fill);
+  notesMapCache = null;
+  Object.entries(getBankProgressKeys()).forEach(([name, key]) => {
+    if (data[name] === undefined) return;
+    if (name === 'marks') {
+      if (window.ViewerStorage && ViewerStorage.saveShardedMap) {
+        ViewerStorage.saveShardedMap(key, data[name] || {});
+      } else {
+        try { localStorage.setItem(key, JSON.stringify(data[name])); } catch (err) {}
+      }
+      return;
+    }
+    try {
+      if (window.ViewerStorage && ViewerStorage.setJSON) {
+        ViewerStorage.setJSON(key, data[name]);
+      } else {
+        localStorage.setItem(key, JSON.stringify(data[name]));
+      }
+    } catch (err) {}
+  });
+}
+
+function exportProgress() {
+  const data = buildProgressData();
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -5375,28 +5412,7 @@ function importProgress(file) {
   const reader = new FileReader();
   reader.onload = (e) => {
     try {
-      const data = JSON.parse(e.target.result);
-      if (!data || typeof data !== 'object') throw new Error('无效文件');
-      applyNoteImagesImport(data.noteImages);
-      const keys = getBankProgressKeys();
-      Object.entries(keys).forEach(([name, key]) => {
-        if (data[name] === undefined) return;
-        if (name === 'marks') {
-          if (window.ViewerStorage && ViewerStorage.saveShardedMap) {
-            ViewerStorage.saveShardedMap(key, data[name] || {});
-          } else {
-            try { localStorage.setItem(key, JSON.stringify(data[name])); } catch (err) {}
-          }
-          return;
-        }
-        try {
-          if (window.ViewerStorage && ViewerStorage.setJSON) {
-            ViewerStorage.setJSON(key, data[name]);
-          } else {
-            localStorage.setItem(key, JSON.stringify(data[name]));
-          }
-        } catch (err) {}
-      });
+      applyProgressData(JSON.parse(e.target.result));
       loadMarks();
       renderGrid();
       showSyncToast('进度已导入，请刷新页面以完全生效', 'success');
