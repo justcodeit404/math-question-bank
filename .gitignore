@@ -59,3 +59,4 @@ stats.js
 *.swo
 CLAUDE.md
 scripts/cloud_push_hash.txt
+scripts/local_hash_cache.txt

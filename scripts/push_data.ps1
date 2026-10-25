@@ -45,12 +45,19 @@ Get-ChildItem -LiteralPath $Root -Directory | ForEach-Object {
 if ($Books.Count -eq 0) { Die "no math-bank directories under $Root" }
 
 if (-not $SkipGenerate) {
+    $generateBanks = if ($Book) {
+        @($Books | ForEach-Object { $_.Name -replace '题$', '' })
+    } else {
+        @("all")
+    }
     Push-Location $Root
     try {
-        & $Python scripts/generate_data_js.py --bank all
-        if ($LASTEXITCODE -ne 0) { Die "generate_data_js.py failed" }
-        & $Python scripts/generate_viewer.py --bank all
-        if ($LASTEXITCODE -ne 0) { Die "generate_viewer.py failed" }
+        foreach ($bank in $generateBanks) {
+            & $Python scripts/generate_data_js.py --bank $bank
+            if ($LASTEXITCODE -ne 0) { Die "generate_data_js.py failed: $bank" }
+            & $Python scripts/generate_viewer.py --bank $bank
+            if ($LASTEXITCODE -ne 0) { Die "generate_viewer.py failed: $bank" }
+        }
     } finally { Pop-Location }
 }
 
@@ -93,6 +100,18 @@ if (Test-Path -LiteralPath $stats) {
 }
 
 # ---- static figures: images/ + answer_crops/ 也在 live 树里，改图必须跟着上云 ----
+# ponytail: 只认 mtime+size；保留时间戳覆盖同名文件会漏判，异常恢复时删缓存全量重算。
+$CacheFile = Join-Path $PSScriptRoot "local_hash_cache.txt"
+$cache = @{}
+if (Test-Path -LiteralPath $CacheFile) {
+    foreach ($line in (Get-Content -LiteralPath $CacheFile -Encoding UTF8)) {
+        if ($line -match '^([^|]+)\|([^|]+)\|([^|]+)\|(.+)$') {
+            $cache[$matches[1]] = "$($matches[2])|$($matches[3])|$($matches[4])"
+        }
+    }
+}
+$newCache = @{}
+$cacheScopePrefixes = @($Books | ForEach-Object { "$($_.Enc)/" })
 $assetDirs = @("images", "answer_crops")
 $assetFiles = @()
 foreach ($b in $Books) {
@@ -102,18 +121,36 @@ foreach ($b in $Books) {
         if (-not (Test-Path -LiteralPath $dir -PathType Container)) { continue }
         Get-ChildItem -LiteralPath $dir -Recurse -File | ForEach-Object {
             $rel = $_.FullName.Substring($dir.Length + 1).Replace("\", "/")
+            $key = "$($b.Enc)/$d/$rel"
+            $stamp = "$($_.LastWriteTimeUtc.Ticks)|$($_.Length)"
+            $entry = $cache[$key]
+            if ($entry -and $entry.StartsWith("$stamp|")) {
+                $h = $entry.Substring($stamp.Length + 1)
+            } else {
+                $h = Sha256 $_.FullName
+            }
+            $newCache[$key] = "$stamp|$h"
             $assetFiles += [pscustomobject]@{
                 Book  = $b.Name
                 Enc   = $b.Enc
                 Dir   = $d
                 Rel   = $rel
-                Key   = "$($b.Enc)/$d/$rel"
+                Key   = $key
                 Local = $_.FullName
-                Hash  = (Sha256 $_.FullName)
+                Hash  = $h
             }
         }
     }
 }
+foreach ($k in @($cache.Keys)) {
+    $inScope = $false
+    foreach ($prefix in $cacheScopePrefixes) {
+        if ($k.StartsWith($prefix)) { $inScope = $true; break }
+    }
+    if (-not $inScope) { $newCache[$k] = $cache[$k] }
+}
+($newCache.GetEnumerator() | ForEach-Object { "$($_.Key)|$($_.Value)" } | Sort-Object) |
+    Set-Content -LiteralPath $CacheFile -Encoding UTF8
 
 # 首次接入：用云端现有文件哈希回填基线，避免把 1GB 题图全量重传。
 # 所有书目合并成一次 SSH，减少建连（云端对短时间多次 SSH 建连有限流）。
