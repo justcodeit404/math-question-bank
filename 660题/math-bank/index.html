@@ -22,14 +22,14 @@
 <script src="../../vendor/katex/katex.min.js"></script>
 <script>
 /* viewer-common：平台 /banks/common，独立端口用 vendor 副本 */
-/* ?v=e5cb6b8c 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
+/* ?v=eb1d4c17 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
 /* 8768919a 由 generate_viewer.py 按 answer_crops 文件名+大小 hash 打戳，重裁答案图后自动失效缓存 */
 var BANK_CROPS_VER = '8768919a';
 (function () {
   var base = (location.pathname || '').indexOf('/banks/') === 0
     ? '/banks/common/'
     : '../../vendor/viewer-common/';
-  var v = 'e5cb6b8c';
+  var v = 'eb1d4c17';
   document.write('<script src="' + base + 'storage.js?v=' + v + '"><\/script>');
   document.write('<script src="' + base + 'platform-sync.js?v=' + v + '"><\/script>');
   document.write('<link rel="stylesheet" href="' + base + 'scratch-pad.css?v=' + v + '">');
@@ -5124,7 +5124,8 @@ async function doSync(items) {
     const out = await ViewerPlatformSync.syncFromBank(
       BANK_KEY || '',
       marked.map(it => ({ uid: it.uid, mark: it.mark })),
-      null
+      null,
+      { mode: 'backfill' }
     );
     if (!out.ok) {
       showSyncToast('同步失败：' + (out.error || '未知错误'), 'error');
@@ -5177,7 +5178,7 @@ async function flushAutoSyncQueue() {
   const batch = _autoSyncQueue.splice(0, _autoSyncQueue.length);
   let ok = false;
   try {
-    const out = await ViewerPlatformSync.syncFromBank(BANK_KEY || '', batch, null);
+    const out = await ViewerPlatformSync.syncFromBank(BANK_KEY || '', batch, null, { mode: 'live' });
     ok = !!(out && out.ok && out.data && !(out.data.failed_count > 0));
   } catch (e) {}
   if (ok) {
