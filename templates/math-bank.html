@@ -5124,7 +5124,8 @@ async function doSync(items) {
     const out = await ViewerPlatformSync.syncFromBank(
       BANK_KEY || '',
       marked.map(it => ({ uid: it.uid, mark: it.mark })),
-      null
+      null,
+      { mode: 'backfill' }
     );
     if (!out.ok) {
       showSyncToast('同步失败：' + (out.error || '未知错误'), 'error');
@@ -5177,7 +5178,7 @@ async function flushAutoSyncQueue() {
   const batch = _autoSyncQueue.splice(0, _autoSyncQueue.length);
   let ok = false;
   try {
-    const out = await ViewerPlatformSync.syncFromBank(BANK_KEY || '', batch, null);
+    const out = await ViewerPlatformSync.syncFromBank(BANK_KEY || '', batch, null, { mode: 'live' });
     ok = !!(out && out.ok && out.data && !(out.data.failed_count > 0));
   } catch (e) {}
   if (ok) {
