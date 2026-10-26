@@ -36,6 +36,7 @@ var BANK_CROPS_VER = '@CROPS_VER@';
   document.write('<script src="' + base + 'scratch-ink.js?v=' + v + '"><\/script>');
   document.write('<script src="' + base + 'scratch-pad.js?v=' + v + '"><\/script>');
   document.write('<script src="' + base + 'question-notes.js?v=' + v + '"><\/script>');
+  document.write('<script src="' + base + 'pdf-export.js?v=' + v + '"><\/script>');
 })();
 </script>
 <style>
@@ -2303,6 +2304,7 @@ body {
       <div class="result-info">
         <span id="resultText">加载中...</span>
         <button class="action-btn" id="btnRandom">随机一题</button>
+        <button class="action-btn" id="btnExportWorkbook" title="将当前筛选的全部题目排版为每题一页的 A4 打印预览">导出做题本</button>
       </div>
       <div class="question-grid" id="questionGrid"></div>
       <div class="pagination" id="pagination"></div>
@@ -4321,15 +4323,39 @@ function questionBodyHtml(q, opts) {
   const hideStem = !!(opts && opts.hideStem);
   const hideSubs = !!(opts && opts.hideSubs);
   const hideAnswer = !!(opts && opts.hideAnswer);
+  const hideMyAnswer = !!(opts && opts.hideMyAnswer);
   return `
     ${hideStem ? '' : '<div class="q-text" data-role="qtext"></div>'}
     ${q.has_image && q.image_ref ? imageHtml(q.image_ref) : ''}
     ${renderOptionsHtml(q)}
     ${hideSubs ? '' : renderSubHtml(q)}
 
-    ${q.type === '填空题' ? myAnswerHtml() : ''}
+    ${q.type === '填空题' && !hideMyAnswer ? myAnswerHtml() : ''}
     ${hideAnswer ? '' : answerHtml(q)}
   `;
+}
+
+function workbookQuestionHtml(q) {
+  const container = document.createElement('div');
+  container.innerHTML = `
+    <div class="q-chapter">${escapeHtml(q.chapter)} · 第 ${escapeHtml(q.page)} 页</div>
+    <div class="q-id">${escapeHtml(q.id)} <span class="card-type">${escapeHtml(q.type || '')}</span></div>
+    ${questionBodyHtml(q, { hideAnswer: true, hideMyAnswer: true })}
+  `;
+  renderQuestionBody(container, q);
+  return container.innerHTML;
+}
+
+function exportFilteredWorkbook() {
+  if (!window.ViewerPdfExport) {
+    alert('做题本导出组件未加载，请刷新后重试');
+    return;
+  }
+  void window.ViewerPdfExport.open({
+    title: document.title + ' · 当前筛选',
+    questions: filteredQuestions,
+    renderQuestion: workbookQuestionHtml,
+  });
 }
 
 function renderQuestionBody(container, q) {
@@ -4904,6 +4930,7 @@ function setupEvents() {
 
   document.getElementById('btnPractice').addEventListener('click', startPractice);
   document.getElementById('btnRandom').addEventListener('click', randomQuestion);
+  document.getElementById('btnExportWorkbook').addEventListener('click', exportFilteredWorkbook);
   document.getElementById('btnWeak').addEventListener('click', () => {
     clearAllFilters();
     document.getElementById('markFilter').value = 'weak';

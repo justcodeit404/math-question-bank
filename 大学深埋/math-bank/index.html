@@ -22,20 +22,21 @@
 <script src="../../vendor/katex/katex.min.js"></script>
 <script>
 /* viewer-common：平台 /banks/common，独立端口用 vendor 副本 */
-/* ?v=eb1d4c17 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
+/* ?v=fc01b006 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
 /* e3b0c442 由 generate_viewer.py 按 answer_crops 文件名+大小 hash 打戳，重裁答案图后自动失效缓存 */
 var BANK_CROPS_VER = 'e3b0c442';
 (function () {
   var base = (location.pathname || '').indexOf('/banks/') === 0
     ? '/banks/common/'
     : '../../vendor/viewer-common/';
-  var v = 'eb1d4c17';
+  var v = 'fc01b006';
   document.write('<script src="' + base + 'storage.js?v=' + v + '"><\/script>');
   document.write('<script src="' + base + 'platform-sync.js?v=' + v + '"><\/script>');
   document.write('<link rel="stylesheet" href="' + base + 'scratch-pad.css?v=' + v + '">');
   document.write('<script src="' + base + 'scratch-ink.js?v=' + v + '"><\/script>');
   document.write('<script src="' + base + 'scratch-pad.js?v=' + v + '"><\/script>');
   document.write('<script src="' + base + 'question-notes.js?v=' + v + '"><\/script>');
+  document.write('<script src="' + base + 'pdf-export.js?v=' + v + '"><\/script>');
 })();
 </script>
 <style>
@@ -2303,6 +2304,7 @@ body {
       <div class="result-info">
         <span id="resultText">加载中...</span>
         <button class="action-btn" id="btnRandom">随机一题</button>
+        <button class="action-btn" id="btnExportWorkbook" title="将当前筛选的全部题目排版为每题一页的 A4 打印预览">导出做题本</button>
       </div>
       <div class="question-grid" id="questionGrid"></div>
       <div class="pagination" id="pagination"></div>
@@ -4321,15 +4323,39 @@ function questionBodyHtml(q, opts) {
   const hideStem = !!(opts && opts.hideStem);
   const hideSubs = !!(opts && opts.hideSubs);
   const hideAnswer = !!(opts && opts.hideAnswer);
+  const hideMyAnswer = !!(opts && opts.hideMyAnswer);
   return `
     ${hideStem ? '' : '<div class="q-text" data-role="qtext"></div>'}
     ${q.has_image && q.image_ref ? imageHtml(q.image_ref) : ''}
     ${renderOptionsHtml(q)}
     ${hideSubs ? '' : renderSubHtml(q)}
 
-    ${q.type === '填空题' ? myAnswerHtml() : ''}
+    ${q.type === '填空题' && !hideMyAnswer ? myAnswerHtml() : ''}
     ${hideAnswer ? '' : answerHtml(q)}
   `;
+}
+
+function workbookQuestionHtml(q) {
+  const container = document.createElement('div');
+  container.innerHTML = `
+    <div class="q-chapter">${escapeHtml(q.chapter)} · 第 ${escapeHtml(q.page)} 页</div>
+    <div class="q-id">${escapeHtml(q.id)} <span class="card-type">${escapeHtml(q.type || '')}</span></div>
+    ${questionBodyHtml(q, { hideAnswer: true, hideMyAnswer: true })}
+  `;
+  renderQuestionBody(container, q);
+  return container.innerHTML;
+}
+
+function exportFilteredWorkbook() {
+  if (!window.ViewerPdfExport) {
+    alert('做题本导出组件未加载，请刷新后重试');
+    return;
+  }
+  void window.ViewerPdfExport.open({
+    title: document.title + ' · 当前筛选',
+    questions: filteredQuestions,
+    renderQuestion: workbookQuestionHtml,
+  });
 }
 
 function renderQuestionBody(container, q) {
@@ -4904,6 +4930,7 @@ function setupEvents() {
 
   document.getElementById('btnPractice').addEventListener('click', startPractice);
   document.getElementById('btnRandom').addEventListener('click', randomQuestion);
+  document.getElementById('btnExportWorkbook').addEventListener('click', exportFilteredWorkbook);
   document.getElementById('btnWeak').addEventListener('click', () => {
     clearAllFilters();
     document.getElementById('markFilter').value = 'weak';
