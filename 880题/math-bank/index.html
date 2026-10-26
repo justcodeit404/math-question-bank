@@ -22,14 +22,14 @@
 <script src="../../vendor/katex/katex.min.js"></script>
 <script>
 /* viewer-common：平台 /banks/common，独立端口用 vendor 副本 */
-/* ?v=ba6c6c78 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
+/* ?v=13dcb381 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
 /* daf9e7c0 由 generate_viewer.py 按 answer_crops 文件名+大小 hash 打戳，重裁答案图后自动失效缓存 */
 var BANK_CROPS_VER = 'daf9e7c0';
 (function () {
   var base = (location.pathname || '').indexOf('/banks/') === 0
     ? '/banks/common/'
     : '../../vendor/viewer-common/';
-  var v = 'ba6c6c78';
+  var v = '13dcb381';
   document.write('<script src="' + base + 'storage.js?v=' + v + '"><\/script>');
   document.write('<script src="' + base + 'platform-sync.js?v=' + v + '"><\/script>');
   document.write('<link rel="stylesheet" href="' + base + 'scratch-pad.css?v=' + v + '">');
@@ -4335,12 +4335,33 @@ function questionBodyHtml(q, opts) {
   `;
 }
 
+// 题干已经用「(1)…(2)…」把各小问完整抄了一遍时，再排子问题就是重复。
+// 归一化忽略 LaTeX 命令名、标点与空白，只比较数字/字母/汉字；并要求题干确有对应编号，
+// 避免把「(1)」这类只剩编号的子问题误判成重复。
+function subsEchoStem(q) {
+  const subs = Array.isArray(q.sub_questions) ? q.sub_questions : [];
+  if (subs.length < 2) return false;
+  const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
+  const plain = (text) => String(text == null ? '' : text)
+    .replace(/\\[A-Za-z]+/g, '')
+    .replace(/[^0-9A-Za-z一-鿿]+/g, '');
+  const content = String(q.content || '');
+  const stem = plain(content);
+  return subs.every((sub, i) => {
+    const marks = [String(i + 1)];
+    if (ROMAN[i]) marks.push(ROMAN[i]);
+    if (!new RegExp('[（(]\\s*(?:' + marks.join('|') + ')\\s*[)）]').test(content)) return false;
+    const text = plain(sub);
+    return text.length < 2 || stem.indexOf(text) !== -1;
+  });
+}
+
 function workbookQuestionHtml(q) {
   const container = document.createElement('div');
   container.innerHTML = `
     <div class="q-chapter">${escapeHtml(q.chapter)} · 第 ${escapeHtml(q.page)} 页</div>
     <div class="q-id">${escapeHtml(q.id)} <span class="card-type">${escapeHtml(q.type || '')}</span></div>
-    ${questionBodyHtml(q, { hideAnswer: true, hideMyAnswer: true })}
+    ${questionBodyHtml(q, { hideAnswer: true, hideMyAnswer: true, hideSubs: subsEchoStem(q) })}
   `;
   renderQuestionBody(container, q);
   return container.innerHTML;

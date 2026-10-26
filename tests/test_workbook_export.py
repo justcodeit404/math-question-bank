@@ -19,6 +19,7 @@ def test_workbook_renderer_excludes_answers_and_saved_fill_input():
     functions = "\n".join(
         _function(source, name)
         for name in (
+            "subsEchoStem",
             "questionBodyHtml",
             "workbookQuestionHtml",
             "exportFilteredWorkbook",
@@ -97,6 +98,14 @@ if (html.includes('SECRET_') || html.includes('q-myanswer-input')) {
   throw new Error('answer or saved input leaked');
 }
 if (answerCalls || myAnswerCalls) throw new Error('answer renderer called in workbook mode');
+// 题干已列出 (1)(2) 各问时，子问题块不再重复排版
+const echo = Object.assign({}, fixture, {
+  id: '3', uid: '880-3',
+  content: '求：(1) 面积；(2) 周长', sub_questions: ['(1) 面积；', '(2) 周长'],
+});
+const echoHtml = workbookQuestionHtml(echo);
+const echoes = echoHtml.split('面积；').length - 1;
+if (echoes !== 1) throw new Error('duplicated sub-questions re-rendered: ' + echoes);
 exportFilteredWorkbook();
 if (!captured || captured.questions !== filteredQuestions) throw new Error('wrong filtered question set');
 if (captured.questions.map((q) => q.id).join(',') !== '2,1') throw new Error('order changed');
