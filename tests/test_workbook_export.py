@@ -127,5 +127,7 @@ def test_all_generated_books_have_workbook_wiring():
         assert "hideMyAnswer: true" in source, book
         assert "questions: filteredQuestions" in source, book
     generator = (ROOT / "scripts" / "generate_viewer.py").read_text(encoding="utf-8")
+    server = (ROOT / "scripts" / "server.py").read_text(encoding="utf-8")
     assert "'pdf-export.js'," in generator
+    assert "'pdf-export.js'," in server
     assert "btnExportWorkbook" in TEMPLATE.read_text(encoding="utf-8")
