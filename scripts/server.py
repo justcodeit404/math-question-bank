@@ -34,7 +34,7 @@ def viewer_common_ver() -> str:
     import hashlib
 
     h = hashlib.sha256()
-    for name in ('pdf-export.js', 'platform-sync.js', 'question-notes.js', 'scratch-ink.js',
+    for name in ('pdf-export.js', 'pdf-lib.min.js', 'platform-sync.js', 'question-notes.js', 'scratch-ink.js',
                  'scratch-pad.js', 'scratch-pad.css', 'storage.js'):
         f = VIEWER_COMMON / name
         if f.exists():

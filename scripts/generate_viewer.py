@@ -18,6 +18,7 @@ VIEWER_COMMON = ROOT.parent / 'viewer-common'
 # 与 tools/sync_viewer_common.ps1 的 $RuntimeFiles 保持一致
 VC_RUNTIME_FILES = (
     'pdf-export.js',
+    'pdf-lib.min.js',
     'platform-sync.js',
     'question-notes.js',
     'scratch-ink.js',
