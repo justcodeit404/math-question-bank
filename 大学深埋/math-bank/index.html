@@ -22,14 +22,14 @@
 <script src="../../vendor/katex/katex.min.js"></script>
 <script>
 /* viewer-common：平台 /banks/common，独立端口用 vendor 副本 */
-/* ?v=d407cb00 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
+/* ?v=68f1b28f 由 generate_viewer.py 按 viewer-common 内容 hash 统一打戳，勿手改 */
 /* e3b0c442 由 generate_viewer.py 按 answer_crops 文件名+大小 hash 打戳，重裁答案图后自动失效缓存 */
 var BANK_CROPS_VER = 'e3b0c442';
 (function () {
   var base = (location.pathname || '').indexOf('/banks/') === 0
     ? '/banks/common/'
     : '../../vendor/viewer-common/';
-  var v = 'd407cb00';
+  var v = '68f1b28f';
   document.write('<script src="' + base + 'storage.js?v=' + v + '"><\/script>');
   document.write('<script src="' + base + 'platform-sync.js?v=' + v + '"><\/script>');
   document.write('<link rel="stylesheet" href="' + base + 'scratch-pad.css?v=' + v + '">');
