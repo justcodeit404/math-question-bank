@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "created_at": "2026-08-28T03:52:41.194629+00:00",
-  "updated_at": "2026-09-30",
+  "updated_at": "2026-11-04T11:17:33.306339+00:00",
   "rule_version": "1.0.0",
   "total_questions": 2900,
   "entries": {
@@ -54961,7 +54961,7 @@
       "chapter": "强化·多元函数微分学",
       "page": 94,
       "type": "填空题",
-      "content_hash": "f5441f7f7e1f452a88bc9fbdbf770d531d0b7f939de4b50f0c190ef9079ff77b",
+      "content_hash": "c8ade9f4ec1dcd96fed81eff948354e9c7049da494fe0321a2bd4908867eafde",
       "answer_hash": "566c757170c389aab413d1fe366089cd6a918dcbb9c090dcd29a1f83894b1f61",
       "source_pdf_hash": "7724d3af10780ec2",
       "source_page": 94,
@@ -54977,7 +54977,7 @@
       "overall_status": "rule_passed",
       "conflicts": [],
       "issue_codes": [],
-      "last_reviewed": "2026-08-28T05:50:31.946313+00:00",
+      "last_reviewed": "2026-11-04T11:17:33.306339+00:00",
       "model_request_count": 0
     },
     "1000-强化·多元函数微分学-11": {

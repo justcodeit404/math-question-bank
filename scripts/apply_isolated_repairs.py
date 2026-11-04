@@ -85,6 +85,9 @@ REPAIRS = {
         },
     },
     "1000题": {
+        "1000-强化·多元函数微分学-10": {
+            "content": "设函数 $f(x,y)=\\int_0^{xy}\\mathrm{e}^{x t^2}\\,\\mathrm{d}t$，则 $\\left.\\frac{\\partial^2 f}{\\partial x\\partial y}\\right|_{(1,1)}=$______。"
+        },
         "1000-综合·测试卷二-2": {"options": {"A": "0", "B": "1", "C": "2", "D": "3"}},
         "1000-基础·多元函数微分学-3": {
             "content": "设函数 $f(u)$ 可导，$z=yf(x^{y^2})$，则 $2x\\frac{\\partial z}{\\partial x}+y\\frac{\\partial z}{\\partial y}=$______."
