@@ -58,9 +58,11 @@ def data_script_tag(dest: Path) -> str:
 
 
 def crops_ver(dest: Path) -> str:
-    """answer_crops 文件名+大小 hash，作为答案图统一缓存戳（重裁同名图后自动变）。"""
+    """答案图目录（answer_crops；大学深埋为 images/answers）文件名+大小 hash，重裁同名图后自动变。"""
     h = hashlib.sha256()
     crops = dest.parent / 'answer_crops'
+    if not crops.exists():
+        crops = dest.parent / 'images' / 'answers'
     if crops.exists():
         for f in sorted(crops.glob('*.png')):
             h.update(f.name.encode())
