@@ -1876,6 +1876,19 @@ body {
   .content { padding: 14px; }
 }
 
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 3000;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  transform: translateY(-160%);
+}
+.skip-link:focus-visible { transform: translateY(0); }
+
 /* Focus visible */
 .question-card:focus-visible,
 .chapter-item:focus-visible,
@@ -2199,6 +2212,7 @@ body {
 </style>
 </head>
 <body>
+<a class="skip-link" href="#content">跳到题目列表</a>
 <div class="app">
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
@@ -2290,7 +2304,7 @@ body {
       </div>
     </div>
 
-    <div class="content" id="content">
+    <div class="content" id="content" tabindex="-1">
       <div class="resume-bar" id="resumeBar" hidden>
         <div class="resume-bar-text" id="resumeText">上次练到：—</div>
         <div class="resume-bar-actions">
@@ -3061,11 +3075,18 @@ function resetAndFilter() { currentPage = 1; applyFilters(); }
 
 let modalFocusReturn = null;
 
+function activeModal() {
+  const modals = document.querySelectorAll('.modal-overlay.active');
+  return modals[modals.length - 1] || null;
+}
+
 function openModal(id) {
   const modal = document.getElementById(id);
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
   modalFocusReturn = document.activeElement;
+  const app = document.querySelector('.app');
+  if (app) app.inert = true;
   // 焦点移到关闭按钮，方便键盘操作
   const closeBtn = modal.querySelector('.modal-close');
   if (closeBtn) closeBtn.focus();
@@ -3075,11 +3096,38 @@ function closeModalById(id) {
   const modal = document.getElementById(id);
   if (!modal.classList.contains('active')) return;
   modal.classList.remove('active');
-  document.body.style.overflow = '';
+  const remaining = activeModal();
+  document.body.style.overflow = remaining ? 'hidden' : '';
+  const app = document.querySelector('.app');
+  if (app) app.inert = !!remaining;
   if (modalFocusReturn && modal.contains(document.activeElement)) {
     modalFocusReturn.focus();
   }
   modalFocusReturn = null;
+}
+
+function trapModalTab(e) {
+  if (e.key !== 'Tab') return false;
+  const modal = activeModal();
+  if (!modal) return false;
+  const focusable = Array.from(modal.querySelectorAll(
+    'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  )).filter(el => el.getClientRects().length > 0);
+  if (!focusable.length) {
+    e.preventDefault();
+    return true;
+  }
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  const active = document.activeElement;
+  if (e.shiftKey && (active === first || !modal.contains(active))) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && (active === last || !modal.contains(active))) {
+    e.preventDefault();
+    first.focus();
+  }
+  return true;
 }
 
 // 质量隔离题（quality-hold.json → data.js 的 quality_hold）不进任何抽题/浏览路径：
@@ -5063,6 +5111,7 @@ function setupEvents() {
   });
 
   document.addEventListener('keydown', (e) => {
+    if (trapModalTab(e)) return;
     if (isTypingTarget(e.target)) return;
     if (document.querySelector('.zoom-overlay')) {
       if (e.key === 'Escape') return; // zoom handles itself
