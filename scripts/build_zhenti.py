@@ -196,7 +196,7 @@ def parse_year(year: int) -> list[dict]:
                 qtype = "证明题"
         if not body.strip() and subs:
             body = "（本题无主题干，见子问）"
-        has_image = bool(re.search(r"如图|见图|图中|下图|上图", body + "\n" + "\n".join(subs or [])))
+        has_image = bool(re.search(r"如图|见图|图中|下图|上图|右图|左图", body + "\n" + "\n".join(subs or [])))
         result.append({
             "uid": f"历年真题-{year}-{number}",
             "id": str(number),
@@ -315,7 +315,8 @@ def apply_answer_keys(years: list[int]) -> None:
 
 # ---------------------------------------------------------------- 答案裁图
 
-SCAN_LAYOUT_YEARS = {2015, 2016, 2018, 2019, 2020, 2021, 2022, 2025}  # jingwei 扫描详解，走行框
+SCAN_LAYOUT_YEARS = {2015, 2018, 2019, 2020, 2021, 2022, 2025}  # jingwei 扫描详解，走行框
+# 注意：jingwei 的 2016 详解实为 2014 内容（贴错标签），2016 用 03 详解（文字层）
 SRC_DIR = REPO_ROOT / "资料" / "数学2" / "电子资料" / "数学二历年真题2010-2026"
 
 PAGENO_RE = re.compile(r"^\s*(—\s*\d+\s*—|第\s*\d+\s*页.*|\d{1,2})\s*$")
@@ -383,7 +384,22 @@ def answer_lines(year: int) -> dict[int, list[tuple[float, float, str]]]:
                     text = normalize_circled("".join(span["text"] for span in line["spans"]).strip())
                     if text:
                         lines.append((line["bbox"][1] * scale, line["bbox"][3] * scale, text))
-            result[pno] = sorted(lines)
+            # 文字层偶尔把「(N)【解】」拆成裸题号行 + 独立标记行（2016 Q22），按邻近位置合并
+            merged_lines = []
+            consumed = set()
+            for i, (y0, y1, text) in enumerate(lines):
+                if i in consumed:
+                    continue
+                bare = re.fullmatch(r"\s*[（(]\s*(\d{1,2})\s*[）)]\s*", text)
+                if bare:
+                    for j, (y0b, y1b, textb) in enumerate(lines):
+                        if j != i and j not in consumed and abs(y0b - y0) < 90 and STANDALONE_MARK_RE.match(textb):
+                            text = f"({bare.group(1)}){textb}"
+                            y0, y1 = min(y0, y0b), max(y1, y1b)
+                            consumed.add(j)
+                            break
+                merged_lines.append((y0, y1, text))
+            result[pno] = sorted(merged_lines)
     return result
 
 
@@ -566,9 +582,9 @@ def render_crop(
 
 
 # 2022 详解（03 文件夹版）无内联答案的题：隔离，不编造
-ISOLATED = {2022: {2, 3, 13, 14, 15}}
-# 2022 第 6 题题干行被 OCR 漏检但答案存在，与第 5 题共享裁图
-SHARE_PREV = {2022: {6}}
+ISOLATED = {2022: {2, 3, 5, 13, 14, 15}}
+# 2022 第 6 题题干行被 OCR 漏检，但 p2 的【答案】D. 实为 Q6 所有（Q5 无内联答案）
+SHARE_PREV = {2022: set()}
 
 
 def events_2022(
@@ -587,6 +603,9 @@ def events_2022(
                 stems[current] = (page, y0)
             elif "【答案】" in text and current and current not in answers:
                 answers[current] = (page, y0)
+    # 逐题目检确认：Q5 无内联答案，其后的【答案】D. 属于题干行漏检的 Q6
+    if 5 in answers and 6 not in answers:
+        answers[6] = answers.pop(5)
     starts: dict[int, tuple[int, float]] = {}
     for qnum in range(1, 23):
         if qnum in ISOLATED[2022] or qnum in SHARE_PREV[2022]:
@@ -660,10 +679,6 @@ def crop_year(year: int) -> int:
             # 答案册不重复题干，标记即「N.【答案】X」；解答题为「N.【解析】」「N.证明：」
             qstart_re = re.compile(r"^\s*(\d{1,2})\s*[.．]\s*(?:【(?:答案|解析)】|证明|解[:：])")
             events = question_events(lines_by_page, qstart_re, sp["total"], combined=True, book=book)
-        elif year == 2016:
-            # 题干 N. 起，解析标记为【详解】
-            qstart_re = re.compile(r"^\s*(\d{1,2})\s*[.．](?!\d)")
-            events = question_events(lines_by_page, qstart_re, sp["total"], combined=True, book=book, ans_marker="【详解】")
         elif year == 2019:
             # 选择题为（N），填空/解答为 N. 混排
             qstart_re = re.compile(r"^\s*(?:[（(]\s*(\d{1,2})\s*[）)]|(\d{1,2})\s*[.．](?!\d))")
@@ -671,7 +686,7 @@ def crop_year(year: int) -> int:
         else:
             qstart_re = re.compile(r"^\s*[（(]\s*(\d{1,2})\s*[）)]")
             events = question_events(lines_by_page, qstart_re, sp["total"], combined=True, book=book)
-    elif year in (2010, 2011, 2012, 2013, 2014, 2017):
+    elif year in (2010, 2011, 2012, 2013, 2014, 2016, 2017):
         qstart_re = re.compile(
             r"^\s*[（(]\s*(\d{1,2})\s*[）)]\s*(?:[（(]\s*[ⅠⅡiI1]{1,3}\s*[）)])?\s*[【\[［]\s*(?:答案|解|证明)\s*[】\]］]"
         )
