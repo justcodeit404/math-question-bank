@@ -601,11 +601,17 @@ nav .container {
 .bank-1000 { --bank-color: #6ea8ff; }
 .bank-880  { --bank-color: #e0a35c; }
 .bank-660  { --bank-color: #c48ad9; }
+.bank-lyl6 { --bank-color: #e57c73; }
+.bank-ll6  { --bank-color: #d7b35a; }
+.bank-zt   { --bank-color: #7c9ee5; }
 
 [data-theme="light"] .bank-dxsm { --bank-color: #2f8f62; }
 [data-theme="light"] .bank-1000 { --bank-color: #3b7ddd; }
 [data-theme="light"] .bank-880  { --bank-color: #c4842e; }
 [data-theme="light"] .bank-660  { --bank-color: #9b5fb3; }
+[data-theme="light"] .bank-lyl6 { --bank-color: #bd5048; }
+[data-theme="light"] .bank-ll6  { --bank-color: #a47b13; }
+[data-theme="light"] .bank-zt   { --bank-color: #3b63b8; }
 
 /* ── Footer ── */
 footer {
@@ -731,7 +737,7 @@ footer .container {
     <div class="hero-layout">
       <div>
         <h1>考研题库<br><span class="accent-line">数学</span></h1>
-        <p class="hero-desc">660 / 880 / 1000 / 大学深埋。选册开练，标记可同步学习平台。要刷 408 请用顶栏「408」。</p>
+        <p class="hero-desc">历年真题 / 660 / 880 / 1000 / 大学深埋 / 李永乐六套卷 / 李林六套卷。选册开练，标记可同步学习平台。要刷 408 请用顶栏「408」。</p>
         <div class="hero-actions">
           <a href="#books" class="btn-primary">
             选择题册
@@ -860,6 +866,90 @@ footer .container {
         </div>
       </a>
 
+      <a class="book-card span-wide bank-zt reveal" href="./历年真题/math-bank/index.html" data-bank-key="历年真题">
+        <div class="book-top">
+          <div>
+            <span class="book-code">ZT 17</span>
+            <span class="recent-pill">上次</span>
+          </div>
+          <div class="book-count" id="count-zt">--<span>题</span></div>
+        </div>
+        <div class="book-body">
+          <div class="book-title">数学二历年真题</div>
+          <div class="book-meta loading" id="stats-zt">加载中...</div>
+        </div>
+        <div class="tags">
+          <span class="tag">2010—2026</span>
+          <span class="tag">选择填空</span>
+          <span class="tag">解答证明</span>
+          <span class="tag">答案解析</span>
+        </div>
+        <div class="book-footer">
+          <span class="book-cta">进入练习</span>
+          <span class="book-arrow" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      <a class="book-card span-wide bank-ll6 reveal" href="./李林六套卷/math-bank/index.html" data-bank-key="李林六套卷">
+        <div class="book-top">
+          <div>
+            <span class="book-code">LL 6</span>
+            <span class="recent-pill">上次</span>
+          </div>
+          <div class="book-count" id="count-ll6">--<span>题</span></div>
+        </div>
+        <div class="book-body">
+          <div class="book-title">2027 李林六套卷</div>
+          <div class="book-meta loading" id="stats-ll6">加载中...</div>
+        </div>
+        <div class="tags">
+          <span class="tag">第一套—第六套</span>
+          <span class="tag">选择填空</span>
+          <span class="tag">解答证明</span>
+          <span class="tag">答案解析</span>
+        </div>
+        <div class="book-footer">
+          <span class="book-cta">进入练习</span>
+          <span class="book-arrow" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      <a class="book-card span-wide bank-lyl6 reveal" href="./李永乐六套卷/math-bank/index.html" data-bank-key="李永乐六套卷">
+        <div class="book-top">
+          <div>
+            <span class="book-code">LYL 6</span>
+            <span class="recent-pill">上次</span>
+          </div>
+          <div class="book-count" id="count-lyl6">--<span>题</span></div>
+        </div>
+        <div class="book-body">
+          <div class="book-title">2027 李永乐六套卷</div>
+          <div class="book-meta loading" id="stats-lyl6">加载中...</div>
+        </div>
+        <div class="tags">
+          <span class="tag">模拟一—六</span>
+          <span class="tag">选择填空</span>
+          <span class="tag">解答证明</span>
+          <span class="tag">答案解析</span>
+        </div>
+        <div class="book-footer">
+          <span class="book-cta">进入练习</span>
+          <span class="book-arrow" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </a>
+
       <a class="book-card span-wide bank-660 reveal" href="./660题/math-bank/index.html" data-bank-key="660题">
         <div class="book-top">
           <div>
@@ -947,6 +1037,9 @@ function initStats() {
     'stats-1000': { key: '1000题', countId: 'count-1000' },
     'stats-880': { key: '880题', countId: 'count-880' },
     'stats-660-merged': { key: '660题', countId: 'count-660' },
+    'stats-lyl6': { key: '李永乐六套卷', countId: 'count-lyl6' },
+    'stats-ll6': { key: '李林六套卷', countId: 'count-ll6' },
+    'stats-zt': { key: '历年真题', countId: 'count-zt' },
   };
   for (const [id, cfg] of Object.entries(mapping)) {
     const s = (typeof BANK_STATS !== 'undefined' && BANK_STATS[cfg.key]) ? BANK_STATS[cfg.key] : null;

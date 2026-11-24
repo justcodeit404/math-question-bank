@@ -45,6 +45,21 @@ BANK_CONFIG = {
         "questions": ROOT / "大学深埋" / "questions.json",
         "data_js": ROOT / "大学深埋" / "math-bank" / "data.js",
     },
+    "李永乐六套卷": {
+        "name": "李永乐六套卷",
+        "questions": ROOT / "李永乐六套卷" / "questions.json",
+        "data_js": ROOT / "李永乐六套卷" / "math-bank" / "data.js",
+    },
+    "李林六套卷": {
+        "name": "李林六套卷",
+        "questions": ROOT / "李林六套卷" / "questions.json",
+        "data_js": ROOT / "李林六套卷" / "math-bank" / "data.js",
+    },
+    "历年真题": {
+        "name": "历年真题",
+        "questions": ROOT / "历年真题" / "questions.json",
+        "data_js": ROOT / "历年真题" / "math-bank" / "data.js",
+    },
 }
 
 # Fields from the unified question that the viewer needs.

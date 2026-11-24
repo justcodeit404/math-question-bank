@@ -26,6 +26,9 @@ BANK_CONFIG = {
     '880': {'name': '880题', 'questions': ROOT / '880题' / 'questions.json'},
     '1000': {'name': '1000题', 'questions': ROOT / '1000题' / 'questions.json'},
     '大学深埋': {'name': '大学深埋', 'questions': ROOT / '大学深埋' / 'questions.json'},
+    '李永乐六套卷': {'name': '李永乐六套卷', 'questions': ROOT / '李永乐六套卷' / 'questions.json'},
+    '李林六套卷': {'name': '李林六套卷', 'questions': ROOT / '李林六套卷' / 'questions.json'},
+    '历年真题': {'name': '历年真题', 'questions': ROOT / '历年真题' / 'questions.json'},
 }
 
 # OCR单例
@@ -72,11 +75,11 @@ def extract_choice_answer(ocr_text: str) -> str | None:
         return None
     # 常见模式：答案是A、答案：A、解析：A、【答案】A、A. xxx
     patterns = [
-        r'答案[：:]\s*([A-D])',
-        r'【答案】\s*([A-D])',
+        r'答案[：:]\s*[（(]?([A-D])',
+        r'【答案】\s*[（(]?([A-D])',
         r'^\s*([A-D])\s*[.．、]',
-        r'选\s*([A-D])',
-        r'正确选项\s*[为是：:]\s*([A-D])',
+        r'选\s*[（(]?([A-D])',
+        r'正确选项\s*[为是：:]\s*[（(]?([A-D])',
     ]
     for pat in patterns:
         m = re.search(pat, ocr_text)
@@ -110,8 +113,8 @@ def extract_fill_answer(ocr_text: str) -> tuple[str | None, str]:
     return text, "normalized_math"
 
 
-def process_bank(bank_key: str, dry_run: bool = False) -> dict:
-    """处理一个题库的答案结构化。"""
+def process_bank(bank_key: str, dry_run: bool = False, skip_existing: bool = False) -> dict:
+    """处理一个题库的答案结构化。skip_existing=True 时保留已有 answer_structured（如 builder 已写入的权威答案键）。"""
     cfg = BANK_CONFIG[bank_key]
     qpath = cfg['questions']
     data = json.loads(qpath.read_text(encoding='utf-8'))
@@ -123,6 +126,8 @@ def process_bank(bank_key: str, dry_run: bool = False) -> dict:
         for q in ch.get('questions', []):
             qtype = q.get('type', '')
             uid = q.get('uid', '')
+            if skip_existing and q.get('answer_structured'):
+                continue
 
             if qtype == '选择题':
                 stats['choice'] += 1
@@ -196,12 +201,13 @@ def main():
     parser = argparse.ArgumentParser(description='提取结构化答案')
     parser.add_argument('--bank', choices=list(BANK_CONFIG.keys()) + ['all'], default='all')
     parser.add_argument('--dry-run', action='store_true', help='只统计不写入')
+    parser.add_argument('--skip-existing', action='store_true', help='已有 answer_structured 的题跳过')
     args = parser.parse_args()
 
     banks = list(BANK_CONFIG.keys()) if args.bank == 'all' else [args.bank]
     total = {}
     for bank in banks:
-        total[bank] = process_bank(bank, dry_run=args.dry_run)
+        total[bank] = process_bank(bank, dry_run=args.dry_run, skip_existing=args.skip_existing)
 
     print("\n汇总:")
     for bank, s in total.items():

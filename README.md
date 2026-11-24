@@ -2,7 +2,7 @@
 
 本地静态数学题库系统，支持题目浏览、搜索、练习、抽检和质检。
 
-已收录：**2879 道题目** · **4 本题册** · **88 个章节**
+已收录：**3549 道题目** · **7 本题册** · **118 个章节**
 
 ## 在线预览
 
@@ -45,9 +45,14 @@ Windows 用户也可以直接双击：
 ├── 880题/                          # 《李林880题》
 ├── 1000题/                         # 《张宇1000题》
 ├── 大学深埋/                        # 《大学深埋做题本》
+├── 李永乐六套卷/                    # 《2027数学决胜冲刺6套卷·数学二》（答案源缺印刷18-19页）
+│   └── math-bank/
+├── 李林六套卷/                      # 《2027李林数学冲刺预测6套卷·数学二》
 │   └── math-bank/
 │       ├── data.js                 # 题库数据（由脚本生成）
 │       └── images/                 # 题目/答案图片
+├── 历年真题/                        # 数学二历年真题（2010–2026，17 套；2022 年 5 题详解源缺答案已隔离）
+│   └── math-bank/
 ├── templates/
 │   └── math-bank.html              # 统一 viewer 模板（唯一源码）
 ├── scripts/                        # 核心脚本
@@ -75,7 +80,7 @@ Windows 用户也可以直接双击：
 python scripts/normalize_schema.py
 ```
 
-把四个 `questions.json` 转成统一格式，并补齐 `uid`、`question_count` 等字段。
+把题册的 `questions.json` 转成统一格式，并补齐 `uid`、`question_count` 等字段（李永乐六套卷由 `build_liyongle6.py` 直接生成统一格式）。
 
 ### 生成 viewer 数据
 
@@ -91,7 +96,7 @@ python scripts/generate_data_js.py --bank all
 python scripts/generate_viewer.py --bank all
 ```
 
-本地 `scripts/server.py` 会从 `templates/math-bank.html` 动态渲染，无需运行本脚本；但平台 `/banks/math` 是静态挂载、服务的是生成的 `math-bank/index.html`——**改模板后必须跑本脚本重出四册**（自动按内容 hash 打 `data.js?v=` 缓存戳），GitHub Pages 等静态托管同理。
+本地 `scripts/server.py` 会从 `templates/math-bank.html` 动态渲染，无需运行本脚本；但平台 `/banks/math` 是静态挂载、服务的是生成的 `math-bank/index.html`——**改模板后必须跑本脚本重出各册**（自动按内容 hash 打 `data.js?v=` 缓存戳），GitHub Pages 等静态托管同理。
 
 ### 质量检查
 
@@ -123,6 +128,12 @@ python scripts/quality_check.py --book 大学深埋
    如需静态部署，再运行 `python scripts/generate_viewer.py --bank 新题库`。
 6. 更新 `index.html` 首页中的书卡片
 7. 更新 `stats.js`（由 `generate_data_js.py --bank all` 自动生成）
+
+李永乐六套卷的重建入口为 `scripts/build_liyongle6.py`，行框缓存由通用 `exam-paper-bank-intake/scripts/ocr_layout.py` 生成。答案源 PDF 缺印刷第 18–19 页，模拟三第 4–9 题无答案图，第 10 题仅有续页解析；这 7 题会由 `enhanced_quality_audit.py` 标记为 `answer_incomplete`，不能用其他题答案补齐。
+
+李林六套卷的重建入口为 `scripts/build_linliu6.py`，答案行框由通用 `exam-paper-bank-intake/scripts/ocr_layout.py` 生成。原书每套 5 页，解析套标题页不按固定页距排列；第 37 页同时含第三套尾题和第四套开头，生成脚本会按标题坐标截断，不能按“每套 12 页”硬编码。
+
+历年真题（2010–2026）的重建入口为 `scripts/build_zhenti.py`：真题走 `tools/ocr_gpu.py` 页面 OCR，答案裁图按来源分流（03 详解/2023 速查/2024 合册/2026 iqihang 用 PDF 文字层坐标，jingwei 扫描详解用 `ocr_layout.py` 行框）。2022 年详解源（03 文件夹版）第 2、3、13、14、15 题无内联答案，已隔离；第 6 题与第 5 题共享裁图。2022 详解不要用 jingwei 版本（实为多年混编分类解析）。
 
 ## 从 PDF 提取题目（以 660 为例）
 

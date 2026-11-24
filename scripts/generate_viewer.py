@@ -32,6 +32,9 @@ BANKS = {
     '880': ROOT / '880题' / 'math-bank' / 'index.html',
     '1000': ROOT / '1000题' / 'math-bank' / 'index.html',
     '大学深埋': ROOT / '大学深埋' / 'math-bank' / 'index.html',
+    '李永乐六套卷': ROOT / '李永乐六套卷' / 'math-bank' / 'index.html',
+    '李林六套卷': ROOT / '李林六套卷' / 'math-bank' / 'index.html',
+    '历年真题': ROOT / '历年真题' / 'math-bank' / 'index.html',
 }
 
 

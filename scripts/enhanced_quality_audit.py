@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""数学四库发布前质量门禁：结构、公式、题图和答案图。"""
+"""数学题库发布前质量门禁：结构、公式、题图和答案图。"""
 from __future__ import annotations
 
 import hashlib
@@ -15,7 +15,7 @@ from quality_check import check_question
 ROOT = Path(__file__).resolve().parent.parent
 REPO_ROOT = ROOT.parent.parent
 REPORT_DIR = REPO_ROOT / "temp" / "math-quality"
-BOOKS = ("660题", "880题", "1000题", "大学深埋")
+BOOKS = ("660题", "880题", "1000题", "大学深埋", "李永乐六套卷", "李林六套卷", "历年真题")
 ALLOWED_TYPES = {"选择题", "填空题", "计算题", "证明题", "解答题"}
 
 
@@ -84,6 +84,8 @@ def audit_book(name: str) -> dict:
         answer_issue = resource_issue(book_dir, question.get("answer_ref"), "answer_ref")
         if answer_issue:
             add(answer_issue)
+        if question.get("answer_incomplete"):
+            add("answer_incomplete")
         if question.get("has_image") or question.get("image_ref"):
             image_issue = resource_issue(book_dir, question.get("image_ref"), "image_ref")
             if image_issue:
@@ -162,13 +164,13 @@ def audit_book(name: str) -> dict:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="数学四库发布前质量门禁")
+    parser = argparse.ArgumentParser(description="数学题库发布前质量门禁")
     parser.add_argument(
         "--book",
         action="append",
         choices=BOOKS,
         default=None,
-        help="只审核指定题库（可重复）；默认全部四库",
+        help="只审核指定题库（可重复）；默认全部题库",
     )
     args = parser.parse_args(argv)
     books = [audit_book(name) for name in (args.book or BOOKS)]

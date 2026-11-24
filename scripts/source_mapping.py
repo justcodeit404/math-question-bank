@@ -1,4 +1,4 @@
-"""四库题目到原始题目/答案 PDF 的只读映射。
+"""各数学题库题目到原始题目/答案 PDF 的只读映射。
 
 题目 JSON 的 ``page`` 在不同题库中均是各自 PDF 的页码；660、880 和大学深埋
 分别把高数与线代放在不同 PDF 中，因此不能只按题库名称选择一个文件。
@@ -34,7 +34,15 @@ QUESTION_PDFS: dict[str, str] = {
     "1000": "27张宇1000题数二-试题册.pdf",
     "university-gaosh": "27大雪深埋强化讲义书（扫描版）.pdf",
     "university-linear": "【横版】27ep线代讲义例题做题本.pdf",
+    "liyongle6": "李永乐六套卷（数二）.pdf",
+    "linliu6": "李林六套卷（数二）.pdf",
 }
+
+# 历年真题：每年一个 PDF，2024/2026 为题目+解析合册
+ZHENTI_DIR = "数学二历年真题2010-2026"
+ZHENTI_COMBINED = {"2024": "2024数学二真题及解析.pdf", "2026": "2026数学二真题及答案-iqihang.pdf"}
+for _y in range(2010, 2027):
+    QUESTION_PDFS[f"zhenti-{_y}"] = f"{ZHENTI_DIR}/{ZHENTI_COMBINED.get(str(_y), f'{_y}数学二真题.pdf')}"
 
 ANSWER_PDFS: dict[str, str] = {
     # 660 的答案就在对应题册 PDF 的后半部分，具体题号到裁图已在 answer_ref 中保存。
@@ -43,7 +51,11 @@ ANSWER_PDFS: dict[str, str] = {
     "880": "【PDF】27版880参考答案.pdf",
     "1000": "27张宇1000题数二-解析册.pdf",
     "university": "27大雪深埋强化讲义书（扫描版）.pdf",
+    "liyongle6": "李永乐六套卷（数二）答案解析.pdf",
+    "linliu6": "李林六套卷（数二）解析.pdf",
 }
+for _y in range(2010, 2027):
+    ANSWER_PDFS[f"zhenti-{_y}"] = f"{ZHENTI_DIR}/{ZHENTI_COMBINED.get(str(_y), f'{_y}数学二详解.pdf')}"
 
 
 def _number_from_uid(uid: str) -> int | None:
@@ -67,6 +79,15 @@ def _book_key(question: dict[str, Any]) -> str:
         return "1000"
     if book == "大学深埋":
         return "university-linear" if chapter.startswith("线代") else "university-gaosh"
+    if book == "李永乐六套卷":
+        return "liyongle6"
+    if book == "李林六套卷":
+        return "linliu6"
+    if book == "历年真题":
+        year_match = re.search(r"(20\d{2})", chapter) or re.search(r"历年真题-(20\d{2})-", uid)
+        if not year_match:
+            raise KeyError(f"历年真题缺少年份: {uid} {chapter}")
+        return f"zhenti-{year_match.group(1)}"
     raise KeyError(f"未知题库: {book}")
 
 
@@ -88,9 +109,12 @@ def resolve_answer_pdf(question: dict[str, Any]) -> PdfRef | None:
     """返回答案来源 PDF（页码通常由 answer_ref 裁图记录，故页码为0）。"""
 
     key = _book_key(question)
-    answer_key = key if key in {"660-gaosh", "660-linear"} else (
-        "880" if key.startswith("880-") else "1000" if key == "1000" else "university"
-    )
+    if key.startswith("zhenti-"):
+        answer_key = key
+    else:
+        answer_key = key if key in {"660-gaosh", "660-linear", "liyongle6", "linliu6"} else (
+            "880" if key.startswith("880-") else "1000" if key == "1000" else "university"
+        )
     return PdfRef(PDF_ROOT / ANSWER_PDFS[answer_key], 0, "answer")
 
 

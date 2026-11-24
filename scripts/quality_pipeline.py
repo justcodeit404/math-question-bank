@@ -50,7 +50,7 @@ MODEL_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 LEDGER_PATH = BANK_ROOT / "quality-ledger.json"
 CONFIG_PATH = SCRIPT_DIR / "quality_pipeline_config.json"
 
-BOOKS = ("660题", "880题", "1000题", "大学深埋")
+BOOKS = ("660题", "880题", "1000题", "大学深埋", "李永乐六套卷", "李林六套卷", "历年真题")
 
 # ── 状态常量 ──────────────────────────────────────────
 STATUS_PENDING = "pending"
@@ -169,7 +169,7 @@ def load_config() -> dict:
 # ── 题库加载 ──────────────────────────────────────────
 
 def load_all_questions() -> list[dict]:
-    """加载四库所有题目，返回带book字段的扁平列表。"""
+    """加载各数学题库题目，返回带book字段的扁平列表。"""
     all_questions = []
     for book in BOOKS:
         qpath = BANK_ROOT / book / "questions.json"
@@ -222,7 +222,17 @@ def get_pdf_path(q: dict) -> Path | None:
         "880题": "【A4紧凑版】李林880数二高数篇做题本.pdf",
         "1000题": "27张宇1000题数二-试题册.pdf",
         "大学深埋": "27大雪深埋强化讲义书（扫描版）.pdf",
+        "李永乐六套卷": "李永乐六套卷（数二）.pdf",
+        "李林六套卷": "李林六套卷（数二）.pdf",
     }
+    if book == "历年真题":
+        year = str(q.get("chapter") or "").rstrip("年")
+        pdf_name = {
+            "2024": "2024数学二真题及解析.pdf",
+            "2026": "2026数学二真题及答案-iqihang.pdf",
+        }.get(year, f"{year}数学二真题.pdf")
+        pdf_path = REPO_ROOT / "资料" / "数学2" / "电子资料" / "数学二历年真题2010-2026" / pdf_name
+        return pdf_path if pdf_path.exists() else None
     pdf_name = pdf_map.get(book)
     if not pdf_name:
         return None
