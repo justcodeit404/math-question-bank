@@ -53,6 +53,22 @@ def test_zhenti_builder_choice_keys():
             assert structured["canonical"] in "ABCD"
 
 
+def test_zhenti_ai_answered_2022():
+    """2022 年 6 道原书缺答案的题由 AI 解答补齐，答案与裁图必须存在。"""
+    from build_zhenti import AI_ANSWERED
+
+    data = load()
+    chapter = next(ch for ch in data["chapters"] if ch["name"] == "2022年")
+    expected = {2: "D", 3: "B", 5: "A", 13: r"\frac{8\sqrt{3}}{9}\pi",
+                14: r"C_1+\mathrm{e}^x(C_2\cos 2x+C_3\sin 2x)", 15: r"\frac{\pi}{12}"}
+    assert set(AI_ANSWERED[2022]) == set(expected)
+    for qnum, canonical in expected.items():
+        q = chapter["questions"][qnum - 1]
+        assert q["answer_incomplete"] is False
+        assert (BOOK / "math-bank" / q["answer_ref"]).is_file()
+        assert q["answer_structured"]["canonical"] == canonical
+
+
 def test_zhenti_source_mapping():
     from source_mapping import resolve_answer_pdf, resolve_question_pdf
 

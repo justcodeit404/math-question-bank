@@ -6982,9 +6982,14 @@
           "has_image": false,
           "image_ref": null,
           "source": "数学二历年真题（2010–2026）",
-          "answer_ref": null,
-          "answer_incomplete": true,
-          "answer_structured": null
+          "answer_ref": "answer_crops/y2022_q02.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "D",
+            "judge_mode": "choice_exact",
+            "source_ref": "answer_crops/y2022_q02.png"
+          }
         },
         {
           "uid": "历年真题-2022-3",
@@ -7006,9 +7011,14 @@
           "has_image": false,
           "image_ref": null,
           "source": "数学二历年真题（2010–2026）",
-          "answer_ref": null,
-          "answer_incomplete": true,
-          "answer_structured": null
+          "answer_ref": "answer_crops/y2022_q03.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact",
+            "source_ref": "answer_crops/y2022_q03.png"
+          }
         },
         {
           "uid": "历年真题-2022-4",
@@ -7060,9 +7070,14 @@
           "has_image": false,
           "image_ref": null,
           "source": "数学二历年真题（2010–2026）",
-          "answer_ref": null,
-          "answer_incomplete": true,
-          "answer_structured": null
+          "answer_ref": "answer_crops/y2022_q05.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "A",
+            "judge_mode": "choice_exact",
+            "source_ref": "answer_crops/y2022_q05.png"
+          }
         },
         {
           "uid": "历年真题-2022-6",
@@ -7279,9 +7294,14 @@
           "has_image": false,
           "image_ref": null,
           "source": "数学二历年真题（2010–2026）",
-          "answer_ref": null,
-          "answer_incomplete": true,
-          "answer_structured": null
+          "answer_ref": "answer_crops/y2022_q13.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "fill",
+            "canonical": "\\frac{8\\sqrt{3}}{9}\\pi",
+            "judge_mode": "manual",
+            "source_ref": "answer_crops/y2022_q13.png"
+          }
         },
         {
           "uid": "历年真题-2022-14",
@@ -7298,9 +7318,14 @@
           "has_image": false,
           "image_ref": null,
           "source": "数学二历年真题（2010–2026）",
-          "answer_ref": null,
-          "answer_incomplete": true,
-          "answer_structured": null
+          "answer_ref": "answer_crops/y2022_q14.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "fill",
+            "canonical": "C_1+\\mathrm{e}^x(C_2\\cos 2x+C_3\\sin 2x)",
+            "judge_mode": "manual",
+            "source_ref": "answer_crops/y2022_q14.png"
+          }
         },
         {
           "uid": "历年真题-2022-15",
@@ -7317,9 +7342,14 @@
           "has_image": false,
           "image_ref": null,
           "source": "数学二历年真题（2010–2026）",
-          "answer_ref": null,
-          "answer_incomplete": true,
-          "answer_structured": null
+          "answer_ref": "answer_crops/y2022_q15.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "fill",
+            "canonical": "\\frac{\\pi}{12}",
+            "judge_mode": "manual",
+            "source_ref": "answer_crops/y2022_q15.png"
+          }
         },
         {
           "uid": "历年真题-2022-16",

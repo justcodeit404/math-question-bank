@@ -219,7 +219,11 @@ def parse_year(year: int) -> list[dict]:
             "source": SOURCE,
             "answer_ref": None if number in ISOLATED.get(year, set()) else f"answer_crops/y{year}_q{number:02d}.png",
             "answer_incomplete": number in ISOLATED.get(year, set()),
-            "answer_structured": None,
+            "answer_structured": (
+                {"kind": ai[0], "canonical": ai[1],
+                 "judge_mode": "choice_exact" if ai[0] == "choice" else "manual"}
+                if (ai := AI_ANSWERED.get(year, {}).get(number)) else None
+            ),
         })
     return result
 
@@ -581,8 +585,19 @@ def render_crop(
     combined_img.save(out_path, optimize=True)
 
 
-# 2022 详解（03 文件夹版）无内联答案的题：隔离，不编造
-ISOLATED = {2022: {2, 3, 5, 13, 14, 15}}
+# 2022 详解（03 文件夹版）无内联答案的题：AI 解答补齐（解答图由 temp/zhenti-math2/answer-gen.html 渲染，
+# 不从原书裁图；重建后需保留 temp/zhenti-math2/answer-gen.html 或重新生成）
+ISOLATED = {2022: set()}
+AI_ANSWERED = {
+    2022: {
+        2: ("choice", "D"),
+        3: ("choice", "B"),
+        5: ("choice", "A"),
+        13: ("fill", r"\frac{8\sqrt{3}}{9}\pi"),
+        14: ("fill", r"C_1+\mathrm{e}^x(C_2\cos 2x+C_3\sin 2x)"),
+        15: ("fill", r"\frac{\pi}{12}"),
+    }
+}
 # 2022 第 6 题题干行被 OCR 漏检，但 p2 的【答案】D. 实为 Q6 所有（Q5 无内联答案）
 SHARE_PREV = {2022: set()}
 
@@ -607,8 +622,9 @@ def events_2022(
     if 5 in answers and 6 not in answers:
         answers[6] = answers.pop(5)
     starts: dict[int, tuple[int, float]] = {}
+    skip_crop = ISOLATED[2022] | set(AI_ANSWERED.get(2022, {})) | SHARE_PREV[2022]
     for qnum in range(1, 23):
-        if qnum in ISOLATED[2022] or qnum in SHARE_PREV[2022]:
+        if qnum in skip_crop:
             continue
         pos = answers.get(qnum) or stems.get(qnum)
         if pos is None:
