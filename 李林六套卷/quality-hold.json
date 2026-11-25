@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "source_sha256": "a0afe14a0d7c143a1e56eb8b8110fac00b4c3370d3138654879ecacd4435b687",
+  "source_uids": [],
+  "summary": {
+    "total_questions": 132,
+    "verified": 132,
+    "held": 0,
+    "verification_rate": 1.0,
+    "global_issues": 0
+  }
+}

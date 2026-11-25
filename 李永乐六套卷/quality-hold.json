@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "source_sha256": "76c4fb6b394dba1a0a1a3067b98c2eb89a0ea9e3dfc7d2794245adee119ec1a3",
+  "source_uids": [
+    "李永乐六套卷-模拟三-10",
+    "李永乐六套卷-模拟三-4",
+    "李永乐六套卷-模拟三-5",
+    "李永乐六套卷-模拟三-6",
+    "李永乐六套卷-模拟三-7",
+    "李永乐六套卷-模拟三-8",
+    "李永乐六套卷-模拟三-9"
+  ],
+  "summary": {
+    "total_questions": 132,
+    "verified": 125,
+    "held": 7,
+    "verification_rate": 0.94697,
+    "global_issues": 0
+  }
+}

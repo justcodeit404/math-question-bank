@@ -1,0 +1,3788 @@
+{
+  "schema_version": "1.0",
+  "bank": "李永乐六套卷",
+  "title": "2027李永乐数学决胜冲刺6套卷·数学二",
+  "total_pages": 24,
+  "content_pages": 18,
+  "total_questions": 132,
+  "chapters": [
+    {
+      "name": "模拟一",
+      "question_count": 22,
+      "questions": [
+        {
+          "uid": "李永乐六套卷-模拟一-1",
+          "id": "1",
+          "qnum": 1,
+          "type": "选择题",
+          "content": "极限 $\\lim_{n\\to \\infty}n^2\\left(\\arctan \\frac{2027}{n} -\\arctan \\frac{2027}{n + 1}\\right) =$",
+          "options": {
+            "A": "2025.",
+            "B": "2026.",
+            "C": "2027.",
+            "D": "2028."
+          },
+          "sub_questions": null,
+          "page": 2,
+          "printed_page": 1,
+          "chapter": "模拟一",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 2,
+            "cropped": "images/questions/s01_q01.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q01.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-2",
+          "id": "2",
+          "qnum": 2,
+          "type": "选择题",
+          "content": "设函数 $ f(x) $ 在 $ x = 0 $ 的某邻域内可导，且 $ f'(x) $ 在 $ x = 0 $ 处连续。若 $ \\lim_{x \\to 0} \\frac{f(x)}{x} = a > 0 $，对充分接近 0 的 $ t $，方程 $ f(x) = t $ 在 $ x = 0 $ 附近有解 $ x = x_t $，则 $ \\lim_{t \\to 0} \\frac{x_t}{t} = $",
+          "options": {
+            "A": "0.",
+            "B": "$ \\frac{1}{a} $.",
+            "C": "$ -\\frac{1}{a} $.",
+            "D": "$ \\frac{2}{a} $."
+          },
+          "sub_questions": null,
+          "page": 2,
+          "printed_page": 1,
+          "chapter": "模拟一",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 2,
+            "cropped": "images/questions/s01_q02.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q02.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-3",
+          "id": "3",
+          "qnum": 3,
+          "type": "选择题",
+          "content": "已知曲线 $ y = f(x) $ 过 $ (0,0) $, $ f(x) $ 二阶可导, 若曲线 $ y = f(x) $ 在 $ (0,0) $ 处的曲率中心是 $ (1,-1) $, 则",
+          "options": {
+            "A": "$ f'(0) = -1 $, $ f''(0) = 2 $.",
+            "B": "$ f'(0) = -1 $, $ f''(0) = -2 $.",
+            "C": "$ f'(0) = 1 $, $ f''(0) = -2 $.",
+            "D": "$ f'(0) = 1 $, $ f''(0) = 2 $."
+          },
+          "sub_questions": null,
+          "page": 2,
+          "printed_page": 1,
+          "chapter": "模拟一",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 2,
+            "cropped": "images/questions/s01_q03.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q03.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-4",
+          "id": "4",
+          "qnum": 4,
+          "type": "选择题",
+          "content": "设有反常积分 ① $ \\int_{1}^{2}\\frac{x^{4}e^{-x^{2}}}{\\sqrt{x^{4}-1}}dx $ ，② $ \\int_{2}^{+\\infty}\\frac{x^{4}e^{-x^{2}}}{\\sqrt{x^{4}-1}}dx $ . 则",
+          "options": {
+            "A": "①, ② 都收敛.",
+            "B": "①, ② 都发散.",
+            "C": "① 收敛, ② 发散.",
+            "D": "① 发散, ② 收敛."
+          },
+          "sub_questions": null,
+          "page": 2,
+          "printed_page": 1,
+          "chapter": "模拟一",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 2,
+            "cropped": "images/questions/s01_q04.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q04.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "A",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-5",
+          "id": "5",
+          "qnum": 5,
+          "type": "选择题",
+          "content": "设函数 $Q(x) = \\int_{0}^{1}(1 + t)|x - t| \\, dt$，函数 $y = f(x)$ 满足 $f'(x) - Q(x)f(x) = Q'(x)$ 及条件 $f(0) = 0$，则",
+          "options": {
+            "A": "$x = 0$ 是 $f(x)$ 的极大值点.",
+            "B": "$x = 0$ 是 $f(x)$ 的极小值点.",
+            "C": "$(0,0)$ 是曲线 $y = f(x)$ 的拐点，但 $x = 0$ 不是 $f(x)$ 的极值点.",
+            "D": "$x = 0$ 不是 $f(x)$ 的极值点，$(0,0)$ 也不是曲线 $y = f(x)$ 的拐点."
+          },
+          "sub_questions": null,
+          "page": 2,
+          "printed_page": 1,
+          "chapter": "模拟一",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 2,
+            "cropped": "images/questions/s01_q05.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q05.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-6",
+          "id": "6",
+          "qnum": 6,
+          "type": "选择题",
+          "content": "设函数 $ f(x, y) = \\begin{cases} (x^2 + y^2)^{\\frac{3}{2}} \\sin \\frac{1}{x^2 + y^2}, & (x, y) \\neq (0, 0), \\\\ 0, & (x, y) = (0, 0), \\end{cases} $ 则在原点处下列结论中\n\n① $ f(x, y) $ 连续；② 两个偏导数均存在；③ $ f(x, y) $ 可微；④ 两个偏导函数均连续.\n\n正确结论的个数为",
+          "options": {
+            "A": "1.",
+            "B": "2.",
+            "C": "3.",
+            "D": "4."
+          },
+          "sub_questions": null,
+          "page": 2,
+          "printed_page": 1,
+          "chapter": "模拟一",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 2,
+            "cropped": "images/questions/s01_q06.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q06.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-7",
+          "id": "7",
+          "qnum": 7,
+          "type": "选择题",
+          "content": "设 $z = z(x, y)$ 由方程 $z \\mathrm{e}^{xy} + x + y + \\lambda x y = 1$ 确定. 若 $z_{xy}^{\\prime\\prime}(0, 0) = 0$，则 $\\lambda =$",
+          "options": {
+            "A": "-1.",
+            "B": "0.",
+            "C": "1.",
+            "D": "2."
+          },
+          "sub_questions": null,
+          "page": 2,
+          "printed_page": 1,
+          "chapter": "模拟一",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 2,
+            "cropped": "images/questions/s01_q07.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q07.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "A",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-8",
+          "id": "8",
+          "qnum": 8,
+          "type": "选择题",
+          "content": "设 $A = (a_{ij})_{3 \\times 3}$ 满足条件：① $a_{ij} = -A_{ij}(i, j = 1, 2, 3)$，其中 $A_{ij}$ 是元素 $a_{ij}$ 的代数余子式；② $a_{33} = 1$。若 $\\boldsymbol{b} = (0, 0, 2)^{\\mathrm{T}}$，则方程组 $\\boldsymbol{A}\\boldsymbol{x} = \\boldsymbol{b}$ 的解为 $\\boldsymbol{x} =$",
+          "options": {
+            "A": "$(1, 0, 1)^{\\mathrm{T}}$.",
+            "B": "$(0, 0, 1)^{\\mathrm{T}}$.",
+            "C": "$(1, 0, 2)^{\\mathrm{T}}$.",
+            "D": "$(0, 0, 2)^{\\mathrm{T}}$."
+          },
+          "sub_questions": null,
+          "page": 2,
+          "printed_page": 1,
+          "chapter": "模拟一",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 2,
+            "cropped": "images/questions/s01_q08.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q08.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "D",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-9",
+          "id": "9",
+          "qnum": 9,
+          "type": "选择题",
+          "content": "已知 $A, B$ 为 3 阶方阵满足 $AB = A - B + E$，且 $r(B - E) = 2$，则下列结论正确的是",
+          "options": {
+            "A": "$r(A + E) = 2$.",
+            "B": "$A$ 至少有两个线性无关的属于特征值 $-1$ 的特征向量.",
+            "C": "$B - E$ 可逆.",
+            "D": "$AB = BA$."
+          },
+          "sub_questions": null,
+          "page": 3,
+          "printed_page": 2,
+          "chapter": "模拟一",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 3,
+            "cropped": "images/questions/s01_q09.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q09.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-10",
+          "id": "10",
+          "qnum": 10,
+          "type": "选择题",
+          "content": "设 $A$ 为 $n$ 阶可逆矩阵，$A^{-1}\\alpha = 2\\alpha$。又设 $A^{\\mathrm{T}}\\beta = \\frac{1}{2}\\beta, A^{\\mathrm{T}}\\gamma = 3\\gamma$，其中 $\\alpha, \\beta, \\gamma$ 均为非零向量，则下列结论中必然成立的是",
+          "options": {
+            "A": "$\\alpha$ 与 $\\beta + \\gamma$ 正交。",
+            "B": "$\\alpha$ 与 $\\gamma$ 正交。",
+            "C": "$\\alpha$ 与 $\\beta$ 正交。",
+            "D": "$\\beta$ 与 $\\gamma$ 正交。"
+          },
+          "sub_questions": null,
+          "page": 3,
+          "printed_page": 2,
+          "chapter": "模拟一",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 3,
+            "cropped": "images/questions/s01_q10.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q10.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-11",
+          "id": "11",
+          "qnum": 11,
+          "type": "填空题",
+          "content": "设 $\\lim_{x\\to \\infty}\\left(\\frac{1 + x}{x}\\right)^{\\alpha x} = \\int_{-\\infty}^{a}te^t dt$ ，则 $a =$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 3,
+          "printed_page": 2,
+          "chapter": "模拟一",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 3,
+            "cropped": "images/questions/s01_q11.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q11.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-12",
+          "id": "12",
+          "qnum": 12,
+          "type": "填空题",
+          "content": "曲线 $\\left\\lbrace\\begin{array}{l} x = \\frac{t^2}{t - 1}, \\\\ y = \\frac{t}{t^2 - 1} \\end{array} \\right.$ 的斜渐近线方程为 ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 3,
+          "printed_page": 2,
+          "chapter": "模拟一",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 3,
+            "cropped": "images/questions/s01_q12.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q12.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-13",
+          "id": "13",
+          "qnum": 13,
+          "type": "填空题",
+          "content": "设函数 $ f(x) $ 具有连续导数，$ x > 0, y > 0 $，且 $ z = (x^2 + y^2)f\\left(\\frac{y}{x}\\right) + \\ln (x + y) $，则 $ xz_x' + yz_y' - 2z = $ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 3,
+          "printed_page": 2,
+          "chapter": "模拟一",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 3,
+            "cropped": "images/questions/s01_q13.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q13.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-14",
+          "id": "14",
+          "qnum": 14,
+          "type": "填空题",
+          "content": "$\\int_{0}^{1}\\mathrm{d}y\\int_{y^2}^{1}\\left(\\frac{2y\\sin x^3}{x}-\\sin y^3\\right)\\mathrm{d}x=$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 3,
+          "printed_page": 2,
+          "chapter": "模拟一",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 3,
+            "cropped": "images/questions/s01_q14.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q14.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-15",
+          "id": "15",
+          "qnum": 15,
+          "type": "填空题",
+          "content": "设函数 $ f(x) $ 满足微分方程 $ f'(x) - af(x) = -\\mathrm{e}^{2x} $. 若 $ (0,1) $ 是曲线 $ y = f(x) $ 的拐点, 且 $ f'(0) < 0 $, 则 $ a = \\_\\_\\_ $.",
+          "options": null,
+          "sub_questions": null,
+          "page": 3,
+          "printed_page": 2,
+          "chapter": "模拟一",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 3,
+            "cropped": "images/questions/s01_q15.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q15.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-16",
+          "id": "16",
+          "qnum": 16,
+          "type": "填空题",
+          "content": "设 $a > 0$，记\n\n$$D (x) = \\left| \\begin{array}{c c c c} x & - x & 0 & 0 \\\\ 2 & 3 x - 2 & - 3 x & 0 \\\\ 0 & 3 & 4 x - 3 & - 4 x \\\\ 0 & 0 & 4 & 5 x - 4 \\end{array} \\right|.$$\n\n若 $D(a) = \\frac{1}{16} D(1)$，则 $D(a + 1) =$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 3,
+          "printed_page": 2,
+          "chapter": "模拟一",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 3,
+            "cropped": "images/questions/s01_q16.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q16.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-17",
+          "id": "17",
+          "qnum": 17,
+          "type": "计算题",
+          "content": "已知 $(2xy + e^z)dx + (x^2 + az^2)dy + (xe^z + 4yz)dz$ 是某三元函数 $u(x, y, z)$ 的全微分，且 $u(0, 1, 1) = -1$.",
+          "options": null,
+          "sub_questions": [
+            "求常数 $a$;",
+            "求 $u(x, y, z)$."
+          ],
+          "page": 3,
+          "printed_page": 2,
+          "chapter": "模拟一",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 3,
+            "cropped": "images/questions/s01_q17.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q17.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-18",
+          "id": "18",
+          "qnum": 18,
+          "type": "计算题",
+          "content": "设函数 $f(x,y)$ 在 $D=\\{(x,y)|0\\leqslant x,y\\leqslant 1\\}$ 上具有二阶连续偏导数，且\n\n$$f (x, 1) = x ^ {2}, f (1, y) = y ^ {2}, \\iint_ {D} x y f (x, y) \\mathrm{d} x \\mathrm{d} y = b.$$\n\n求 $\\iint_{D}x^{2}y^{2}f_{xy}^{\\prime\\prime}(x,y)\\mathrm{d}x\\mathrm{d}y.$",
+          "options": null,
+          "sub_questions": null,
+          "page": 4,
+          "printed_page": 3,
+          "chapter": "模拟一",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 4,
+            "cropped": "images/questions/s01_q18.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q18.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-19",
+          "id": "19",
+          "qnum": 19,
+          "type": "计算题",
+          "content": "设函数 $f(x)$ 在 $[-1,1]$ 上连续，在 $(-1,1)$ 内可导，且 $f(0)=0$。对任意 $x>0$，有\n\n$$f ^ {\\prime} \\left(\\frac {x - 1}{x + 1}\\right) = \\left\\lbrace\\begin{array}{l l} \\frac {2 x}{x + 1}, & 0 <  x <  1, \\\\ \\frac {x + 1}{2 x}, & x \\geqslant 1. \\end{array} \\right.$$",
+          "options": null,
+          "sub_questions": [
+            "求 $f(x)$;",
+            "求曲线 $ y = f(x), y = -f(-x) $ 与直线 $ x = 1 $ 所围成的第一象限内图形的面积."
+          ],
+          "page": 4,
+          "printed_page": 3,
+          "chapter": "模拟一",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 4,
+            "cropped": "images/questions/s01_q19.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q19.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-20",
+          "id": "20",
+          "qnum": 20,
+          "type": "计算题",
+          "content": "求二元函数 $ f(x,y) = 2(x^{2} + xy + y^{2})\\mathrm{e}^{-(x^{2} + y^{2})} $ 的极值.",
+          "options": null,
+          "sub_questions": null,
+          "page": 4,
+          "printed_page": 3,
+          "chapter": "模拟一",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 4,
+            "cropped": "images/questions/s01_q20.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q20.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-21",
+          "id": "21",
+          "qnum": 21,
+          "type": "证明题",
+          "content": "设 $f(x)$ 在 $[0,1]$ 上连续，在 $(0,1)$ 内可导，且 $f(0)=0, f(1)=1$。证明：",
+          "options": null,
+          "sub_questions": [
+            "存在 $x_{0} \\in (0,1)$，使得 $f(x_{0}) = 2 - 3x_{0}$；",
+            "存在两个不相等的 $\\xi, \\eta \\in (0,1)$，使得 $[1 + f'(\\xi)][1 + f'(\\eta)] = 4$."
+          ],
+          "page": 4,
+          "printed_page": 3,
+          "chapter": "模拟一",
+          "section": "证明题",
+          "has_image": false,
+          "image_ref": {
+            "page": 4,
+            "cropped": "images/questions/s01_q21.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q21.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟一-22",
+          "id": "22",
+          "qnum": 22,
+          "type": "计算题",
+          "content": "设 $\\alpha, \\beta$ 是相互正交的三维单位列向量，$c > 0$，二次型 $f(x) = (\\alpha^{\\mathrm{T}}x)^{2} - c(\\alpha^{\\mathrm{T}}x)(\\beta^{\\mathrm{T}}x)$.",
+          "options": null,
+          "sub_questions": [
+            "求 f 的对应矩阵 A;",
+            "若经正交变换后 $f$ 的标准形为 $2y_{1}^{2}-y_{2}^{2}$，求 $c$，并求 $\\boldsymbol{A}$ 的全部特征向量."
+          ],
+          "page": 4,
+          "printed_page": 3,
+          "chapter": "模拟一",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 4,
+            "cropped": "images/questions/s01_q22.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s01_q22.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        }
+      ]
+    },
+    {
+      "name": "模拟二",
+      "question_count": 22,
+      "questions": [
+        {
+          "uid": "李永乐六套卷-模拟二-1",
+          "id": "1",
+          "qnum": 1,
+          "type": "选择题",
+          "content": "$\\lim_{x\\to 0}\\frac{\\int_0^x[\\cos (xt) - \\cos x^2 ]\\mathrm{d}t}{x^5} =$",
+          "options": {
+            "A": "0.",
+            "B": "$\\frac{1}{6}$.",
+            "C": "$\\frac{1}{2}$.",
+            "D": "$\\frac{1}{3}$."
+          },
+          "sub_questions": null,
+          "page": 6,
+          "printed_page": 1,
+          "chapter": "模拟二",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 6,
+            "cropped": "images/questions/s02_q01.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q01.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "D",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-2",
+          "id": "2",
+          "qnum": 2,
+          "type": "选择题",
+          "content": "设函数 $F(x) = \\int_{0}^{x} [e^{(x+t)^2} - e^{t^2}] dt$，则",
+          "options": {
+            "A": "$F(0)$ 是 $F(x)$ 的一个极大值.",
+            "B": "$F(0)$ 是 $F(x)$ 的一个极小值.",
+            "C": "点 $(0, F(0))$ 是曲线 $y = F(x)$ 的一个拐点，但 $F(0)$ 不是 $F(x)$ 的极值.",
+            "D": "点 $(0, F(0))$ 不是曲线 $y = F(x)$ 的拐点，且 $F(0)$ 不是 $F(x)$ 的极值."
+          },
+          "sub_questions": null,
+          "page": 6,
+          "printed_page": 1,
+          "chapter": "模拟二",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 6,
+            "cropped": "images/questions/s02_q02.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q02.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-3",
+          "id": "3",
+          "qnum": 3,
+          "type": "选择题",
+          "content": "设 $n$ 为正整数, $k$ 为不小于 2 的整数, 则积分 $\\int_{0}^{n\\pi} x |\\sin(kx)| \\mathrm{d}x =$",
+          "options": {
+            "A": "$\\frac{n^2\\pi}{k}$.",
+            "B": "$2n^2$.",
+            "C": "$\\frac{n\\pi}{k}$.",
+            "D": "$n^2\\pi$."
+          },
+          "sub_questions": null,
+          "page": 6,
+          "printed_page": 1,
+          "chapter": "模拟二",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 6,
+            "cropped": "images/questions/s02_q03.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q03.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "D",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-4",
+          "id": "4",
+          "qnum": 4,
+          "type": "选择题",
+          "content": "设 $a, b$ 为常数. 若反常积分 $\\int_{0}^{+\\infty} \\frac{ax^2 + bx + 1}{(x - 1)(x + 1)^2} \\mathrm{d}x$ 收敛，则",
+          "options": {
+            "A": "$a = 0, b = -1$.",
+            "B": "$a = 0, b = 1$.",
+            "C": "$a = 1, b = -2$.",
+            "D": "$a = -1, b = 0$."
+          },
+          "sub_questions": null,
+          "page": 6,
+          "printed_page": 1,
+          "chapter": "模拟二",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 6,
+            "cropped": "images/questions/s02_q04.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q04.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "A",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-5",
+          "id": "5",
+          "qnum": 5,
+          "type": "选择题",
+          "content": "设可微函数 $f(x, y)$ 满足 $\\frac{\\partial f}{\\partial x} > 1, \\frac{\\partial f}{\\partial y} < -1, f(0, 0) = 0$，下列命题\n\n① 当 $x > 0, y > 0$ 时，$f(x, y) > x - y$.\n\n② 当 $x > 0, y < 0$ 时，$f(x, y) > x - y$.\n\n③ 当 $x < 0, y > 0$ 时，$f(x, y) < x - y$.\n\n④ 当 $x < 0, y < 0$ 时，$f(x, y) < x - y$.\n\n正确的是",
+          "options": {
+            "A": "①②③.",
+            "B": "②③.",
+            "C": "②③④.",
+            "D": "③④."
+          },
+          "sub_questions": null,
+          "page": 6,
+          "printed_page": 1,
+          "chapter": "模拟二",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 6,
+            "cropped": "images/questions/s02_q05.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q05.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-6",
+          "id": "6",
+          "qnum": 6,
+          "type": "选择题",
+          "content": "设 $y = y(x)$ 是 $y'' + by' + cy = 0$ 的解，其中 $b, c$ 为正常数，则 $\\lim_{x \\to +\\infty} y(x)$",
+          "options": {
+            "A": "与解 $y(x)$ 的初值 $y(0), y'(0)$ 有关，与 $b, c$ 无关.",
+            "B": "与解 $y(x)$ 的初值 $y(0), y'(0)$ 及 $b, c$ 均无关.",
+            "C": "与解 $y(x)$ 的初值 $y(0), y'(0)$ 及 $c$ 无关，只与 $b$ 有关.",
+            "D": "与解 $y(x)$ 的初值 $y(0), y'(0)$ 及 $b$ 无关，只与 $c$ 有关."
+          },
+          "sub_questions": null,
+          "page": 6,
+          "printed_page": 1,
+          "chapter": "模拟二",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 6,
+            "cropped": "images/questions/s02_q06.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q06.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-7",
+          "id": "7",
+          "qnum": 7,
+          "type": "选择题",
+          "content": "已知区域 $D: (x^{2} + y^{2})^{2} \\leqslant x^{2} - y^{2}, x \\geqslant 0, y \\geqslant 0$，则 $\\iint_{D} (x^{2} + y^{2}) \\mathrm{d}x \\mathrm{d}y =$",
+          "options": {
+            "A": "$\\frac{\\pi}{8}$.",
+            "B": "$\\frac{\\pi}{16}$.",
+            "C": "$\\frac{\\pi}{32}$.",
+            "D": "$\\frac{\\pi}{64}$."
+          },
+          "sub_questions": null,
+          "page": 6,
+          "printed_page": 1,
+          "chapter": "模拟二",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 6,
+            "cropped": "images/questions/s02_q07.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q07.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-8",
+          "id": "8",
+          "qnum": 8,
+          "type": "选择题",
+          "content": "已知 $A$ 为 3 阶可逆矩阵. 将 $A$ 的第二行乘以 2 得 $C$, 再将 $C$ 的第二行加到第一行, 得到矩阵 $B$. 若 $B^{*}$ 为 $B$ 的伴随矩阵, 则 $\\operatorname{tr}(B^{*}A) =$",
+          "options": {
+            "A": "$3|A|$.",
+            "B": "$4|A|$.",
+            "C": "$5|A|$.",
+            "D": "$6|A|$."
+          },
+          "sub_questions": null,
+          "page": 7,
+          "printed_page": 2,
+          "chapter": "模拟二",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 7,
+            "cropped": "images/questions/s02_q08.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q08.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-9",
+          "id": "9",
+          "qnum": 9,
+          "type": "选择题",
+          "content": "设 $A$ 为 3 阶实正交矩阵，且 $A^3 = E$. 设 3 维非零向量 $\\alpha$ 与 $A\\alpha$ 线性无关，令 $\\beta = \\alpha + A\\alpha + A^2\\alpha$，并已知 $\\beta \\neq 0$. 下列命题中，错误的是",
+          "options": {
+            "A": "$\\alpha, A^2\\alpha$ 线性无关.",
+            "B": "$\\beta, A\\beta$ 线性无关.",
+            "C": "$\\beta^\\mathrm{T}(A\\alpha - \\alpha) = 0$.",
+            "D": "$\\alpha - A\\alpha, A\\alpha - A^2\\alpha, A^2\\alpha - \\alpha$ 线性相关."
+          },
+          "sub_questions": null,
+          "page": 7,
+          "printed_page": 2,
+          "chapter": "模拟二",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 7,
+            "cropped": "images/questions/s02_q09.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q09.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-10",
+          "id": "10",
+          "qnum": 10,
+          "type": "选择题",
+          "content": "二次型 $f(x_{1}, x_{2}, \\cdots, x_{n}) = n \\sum_{i=1}^{n} x_{i}^{2} - \\left( \\sum_{i=1}^{n} x_{i} \\right)^{2} (n \\geqslant 3)$ 的秩，正惯性指数和负惯性指数分别为",
+          "options": {
+            "A": "$n-1, n-1, 0$.",
+            "B": "1, 1, 0.",
+            "C": "$n, n-1, 1$.",
+            "D": "$n-1, 0, n-1$."
+          },
+          "sub_questions": null,
+          "page": 7,
+          "printed_page": 2,
+          "chapter": "模拟二",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 7,
+            "cropped": "images/questions/s02_q10.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q10.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "A",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-11",
+          "id": "11",
+          "qnum": 11,
+          "type": "填空题",
+          "content": "函数 $ f(x) = (x + 2)^{\\frac{2}{3}} $，在区间 $[-3, 2]$ 上的最大值和最小值分别为 ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 7,
+          "printed_page": 2,
+          "chapter": "模拟二",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 7,
+            "cropped": "images/questions/s02_q11.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q11.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-12",
+          "id": "12",
+          "qnum": 12,
+          "type": "填空题",
+          "content": "$\\lim_{n\\to \\infty}\\frac{1}{n}\\sum_{i = 1}^{n}\\left(\\frac{i}{n}\\right)^{2}\\sin \\left(\\frac{\\pi i}{n} -\\frac{\\pi}{2}\\right) =$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 7,
+          "printed_page": 2,
+          "chapter": "模拟二",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 7,
+            "cropped": "images/questions/s02_q12.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q12.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-13",
+          "id": "13",
+          "qnum": 13,
+          "type": "填空题",
+          "content": "设二阶可导函数 $ y = y(x) $ 由方程 $ \\mathrm{e}^{x^2 + y^2} = 5 $ 确定，则 $ xy'' - y'[1 + (y')^2] = $ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 7,
+          "printed_page": 2,
+          "chapter": "模拟二",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 7,
+            "cropped": "images/questions/s02_q13.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q13.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-14",
+          "id": "14",
+          "qnum": 14,
+          "type": "填空题",
+          "content": "设 $ f(x) = x^{3} \\mathrm{e}^{x^{4}} $，则 $ f^{(2027)}(0) = $ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 7,
+          "printed_page": 2,
+          "chapter": "模拟二",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 7,
+            "cropped": "images/questions/s02_q14.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q14.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-15",
+          "id": "15",
+          "qnum": 15,
+          "type": "填空题",
+          "content": "曲线 $x^{3} + y^{3} - 6xy = 0$ 的斜渐近线为 ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 7,
+          "printed_page": 2,
+          "chapter": "模拟二",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 7,
+            "cropped": "images/questions/s02_q15.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q15.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-16",
+          "id": "16",
+          "qnum": 16,
+          "type": "填空题",
+          "content": "设 $ \\boldsymbol{A} = \\begin{pmatrix} a & 0 & 0 \\\\ -1 & a-1 & 2 \\\\ -1 & 0 & a+1 \\end{pmatrix} $ 不可逆，$ \\boldsymbol{\\beta} = (b, 1, 0)^{\\mathrm{T}} $. 已知 $ \\boldsymbol{A}\\boldsymbol{x} = \\boldsymbol{0} $ 的解均是 $ \\boldsymbol{\\beta}^{\\mathrm{T}}\\boldsymbol{x} = 0 $ 的解，则 $ (a, b) = $ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 7,
+          "printed_page": 2,
+          "chapter": "模拟二",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 7,
+            "cropped": "images/questions/s02_q16.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q16.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-17",
+          "id": "17",
+          "qnum": 17,
+          "type": "计算题",
+          "content": "设 $D$ 为正方形区域 $0 \\leqslant x \\leqslant 1, 0 \\leqslant y \\leqslant 1, f(x, y) = \\begin{cases} \\frac{1}{(2 - x)(1 + y)^2}, & x + y < 1, \\\\ (x - y)^2, & x + y \\geqslant 1. \\end{cases}$\n\n计算 $\\iint_{D} f(x, y) \\mathrm{d}x \\mathrm{d}y$.",
+          "options": null,
+          "sub_questions": null,
+          "page": 7,
+          "printed_page": 2,
+          "chapter": "模拟二",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 7,
+            "cropped": "images/questions/s02_q17.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q17.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-18",
+          "id": "18",
+          "qnum": 18,
+          "type": "计算题",
+          "content": "设函数 $f(x)$ 在 $[0,2]$ 上具有二阶导数，且 $f''(x)<0(0<x<2), f(0)=0, f(1)=\\frac{3}{2}$，$f(2)=1, 0 \\leqslant f(x) \\leqslant 2$.",
+          "options": null,
+          "sub_questions": [
+            "证明：存在唯一的 $\\xi \\in (0,2)$，使得 $f'(\\xi) = 0$，并指出 $f'(x)$ 在 $\\xi$ 两侧的符号；",
+            "记曲线 $y = f(x)$ 在 $[0,2]$ 上的弧长为 $L$. 证明: $L < 5$."
+          ],
+          "page": 8,
+          "printed_page": 3,
+          "chapter": "模拟二",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 8,
+            "cropped": "images/questions/s02_q18.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q18.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-19",
+          "id": "19",
+          "qnum": 19,
+          "type": "计算题",
+          "content": "设函数 $ f(x,y) $ 具有二阶连续偏导数，且 $ f_{xy}^{\\prime\\prime}(x,y)=2x+2y,f_{x}^{\\prime}(x,0)=-2x-1,f(0,y)=-y^{2}-y $.",
+          "options": null,
+          "sub_questions": [
+            "求 $f(x, y)$;",
+            "求 $f(x, y)$ 在闭区域 $D = \\{(x, y) | x \\geqslant 0, y \\geqslant 0, x + y \\leqslant 3\\}$ 上的最大值和最小值."
+          ],
+          "page": 8,
+          "printed_page": 3,
+          "chapter": "模拟二",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 8,
+            "cropped": "images/questions/s02_q19.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q19.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-20",
+          "id": "20",
+          "qnum": 20,
+          "type": "计算题",
+          "content": "设 $f(x), g(x)$ 满足 $f'(x) = g(x), g'(x) = 2\\mathrm{e}^x - f(x)$，且 $f(0) = 0, g(0) = 2$，求\n\n$$\\int_ {0} ^ {\\pi} \\left[ \\frac {g (x)}{1 + x} - \\frac {f (x)}{(1 + x) ^ {2}} \\right] \\mathrm{d} x.$$",
+          "options": null,
+          "sub_questions": null,
+          "page": 8,
+          "printed_page": 3,
+          "chapter": "模拟二",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 8,
+            "cropped": "images/questions/s02_q20.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q20.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-21",
+          "id": "21",
+          "qnum": 21,
+          "type": "证明题",
+          "content": "设 $f(x)$ 在 $[0,1]$ 上连续，$f(0)=0, f_{+}^{\\prime}(0)=2, \\int_{0}^{1} f(x) \\mathrm{d} x=\\sin^{2} 1.$\n\n证明：$\\exists \\xi \\in (0,1)$，使 $f_{+}^{\\prime}(0) \\int_{0}^{\\xi} f(x) \\mathrm{d}x = f(\\xi) \\tan \\xi$.",
+          "options": null,
+          "sub_questions": null,
+          "page": 8,
+          "printed_page": 3,
+          "chapter": "模拟二",
+          "section": "证明题",
+          "has_image": false,
+          "image_ref": {
+            "page": 8,
+            "cropped": "images/questions/s02_q21.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q21.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟二-22",
+          "id": "22",
+          "qnum": 22,
+          "type": "计算题",
+          "content": "设 $\\mathbf{A}$ 为 3 阶实对称矩阵，满足 $r(\\mathbf{A} - 2\\mathbf{E}) = 1$，$|\\mathbf{A}| = 18$，且 $\\mathbf{A}(1,0,0)^{\\mathrm{T}} = \\left(\\frac{17}{6}, \\frac{5}{6}, \\frac{5}{6}\\right)^{\\mathrm{T}}$。",
+          "options": null,
+          "sub_questions": [
+            "求 A 的特征值；",
+            "求 $A^{2}$."
+          ],
+          "page": 8,
+          "printed_page": 3,
+          "chapter": "模拟二",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 8,
+            "cropped": "images/questions/s02_q22.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s02_q22.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        }
+      ]
+    },
+    {
+      "name": "模拟三",
+      "question_count": 22,
+      "questions": [
+        {
+          "uid": "李永乐六套卷-模拟三-1",
+          "id": "1",
+          "qnum": 1,
+          "type": "选择题",
+          "content": "设 $a, b$ 为实数，函数 $f(x) = \\frac{\\mathrm{e}^{ax} - (1 + x)^b - x}{x^3}$，其中 $x > -1, x \\neq 0$。若 $x = 0$ 为 $f(x)$ 的可去间断点，则 $ab =$",
+          "options": {
+            "A": "$-\\frac{1}{3}$.",
+            "B": "$\\frac{2}{3}$.",
+            "C": "$\\frac{2}{9}$.",
+            "D": "$-\\frac{2}{9}$."
+          },
+          "sub_questions": null,
+          "page": 10,
+          "printed_page": 1,
+          "chapter": "模拟三",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 10,
+            "cropped": "images/questions/s03_q01.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q01.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "D",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-2",
+          "id": "2",
+          "qnum": 2,
+          "type": "选择题",
+          "content": "设 $\\{a_{n}\\}$ 是各项均非零的实数数列，则下列说法：\n\n① 若 $a_{n} \\to 0$，则 $a_{n} \\sin\\left(\\frac{1}{a_{n}}\\right) \\to 0$；\n\n② 若 $\\sin a_{n} \\to 0$，则 $a_{n} \\to 0$；\n\n③ 若数列 $\\{a_{n}^{2}\\}$ 收敛，则数列 $\\{a_{n}\\}$ 收敛；\n\n④ 若数列 $\\left\\{\\frac{1}{a_{n}}\\right\\}$ 收敛，则数列 $\\{a_{n}\\}$ 收敛。\n\n正确说法的个数为",
+          "options": {
+            "A": "1.",
+            "B": "2.",
+            "C": "3.",
+            "D": "4."
+          },
+          "sub_questions": null,
+          "page": 10,
+          "printed_page": 1,
+          "chapter": "模拟三",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 10,
+            "cropped": "images/questions/s03_q02.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q02.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "A",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-3",
+          "id": "3",
+          "qnum": 3,
+          "type": "选择题",
+          "content": "设 $f(x)=\\left\\lbrace\\begin{array}{l l}\\frac{\\sin x^{2}}{x^{2}}, & x \\neq 0 \\\\ 1, & x=0\\end{array}\\right.$，则 $f^{(2028)}(0)=$",
+          "options": {
+            "A": "$\\frac{(2024)!}{(1013)!}$.",
+            "B": "$-\\frac{(2024)!}{(1013)!}$.",
+            "C": "$\\frac{(2028)!}{(1015)!}$.",
+            "D": "$-\\frac{(2028)!}{(1015)!}$."
+          },
+          "sub_questions": null,
+          "page": 10,
+          "printed_page": 1,
+          "chapter": "模拟三",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 10,
+            "cropped": "images/questions/s03_q03.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q03.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "D",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-4",
+          "id": "4",
+          "qnum": 4,
+          "type": "选择题",
+          "content": "设函数 $ y = y(x) $ 在 $ x = 0 $ 附近二阶可导，且存在实常数 $ a $，使 $ \\int_{0}^{y(x)} \\mathrm{e}^{-t^2} \\, \\mathrm{d}t = ax + xy(x) $. 若 $ \\lim_{x \\to 0} \\frac{y(2x) - 2y(x)}{x^2} = 4 $，且 $ y(x) = \\lambda_1 x + \\lambda_2 x^2 $，则",
+          "options": {
+            "A": "$ \\lambda_1 = 2, \\lambda_2 = 2 $.",
+            "B": "$ \\lambda_1 = 2, \\lambda_2 = -2 $.",
+            "C": "$ \\lambda_1 = -2, \\lambda_2 = 2 $.",
+            "D": "$ \\lambda_1 = 1, \\lambda_2 = 2 $."
+          },
+          "sub_questions": null,
+          "page": 10,
+          "printed_page": 1,
+          "chapter": "模拟三",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 10,
+            "cropped": "images/questions/s03_q04.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": null,
+          "answer_incomplete": true,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-5",
+          "id": "5",
+          "qnum": 5,
+          "type": "选择题",
+          "content": "令 $M = \\int_{0}^{1} \\mathrm{e}^{x} \\mathrm{d}x, N = \\int_{0}^{\\frac{\\pi}{2}} \\mathrm{e}^{\\sin x} \\sin 2x \\mathrm{d}x, P = 2 \\int_{0}^{\\frac{\\pi}{2}} \\mathrm{e}^{\\cos x} (1 - \\cos x) \\sin x \\mathrm{d}x$，则",
+          "options": {
+            "A": "$M < P < N$.",
+            "B": "$P < M < N$.",
+            "C": "$P < N < M$.",
+            "D": "$N < M < P$."
+          },
+          "sub_questions": null,
+          "page": 10,
+          "printed_page": 1,
+          "chapter": "模拟三",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 10,
+            "cropped": "images/questions/s03_q05.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": null,
+          "answer_incomplete": true,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-6",
+          "id": "6",
+          "qnum": 6,
+          "type": "选择题",
+          "content": "设函数 $ f(x, y) $ 连续，交换 $ \\int_{-1}^{0} \\mathrm{d}x \\int_{-x}^{2 - x^2} f(x, y) \\mathrm{d}y + \\int_{0}^{1} \\mathrm{d}x \\int_{x}^{2 - x^2} f(x, y) \\mathrm{d}y $ 的积分次序得",
+          "options": {
+            "A": "$ \\int_{0}^{1} \\mathrm{d}y \\int_{-y}^{y} f(x, y) \\mathrm{d}x + \\int_{1}^{2} \\mathrm{d}y \\int_{-\\sqrt{2 - y}}^{\\sqrt{2 - y}} f(x, y) \\mathrm{d}x. $",
+            "B": "$ \\int_{0}^{1} \\mathrm{d}y \\int_{-y}^{y} f(x, y) \\mathrm{d}x + \\int_{0}^{2} \\mathrm{d}y \\int_{-\\sqrt{2 - y}}^{\\sqrt{2 - y}} f(x, y) \\mathrm{d}x. $",
+            "C": "$ \\int_{0}^{1} \\mathrm{d}y \\int_{-y}^{y} f(x, y) \\mathrm{d}x + \\int_{0}^{1} \\mathrm{d}y \\int_{-\\sqrt{2 - y}}^{\\sqrt{2 - y}} f(x, y) \\mathrm{d}x. $",
+            "D": "$ \\int_{0}^{2} \\mathrm{d}y \\int_{-y}^{y} f(x, y) \\mathrm{d}x + \\int_{0}^{2} \\mathrm{d}y \\int_{-\\sqrt{2 - y}}^{\\sqrt{2 - y}} f(x, y) \\mathrm{d}x. $"
+          },
+          "sub_questions": null,
+          "page": 10,
+          "printed_page": 1,
+          "chapter": "模拟三",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 10,
+            "cropped": "images/questions/s03_q06.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": null,
+          "answer_incomplete": true,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-7",
+          "id": "7",
+          "qnum": 7,
+          "type": "选择题",
+          "content": "设 $f(x, y) = \\begin{cases} (x + y)^2 \\sin \\frac{1}{x^2 + y^2}, & (x, y) \\neq (0, 0), \\\\ 0, & (x, y) = (0, 0), \\end{cases}$ 则 $f(x, y)$ 在 $(0, 0)$ 处",
+          "options": {
+            "A": "极限存在但不连续.",
+            "B": "连续但偏导数不存在.",
+            "C": "偏导数存在但不可微.",
+            "D": "可微."
+          },
+          "sub_questions": null,
+          "page": 11,
+          "printed_page": 2,
+          "chapter": "模拟三",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 11,
+            "cropped": "images/questions/s03_q07.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": null,
+          "answer_incomplete": true,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-8",
+          "id": "8",
+          "qnum": 8,
+          "type": "选择题",
+          "content": "设 $A$ 是 $n$ 阶可逆矩阵, $\\alpha_{1}, \\alpha_{2}, \\cdots, \\alpha_{s} (2 \\leqslant s \\leqslant n)$ 都是 $n$ 维非零列向量, 则 $\\alpha_{i}^{\\mathrm{T}} A^{\\mathrm{T}} A \\alpha_{j} = 0 (i, j = 1, 2, \\cdots s, i \\neq j)$ 是向量组 $\\alpha_{1}, \\alpha_{2}, \\cdots, \\alpha_{s}$ 线性无关的",
+          "options": {
+            "A": "充要条件.",
+            "B": "必要非充分条件.",
+            "C": "充分非必要条件.",
+            "D": "既不充分也不必要条件."
+          },
+          "sub_questions": null,
+          "page": 11,
+          "printed_page": 2,
+          "chapter": "模拟三",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 11,
+            "cropped": "images/questions/s03_q08.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": null,
+          "answer_incomplete": true,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-9",
+          "id": "9",
+          "qnum": 9,
+          "type": "选择题",
+          "content": "已知 $\\alpha_{1}, \\alpha_{2}, \\alpha_{3}$ 线性无关，$A$ 为 3 阶矩阵，$A\\alpha_{1} = \\alpha_{1} + 2\\alpha_{3}$，$A\\alpha_{2} = \\alpha_{2} + 5\\alpha_{3}$，$A\\alpha_{3} = 2\\alpha_{3}$，则下列矩阵中，与 $A$ 相似的是",
+          "options": {
+            "A": "$\\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ 2 & 5 & 2 \\end{pmatrix}$.",
+            "B": "$\\begin{pmatrix} 1 & 0 & 0 \\\\ 3 & 1 & 0 \\\\ -1 & 2 & 2 \\end{pmatrix}$.",
+            "C": "$\\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ -1 & 2 & 2 \\end{pmatrix}$.",
+            "D": "$\\begin{pmatrix} 1 & 0 & 0 \\\\ -1 & -2 & 0 \\\\ 3 & 4 & 2 \\end{pmatrix}$."
+          },
+          "sub_questions": null,
+          "page": 11,
+          "printed_page": 2,
+          "chapter": "模拟三",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 11,
+            "cropped": "images/questions/s03_q09.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": null,
+          "answer_incomplete": true,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-10",
+          "id": "10",
+          "qnum": 10,
+          "type": "选择题",
+          "content": "设 $A, B$ 都是 $m \\times n$ 实矩阵. 下列结论中错误的是",
+          "options": {
+            "A": "$r\\left( \\begin{array}{c c} A & AB^{\\mathrm{T}}A \\\\ O & A^{\\mathrm{T}}A \\end{array} \\right) = 2r(A)$.",
+            "B": "$r\\left( \\begin{array}{c c} A & O \\\\ B^{\\mathrm{T}}A & A^{\\mathrm{T}}A \\end{array} \\right) = 2r(A)$.",
+            "C": "$r\\left( \\begin{array}{c c} A & B \\\\ O & A^{\\mathrm{T}}A \\end{array} \\right) = 2r(A)$.",
+            "D": "$r\\left( \\begin{array}{c c} A & AB^{\\mathrm{T}}A \\\\ B^{\\mathrm{T}}A & B^{\\mathrm{T}}AB^{\\mathrm{T}}A \\end{array} \\right) = r(A)$."
+          },
+          "sub_questions": null,
+          "page": 11,
+          "printed_page": 2,
+          "chapter": "模拟三",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 11,
+            "cropped": "images/questions/s03_q10.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q10.png",
+          "answer_incomplete": true,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-11",
+          "id": "11",
+          "qnum": 11,
+          "type": "填空题",
+          "content": "已知反常积分 $\\int_{0}^{+\\infty} \\frac{\\arctan x}{x^{\\alpha}} \\, dx$ 收敛，则 $\\alpha$ 的取值范围是 ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 11,
+          "printed_page": 2,
+          "chapter": "模拟三",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 11,
+            "cropped": "images/questions/s03_q11.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q11.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-12",
+          "id": "12",
+          "qnum": 12,
+          "type": "填空题",
+          "content": "设 $x > 0$，且 $f(x) = \\lim_{n \\to \\infty} \\left[ \\prod_{k=1}^{n} \\left( x + \\frac{k^2}{n^2} \\right) \\right]^{\\frac{1}{n}}$，则 $\\lim_{x \\to +\\infty} [f(x) - x] =$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 11,
+          "printed_page": 2,
+          "chapter": "模拟三",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 11,
+            "cropped": "images/questions/s03_q12.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q12.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-13",
+          "id": "13",
+          "qnum": 13,
+          "type": "填空题",
+          "content": "$\\int \\frac{3x^3 + 3x^2 - x - 1}{(x - 1)(x^2 + 1)^2} \\mathrm{d}x =$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 11,
+          "printed_page": 2,
+          "chapter": "模拟三",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 11,
+            "cropped": "images/questions/s03_q13.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q13.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-14",
+          "id": "14",
+          "qnum": 14,
+          "type": "填空题",
+          "content": "设 $f(u, v)$ 具有连续偏导数，且 $f_{u}^{\\prime}(u, v) + 2uf_{v}^{\\prime}(u, v) = (1 + 2u^{2})\\mathrm{e}^{v}$. 令 $y(x) = \\mathrm{e}^{-x^{2}} f(x, x^{2})$，且 $y(0) = 1$，则 $y(x) =$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 11,
+          "printed_page": 2,
+          "chapter": "模拟三",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 11,
+            "cropped": "images/questions/s03_q14.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q14.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-15",
+          "id": "15",
+          "qnum": 15,
+          "type": "填空题",
+          "content": "设函数 $ y = y(x) $ 是微分方程 $ y''' - y'' - y' + y = 0 $ 的解，且曲线 $ y = y(x) $ 在点 $ (0, 0) $ 处的曲率圆为 $ (x - 1)^2 + (y - 1)^2 = 2 $，则 $ y(x) = $ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 11,
+          "printed_page": 2,
+          "chapter": "模拟三",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 11,
+            "cropped": "images/questions/s03_q15.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q15.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-16",
+          "id": "16",
+          "qnum": 16,
+          "type": "填空题",
+          "content": "已知 4 阶可逆矩阵 $P = (\\alpha_{1}, \\alpha_{2}, \\alpha_{3}, \\alpha_{4})$，4 阶矩阵 $A$ 满足\n\n$$\\boldsymbol {P} ^ {- 1} \\boldsymbol {A} \\boldsymbol {P} = \\left[ \\begin{array}{c c c c} 1 & & & \\\\ & 1 & & \\\\ & & - 2 & \\\\ & & & 2 \\end{array} \\right].$$\n\n记矩阵 $Q = (\\alpha_{1} + 2\\alpha_{2}, \\alpha_{2}, \\alpha_{3} + \\alpha_{4}, \\alpha_{3} - \\alpha_{4})$，则 $Q^{-1}A^{2026}Q =$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 11,
+          "printed_page": 2,
+          "chapter": "模拟三",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 11,
+            "cropped": "images/questions/s03_q16.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q16.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-17",
+          "id": "17",
+          "qnum": 17,
+          "type": "计算题",
+          "content": "求极限 $I = \\lim_{n\\to \\infty}\\frac{1}{n^2}\\sum_{i = 1}^{n}\\sum_{j = 1}^{2n}\\mathrm{e}^{\\max \\left\\{\\frac{i}{n},\\frac{j}{2n}\\right\\}}\\cos \\Bigl (\\max \\left\\{\\frac{i}{n},\\frac{j}{2n}\\right\\} \\Bigr).$",
+          "options": null,
+          "sub_questions": null,
+          "page": 12,
+          "printed_page": 3,
+          "chapter": "模拟三",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 12,
+            "cropped": "images/questions/s03_q17.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q17.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-18",
+          "id": "18",
+          "qnum": 18,
+          "type": "证明题",
+          "content": "设 $f(x)$ 在 $[a, b]$ 上三阶可导，证明存在 $\\xi \\in (a, b)$，使得\n\n$$f (b) = f (a) + \\frac {b - a}{2} [ f ^ {\\prime} (a) + f ^ {\\prime} (b) ] - \\frac {(b - a) ^ {3}}{1 2} f ^ {\\prime \\prime \\prime} (\\xi).$$",
+          "options": null,
+          "sub_questions": null,
+          "page": 12,
+          "printed_page": 3,
+          "chapter": "模拟三",
+          "section": "证明题",
+          "has_image": false,
+          "image_ref": {
+            "page": 12,
+            "cropped": "images/questions/s03_q18.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q18.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-19",
+          "id": "19",
+          "qnum": 19,
+          "type": "计算题",
+          "content": "已知二元函数 $ f(x,y) $ 满足 $ f(0,0)=2 $，且 $ df=(6x+2y)dx+(2x+6y-6)dy $.",
+          "options": null,
+          "sub_questions": [
+            "求 $f(x, y)$;",
+            "求 $ f(x, y) $ 在闭区域 $ D = \\{(x, y) | x^2 \\leqslant y \\leqslant 2 - x\\} $ 上的最大值和最小值，并指出取得最大值、最小值的点."
+          ],
+          "page": 12,
+          "printed_page": 3,
+          "chapter": "模拟三",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 12,
+            "cropped": "images/questions/s03_q19.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q19.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-20",
+          "id": "20",
+          "qnum": 20,
+          "type": "计算题",
+          "content": "打桩时，土层对桩的阻力大小为 $kx^{2}$（其中 $x$ 是桩进入土层的深度，$k>0$）。第一次击打后桩的深度为 $a$；从第二次起，每次击打所做的功都是前一次的 $q$ 倍，其中 $0<q<1$。",
+          "options": null,
+          "sub_questions": [
+            "求击打四次后的深度；",
+            "求击打次数趋于无穷时桩深度的极限."
+          ],
+          "page": 12,
+          "printed_page": 3,
+          "chapter": "模拟三",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 12,
+            "cropped": "images/questions/s03_q20.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q20.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-21",
+          "id": "21",
+          "qnum": 21,
+          "type": "计算题",
+          "content": "已知函数 $ y(x) $ 是微分方程 $ y'' - 2y' - 3y = 0 $ 满足 $ y(0) = 1, y'(0) = -1 $ 的特解.",
+          "options": null,
+          "sub_questions": [
+            "求 $y(x)$;",
+            "求曲线 $ y = y(x)\\left(-\\frac{\\ln 3}{2} \\leqslant x \\leqslant \\frac{\\ln 3}{2}\\right) $ 的弧长."
+          ],
+          "page": 12,
+          "printed_page": 3,
+          "chapter": "模拟三",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 12,
+            "cropped": "images/questions/s03_q21.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q21.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟三-22",
+          "id": "22",
+          "qnum": 22,
+          "type": "计算题",
+          "content": "设 $A = \\begin{pmatrix} 1 & 0 & a \\\\ 0 & 1 & 1 \\end{pmatrix}, B = \\begin{pmatrix} 1 & b & 1 \\\\ 0 & b & b \\end{pmatrix}$，其中 $a, b$ 均不为零，$\\boldsymbol{\\alpha} = (1,1)^{\\mathrm{T}}, \\boldsymbol{\\beta} = (3,2)^{\\mathrm{T}}$。已知方程组 $Ax = \\alpha$ 与 $Bx = \\beta$ 至少有两个不同的公共解。",
+          "options": null,
+          "sub_questions": [
+            "求 $a, b$;",
+            "将第(1)问所得 $A, B$ 代入，求正交矩阵 $Q$，使正交变换 $x = Qy$ 将二次型 $f(x) = x^{\\mathrm{T}}(A^{\\mathrm{T}}B + B^{\\mathrm{T}}A)x$ 化为标准形."
+          ],
+          "page": 12,
+          "printed_page": 3,
+          "chapter": "模拟三",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 12,
+            "cropped": "images/questions/s03_q22.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s03_q22.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        }
+      ]
+    },
+    {
+      "name": "模拟四",
+      "question_count": 22,
+      "questions": [
+        {
+          "uid": "李永乐六套卷-模拟四-1",
+          "id": "1",
+          "qnum": 1,
+          "type": "选择题",
+          "content": "已知当 $x \\to 0$ 时，$\\frac{1}{x} \\int_{0}^{x} e^{t^2} dt - e^{\\alpha x^2}$ 与 $L(\\sqrt[3]{1 + x^4} - 1)$ 是等价无穷小，则",
+          "options": {
+            "A": "$a = \\frac{1}{3}, L = \\frac{2}{45}$.",
+            "B": "$a = \\frac{1}{3}, L = \\frac{2}{15}$.",
+            "C": "$a = \\frac{2}{3}, L = \\frac{2}{45}$.",
+            "D": "$a = \\frac{2}{3}, L = \\frac{2}{15}$."
+          },
+          "sub_questions": null,
+          "page": 14,
+          "printed_page": 1,
+          "chapter": "模拟四",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 14,
+            "cropped": "images/questions/s04_q01.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q01.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-2",
+          "id": "2",
+          "qnum": 2,
+          "type": "选择题",
+          "content": "设 $a, b$ 为常数. 若微分方程 $y'' + ay' + by = 0$ 的每个非零解在 $(- \\infty, +\\infty)$ 上都有无穷多个零点，则必有",
+          "options": {
+            "A": "$a^2 - 4b < 0$.",
+            "B": "$a^2 - 4b = 0$.",
+            "C": "$a^2 - 4b > 0$.",
+            "D": "$b = 0$."
+          },
+          "sub_questions": null,
+          "page": 14,
+          "printed_page": 1,
+          "chapter": "模拟四",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 14,
+            "cropped": "images/questions/s04_q02.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q02.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "A",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-3",
+          "id": "3",
+          "qnum": 3,
+          "type": "选择题",
+          "content": "已知 $z = z(x, y)$ 由方程 $f(z - x, z - y) = 0$ 确定，$f(u, v)$ 有一阶连续偏导数，且 $\\frac{\\partial f}{\\partial u} + \\frac{\\partial f}{\\partial v} \\neq 0$，则 $\\frac{\\partial z}{\\partial x} + \\frac{\\partial z}{\\partial y} =$",
+          "options": {
+            "A": "0.",
+            "B": "1.",
+            "C": "$x$.",
+            "D": "$x + y$."
+          },
+          "sub_questions": null,
+          "page": 14,
+          "printed_page": 1,
+          "chapter": "模拟四",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 14,
+            "cropped": "images/questions/s04_q03.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q03.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-4",
+          "id": "4",
+          "qnum": 4,
+          "type": "选择题",
+          "content": "设 $c$ 为常数，函数\n\n$$f (x) = \\left\\lbrace\\begin{array}{l l} \\frac {\\mathrm{e} ^ {x} - 1}{x}, & x <  0, \\\\ c, & x = 0, \\\\ - \\frac {\\pi x (x ^ {2} - 1)}{\\sin \\pi x}, & x > 0 \\end{array} \\right.$$\n\n若函数 $f(x)$ 在 $x=0$ 处连续，且 $x=k(k \\in \\mathbf{N}^{*})$ 为函数的无穷间断点，则常数 $c$ 与 $k$ 的取值组合可能是",
+          "options": {
+            "A": "$c=1, k=1$.",
+            "B": "$c=-1, k=1$.",
+            "C": "$c=1, k=2$.",
+            "D": "$c=-1, k=2$."
+          },
+          "sub_questions": null,
+          "page": 14,
+          "printed_page": 1,
+          "chapter": "模拟四",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 14,
+            "cropped": "images/questions/s04_q04.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q04.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-5",
+          "id": "5",
+          "qnum": 5,
+          "type": "选择题",
+          "content": "当 $x > 0$ 时，设 $f(x) = x^{\\frac{x}{x+1}}$。下列结论正确的是",
+          "options": {
+            "A": "$f(x)$ 有一个极大值、没有极小值，且没有渐近线。",
+            "B": "$f(x)$ 有一个极小值、没有极大值，且没有渐近线。",
+            "C": "$f(x)$ 有一个极小值、没有极大值，且有一条渐近线。",
+            "D": "$f(x)$ 没有极值，且有一条渐近线。"
+          },
+          "sub_questions": null,
+          "page": 14,
+          "printed_page": 1,
+          "chapter": "模拟四",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 14,
+            "cropped": "images/questions/s04_q05.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q05.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-6",
+          "id": "6",
+          "qnum": 6,
+          "type": "选择题",
+          "content": "设 $ f(x) = \\int_{x}^{2x} \\mathrm{e}^{-t^2} \\, \\mathrm{d}t, \\varphi(x) = \\begin{cases} \\frac{\\cos x - 1 + \\frac{x^2}{2}}{x - \\sin x}, & x \\neq 0, \\\\ 0, & x = 0, \\end{cases} $ 则 $ \\left. \\frac{\\mathrm{d}f(\\varphi(x))}{\\mathrm{d}x} \\right|_{x=0} = $",
+          "options": {
+            "A": "0.",
+            "B": "1.",
+            "C": "$ \\frac{1}{2} $.",
+            "D": "$ \\frac{1}{4} $."
+          },
+          "sub_questions": null,
+          "page": 14,
+          "printed_page": 1,
+          "chapter": "模拟四",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 14,
+            "cropped": "images/questions/s04_q06.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q06.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "D",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-7",
+          "id": "7",
+          "qnum": 7,
+          "type": "选择题",
+          "content": "记 $[x]$ 为不超过 $x$ 的最大整数，则 $\\lim_{n\\to \\infty}\\frac{1}{n^2}\\sum_{i = 1}^{n}\\sum_{j = 1}^{n}\\left[\\left(\\frac{i}{n}\\right)^2 +\\frac{j}{n}\\right] =$",
+          "options": {
+            "A": "$\\frac{1}{3}$.",
+            "B": "$\\frac{1}{2}$.",
+            "C": "$\\frac{2}{3}$.",
+            "D": "1."
+          },
+          "sub_questions": null,
+          "page": 15,
+          "printed_page": 2,
+          "chapter": "模拟四",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 15,
+            "cropped": "images/questions/s04_q07.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q07.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "A",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-8",
+          "id": "8",
+          "qnum": 8,
+          "type": "选择题",
+          "content": "已知 $n$ 阶矩阵 $\\boldsymbol{A}$ 和 $\\boldsymbol{E}-\\boldsymbol{A}$ 可逆，其中 $\\boldsymbol{E}$ 为 $n$ 阶单位矩阵。若 $n$ 阶矩阵 $\\boldsymbol{B}$ 满足 $[\\boldsymbol{E}-(\\boldsymbol{E}-\\boldsymbol{A})^{-1}]\\boldsymbol{B}=\\boldsymbol{A}$，则 $(\\boldsymbol{B}-\\boldsymbol{A})^{*}=$",
+          "options": {
+            "A": "$(-1)^{n}\\boldsymbol{E}$.",
+            "B": "$(-1)^{n-1}2\\boldsymbol{E}$.",
+            "C": "$(-1)^{n}2\\boldsymbol{E}$.",
+            "D": "$(-1)^{n-1}\\boldsymbol{E}$."
+          },
+          "sub_questions": null,
+          "page": 15,
+          "printed_page": 2,
+          "chapter": "模拟四",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 15,
+            "cropped": "images/questions/s04_q08.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q08.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "D",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-9",
+          "id": "9",
+          "qnum": 9,
+          "type": "选择题",
+          "content": "设 $A, B$ 为 $n$ 阶实对称矩阵，且 $A^2 = B^2 = E$. 考查下列说法：\n\n① $AB$ 为正交矩阵；\n\n② $AB$ 与 $BA$ 相似；\n\n③ $r(A + B) = r(E + AB)$；\n\n④ $r(A + B) = r(A - B)$.\n\n正确说法的个数为",
+          "options": {
+            "A": "1.",
+            "B": "2.",
+            "C": "3.",
+            "D": "4."
+          },
+          "sub_questions": null,
+          "page": 15,
+          "printed_page": 2,
+          "chapter": "模拟四",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 15,
+            "cropped": "images/questions/s04_q09.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q09.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-10",
+          "id": "10",
+          "qnum": 10,
+          "type": "选择题",
+          "content": "设 $A$ 为 3 阶矩阵，且 $|A| = 8, |2E - A| = 0, |-2E - A| = -72$. 若 $\\lambda_1, \\lambda_2, \\lambda_3$ 为 $A$ 的三个特征值，则 $\\lambda_1^2 + \\lambda_2^2 + \\lambda_3^2 =$",
+          "options": {
+            "A": "14.",
+            "B": "21.",
+            "C": "28.",
+            "D": "49."
+          },
+          "sub_questions": null,
+          "page": 15,
+          "printed_page": 2,
+          "chapter": "模拟四",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 15,
+            "cropped": "images/questions/s04_q10.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q10.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-11",
+          "id": "11",
+          "qnum": 11,
+          "type": "填空题",
+          "content": "设 $\\int_{1}^{+\\infty} f(x) \\, dx$ 收敛，$f(x) = x^3 e^{-x^2} + \\frac{1}{x(1+x)} \\int_{1}^{+\\infty} f(x) \\, dx$，则 $\\int_{1}^{+\\infty} f(x) \\, dx =$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 15,
+          "printed_page": 2,
+          "chapter": "模拟四",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 15,
+            "cropped": "images/questions/s04_q11.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q11.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-12",
+          "id": "12",
+          "qnum": 12,
+          "type": "填空题",
+          "content": "$\\lim_{x\\to 0}\\frac{(1 + 2x)^{\\frac{1}{2}}(1 + 3x)^{\\frac{1}{3}}(1 - 8x)^{\\frac{1}{4}} - 1}{\\mathrm{e}^x - 1 - x} =$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 15,
+          "printed_page": 2,
+          "chapter": "模拟四",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 15,
+            "cropped": "images/questions/s04_q12.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q12.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-13",
+          "id": "13",
+          "qnum": 13,
+          "type": "填空题",
+          "content": "曲线 $r = \\sin^3 \\frac{\\theta}{3} (0 \\leqslant \\theta \\leqslant 3\\pi)$ 的弧长为 ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 15,
+          "printed_page": 2,
+          "chapter": "模拟四",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 15,
+            "cropped": "images/questions/s04_q13.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q13.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-14",
+          "id": "14",
+          "qnum": 14,
+          "type": "填空题",
+          "content": "设函数 $z = z(x, y)$ 由 $x^{2} + y^{2} = \\int_{0}^{z} \\frac{\\mathrm{d}t}{\\sqrt{1 + t^{2}}}$ 确定，则 $z_{xx}^{\\prime\\prime} - z_{yy}^{\\prime\\prime} =$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 15,
+          "printed_page": 2,
+          "chapter": "模拟四",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 15,
+            "cropped": "images/questions/s04_q14.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q14.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-15",
+          "id": "15",
+          "qnum": 15,
+          "type": "填空题",
+          "content": "设 $ f(x) = \\frac{\\mathrm{e}^{x^{2024}(1 + 2x)} - 1}{1 - x - x^2} $，则 $ f^{(2026)}(0) = $ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 15,
+          "printed_page": 2,
+          "chapter": "模拟四",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 15,
+            "cropped": "images/questions/s04_q15.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q15.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-16",
+          "id": "16",
+          "qnum": 16,
+          "type": "填空题",
+          "content": "设 $\\alpha, \\beta$ 为两个相互正交的 3 维单位列向量，$A = 3\\alpha\\alpha^{\\mathrm{T}} - 2\\beta\\beta^{\\mathrm{T}} + \\alpha\\beta^{\\mathrm{T}} + \\beta\\alpha^{\\mathrm{T}}$，则二次型 $f(x) = x^{\\mathrm{T}}Ax$ 在正交变换下的标准形为 ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 15,
+          "printed_page": 2,
+          "chapter": "模拟四",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 15,
+            "cropped": "images/questions/s04_q16.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q16.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-17",
+          "id": "17",
+          "qnum": 17,
+          "type": "计算题",
+          "content": "求 $f(x, y, z) = x + 2y^{2} + 3z$ 在约束条件 $x^{2} + y^{2} + z^{2} = 1$ 下的最值.",
+          "options": null,
+          "sub_questions": null,
+          "page": 15,
+          "printed_page": 2,
+          "chapter": "模拟四",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 15,
+            "cropped": "images/questions/s04_q17.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q17.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-18",
+          "id": "18",
+          "qnum": 18,
+          "type": "计算题",
+          "content": "设 $f(x)$ 在 $(- \\infty, +\\infty)$ 内为偶函数且有连续导数，并且当 $t \\geqslant 0$ 时，满足\n\n$$f (t) = \\frac {2}{\\pi} \\iint_ {x ^ {2} + y ^ {2} \\leqslant t ^ {2}} (x ^ {2} + y ^ {2}) f (\\sqrt {x ^ {2} + y ^ {2}}) \\mathrm{d} x \\mathrm{d} y + t ^ {4}.$$",
+          "options": null,
+          "sub_questions": [
+            "求 $f(x)$.",
+            "求曲线 $ y = x \\int_{0}^{1} f(xu) \\, du $ 的凹凸区间及拐点."
+          ],
+          "page": 16,
+          "printed_page": 3,
+          "chapter": "模拟四",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 16,
+            "cropped": "images/questions/s04_q18.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q18.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-19",
+          "id": "19",
+          "qnum": 19,
+          "type": "计算题",
+          "content": "设函数 $f$ 在 $\\mathbf{R}$ 上连续，且以 $\\frac{2\\pi}{3}$ 为周期.",
+          "options": null,
+          "sub_questions": [
+            "证明 $\\int_{0}^{2\\pi} f(x) \\cos x \\, dx = 0$;",
+            "计算 $\\int_{0}^{2\\pi}\\left(\\frac{\\mathrm{e}^{\\cos 3x}}{2 + \\sin^2 3x} \\cos x + \\frac{1}{2 + \\cos x}\\right) \\mathrm{d}x.$"
+          ],
+          "page": 16,
+          "printed_page": 3,
+          "chapter": "模拟四",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 16,
+            "cropped": "images/questions/s04_q19.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q19.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-20",
+          "id": "20",
+          "qnum": 20,
+          "type": "计算题",
+          "content": "设圆 $x^{2}+(y-b)^{2}=a^{2}(b\\geqslant a>0)$.",
+          "options": null,
+          "sub_questions": [
+            "求该圆绕 x 轴旋转一周生成的旋转面面积.",
+            "当 $b = a$ 时，该圆的右半侧与 $y$ 轴围成的半圆形薄板（如图），其上每一点 $(x, y)$ 处的质量面密度为 $\\mu(x, y) = \\sqrt{4a^2 - x^2 - y^2}$，求此板的质量."
+          ],
+          "page": 16,
+          "printed_page": 3,
+          "chapter": "模拟四",
+          "section": "计算题",
+          "has_image": true,
+          "image_ref": {
+            "page": 16,
+            "cropped": "images/questions/s04_q20.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q20.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-21",
+          "id": "21",
+          "qnum": 21,
+          "type": "计算题",
+          "content": "已知曲线 $ y = y(x) $ 满足微分方程 $ yy'' + (y')^2 = 1 $，且该曲线与 $ y = e^{-x} $ 相切于 $ (0,1) $ 点，求该曲线方程.",
+          "options": null,
+          "sub_questions": null,
+          "page": 16,
+          "printed_page": 3,
+          "chapter": "模拟四",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 16,
+            "cropped": "images/questions/s04_q21.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q21.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟四-22",
+          "id": "22",
+          "qnum": 22,
+          "type": "计算题",
+          "content": "若 $\\mathbf{A}$ 为 3 阶实对称矩阵，$\\operatorname{tr}(\\mathbf{A}) = 3$，非齐次线性方程组 $\\mathbf{A}\\mathbf{x} = \\mathbf{b}$ 的通解为 $k_{1}(1,1,0)^{\\mathrm{T}} + k_{2}(0,1,1)^{\\mathrm{T}} + (1,0,0)^{\\mathrm{T}}$，其中 $k_{1}, k_{2}$ 为任意常数.",
+          "options": null,
+          "sub_questions": [
+            "求 A 及 b;",
+            "求 $(A - 2E)^{100}$."
+          ],
+          "page": 16,
+          "printed_page": 3,
+          "chapter": "模拟四",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 16,
+            "cropped": "images/questions/s04_q22.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s04_q22.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        }
+      ]
+    },
+    {
+      "name": "模拟五",
+      "question_count": 22,
+      "questions": [
+        {
+          "uid": "李永乐六套卷-模拟五-1",
+          "id": "1",
+          "qnum": 1,
+          "type": "选择题",
+          "content": "设 $f(x)=\\left\\lbrace\\begin{array}{l l}|x|^{\\lambda}\\cos\\frac{1}{x}, & x \\neq 0, \\\\ 0, & x=0,\\end{array}\\right.$ 其中 $1<\\lambda \\leqslant 2$，则 $f$ 在 $x=0$ 处",
+          "options": {
+            "A": "不连续.",
+            "B": "连续但不可导.",
+            "C": "可导但 $f'(x)$ 在 $x=0$ 处不连续.",
+            "D": "可导且 $f'(x)$ 在 $x=0$ 处连续."
+          },
+          "sub_questions": null,
+          "page": 18,
+          "printed_page": 1,
+          "chapter": "模拟五",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 18,
+            "cropped": "images/questions/s05_q01.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q01.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-2",
+          "id": "2",
+          "qnum": 2,
+          "type": "选择题",
+          "content": "设 $ f(x) = \\int_{0}^{x^3} \\frac{\\sin t}{t} \\, dt $, $ g(x) = x \\cos 2x - \\sin x $，则当 $ x \\to 0 $ 时，$ f(x) $ 是 $ g(x) $ 的",
+          "options": {
+            "A": "高阶无穷小.",
+            "B": "低阶无穷小.",
+            "C": "等价无穷小.",
+            "D": "同阶但非等价无穷小."
+          },
+          "sub_questions": null,
+          "page": 18,
+          "printed_page": 1,
+          "chapter": "模拟五",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 18,
+            "cropped": "images/questions/s05_q02.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q02.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "D",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-3",
+          "id": "3",
+          "qnum": 3,
+          "type": "选择题",
+          "content": "设 $f(x)$ 在 $(- \\infty, +\\infty)$ 内可导，且 $f'(x) > f(x)$，则对任意 $x_1 < x_2$，有",
+          "options": {
+            "A": "$\\mathrm{e}^{x_1} f(x_1) < \\mathrm{e}^{x_2} f(x_2)$.",
+            "B": "$\\mathrm{e}^{x_1} f(x_1) > \\mathrm{e}^{x_2} f(x_2)$.",
+            "C": "$\\mathrm{e}^{x_2} f(x_1) < \\mathrm{e}^{x_1} f(x_2)$.",
+            "D": "$\\mathrm{e}^{x_2} f(x_1) > \\mathrm{e}^{x_1} f(x_2)$."
+          },
+          "sub_questions": null,
+          "page": 18,
+          "printed_page": 1,
+          "chapter": "模拟五",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 18,
+            "cropped": "images/questions/s05_q03.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q03.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-4",
+          "id": "4",
+          "qnum": 4,
+          "type": "选择题",
+          "content": "设 $I_{k} = k\\int_{2(k - 1)\\pi}^{2k\\pi}\\frac{1 - \\cos x}{x + 2\\pi}\\mathrm{d}x, k = 1,2,3$ ，则",
+          "options": {
+            "A": "$I_{1} < I_{2} < I_{3}$.",
+            "B": "$I_{1} < I_{3} < I_{2}$.",
+            "C": "$I_{2} < I_{1} < I_{3}$.",
+            "D": "$I_{3} < I_{2} < I_{1}$."
+          },
+          "sub_questions": null,
+          "page": 18,
+          "printed_page": 1,
+          "chapter": "模拟五",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 18,
+            "cropped": "images/questions/s05_q04.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q04.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "A",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-5",
+          "id": "5",
+          "qnum": 5,
+          "type": "选择题",
+          "content": "点 $(0,0)$ 是 $f(x,y)=x^{3}-4x^{2}+4xy-3y^{2}$ 在区域 $D=\\{(x,y)\\mid-2\\leqslant x\\leqslant4,-1\\leqslant y\\leqslant1\\}$ 内的唯一驻点，",
+          "options": {
+            "A": "但不是极值点.",
+            "B": "且是极小值点.",
+            "C": "且是极大值点，但不是 $D$ 内的最大值点.",
+            "D": "且是极大值点，也是 $D$ 内的最大值点."
+          },
+          "sub_questions": null,
+          "page": 18,
+          "printed_page": 1,
+          "chapter": "模拟五",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 18,
+            "cropped": "images/questions/s05_q05.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q05.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-6",
+          "id": "6",
+          "qnum": 6,
+          "type": "选择题",
+          "content": "在 $x > 0$ 上，函数 $y = x \\mathrm{e}^{-x}$ 是微分方程 $y' = \\frac{y}{x} + \\frac{y}{x} f\\left(\\frac{x}{y}\\right)$ 的解，则 $\\int_{1}^{\\mathrm{e}^{2}} \\frac{f(u)}{u} \\mathrm{d}u =$",
+          "options": {
+            "A": "-4.",
+            "B": "-2.",
+            "C": "2.",
+            "D": "4."
+          },
+          "sub_questions": null,
+          "page": 18,
+          "printed_page": 1,
+          "chapter": "模拟五",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 18,
+            "cropped": "images/questions/s05_q06.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q06.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-7",
+          "id": "7",
+          "qnum": 7,
+          "type": "选择题",
+          "content": "设函数 $ f(x, y) $ 在点 $(0, 0)$ 的某邻域内有定义，且 $\\lim_{(x, y) \\to (0, 0)} \\frac{f(x, y) + f(-x, -y)}{\\sqrt{x^2 + y^2}} = 0$，\n\n$\\lim_{(x, y) \\to (0, 0)} \\frac{f(x, y) - f(-x, -y) - 2x + 4y}{\\sqrt{x^2 + y^2}} = 0$。下列结论必然成立的是",
+          "options": {
+            "A": "$f(0, 0) = 0$。",
+            "B": "$f$ 在 $(0, 0)$ 处连续。",
+            "C": "$\\lim_{(x, y) \\to (0, 0)} \\frac{f(x, y) - x + 2y}{|x| + 2|y|} = 0$。",
+            "D": "$\\lim_{(x, y) \\to (0, 0)} \\frac{f(x, y) - x + 2y}{x^2 + y^2} = 0$。"
+          },
+          "sub_questions": null,
+          "page": 18,
+          "printed_page": 1,
+          "chapter": "模拟五",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 18,
+            "cropped": "images/questions/s05_q07.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q07.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-8",
+          "id": "8",
+          "qnum": 8,
+          "type": "选择题",
+          "content": "设有向量组 $\\alpha, \\beta, \\gamma$ 与常数 $k, l, m$，满足 $k\\alpha + l\\beta + m\\gamma = 0$，且 $km \\neq 0$，则",
+          "options": {
+            "A": "$\\alpha, \\beta$ 与 $\\beta, \\gamma$ 等价.",
+            "B": "$\\alpha, \\beta$ 与 $\\alpha, \\gamma$ 等价.",
+            "C": "$\\alpha, \\gamma$ 与 $\\beta, \\gamma$ 等价.",
+            "D": "$\\alpha$ 与 $\\gamma$ 等价."
+          },
+          "sub_questions": null,
+          "page": 18,
+          "printed_page": 1,
+          "chapter": "模拟五",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 18,
+            "cropped": "images/questions/s05_q08.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q08.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "A",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-9",
+          "id": "9",
+          "qnum": 9,
+          "type": "选择题",
+          "content": "设 $A$ 为 $m \\times n$ 实矩阵，且 $r(A) = r > 0$。下列结论中不一定成立的是",
+          "options": {
+            "A": "存在 $n$ 阶矩阵 $B$，使 $r(B) = n - r$，且 $AB = O$。",
+            "B": "存在 $m$ 阶矩阵 $C$，使 $r(C) = m - r$，且 $CA = O$。",
+            "C": "存在 $m$ 阶可逆矩阵 $P$ 和 $n$ 阶可逆矩阵 $Q$，使 $PAQ$ 的前 $r$ 个主对角元均为 1，其余元素均为 0。",
+            "D": "对任意满秩矩阵 $B \\in \\mathbb{R}^{n \\times r}$ 与 $C \\in \\mathbb{R}^{r \\times m}$，都有 $CAB$ 可逆。"
+          },
+          "sub_questions": null,
+          "page": 19,
+          "printed_page": 2,
+          "chapter": "模拟五",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 19,
+            "cropped": "images/questions/s05_q09.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q09.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "D",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-10",
+          "id": "10",
+          "qnum": 10,
+          "type": "选择题",
+          "content": "设 $ \\boldsymbol{A} = (a_{ij}) = \\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\\\ 0 & a \\end{pmatrix} $，定义二次型 $ f(x_1, x_2) = \\sum_{i=1}^{3} \\left( \\sum_{j=1}^{2} a_{ij} x_j \\right)^2 $，若 $ f $ 为正定二次型，则实数 $ a $ 应满足",
+          "options": {
+            "A": "$ a = 0 $.",
+            "B": "$ a \\neq 0 $.",
+            "C": "$ a > 0 $.",
+            "D": "$ a < 0 $."
+          },
+          "sub_questions": null,
+          "page": 19,
+          "printed_page": 2,
+          "chapter": "模拟五",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 19,
+            "cropped": "images/questions/s05_q10.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q10.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-11",
+          "id": "11",
+          "qnum": 11,
+          "type": "填空题",
+          "content": "设 $ f(x) $ 在 $ x = 0 $ 的某邻域内有定义，且 $ \\lim_{x \\to 0} \\frac{f(x) \\tan x - \\sin 4x}{x^3} = 0 $，则 $ \\lim_{x \\to 0} \\frac{f(x) - 4}{x^2} = $ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 19,
+          "printed_page": 2,
+          "chapter": "模拟五",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 19,
+            "cropped": "images/questions/s05_q11.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q11.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-12",
+          "id": "12",
+          "qnum": 12,
+          "type": "填空题",
+          "content": "已知微分方程 $ y'' - y = x \\mathrm{e}^x $ 的所有解都是微分方程 $ y''' + ay'' + by' = f(x) $ 的解，其中 $ a, b $ 为常数，则 $ f(x) = $ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 19,
+          "printed_page": 2,
+          "chapter": "模拟五",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 19,
+            "cropped": "images/questions/s05_q12.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q12.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-13",
+          "id": "13",
+          "qnum": 13,
+          "type": "填空题",
+          "content": "$\\int_{2}^{4}\\frac{\\sqrt{\\ln(9-x)}}{\\sqrt{\\ln(9-x)}+\\sqrt{\\ln(x+3)}}\\mathrm{d}x=$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 19,
+          "printed_page": 2,
+          "chapter": "模拟五",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 19,
+            "cropped": "images/questions/s05_q13.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q13.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-14",
+          "id": "14",
+          "qnum": 14,
+          "type": "填空题",
+          "content": "方程 $x \\ln x + a = 0$ 有两不同的实根，则 $a$ 的取值范围为 ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 19,
+          "printed_page": 2,
+          "chapter": "模拟五",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 19,
+            "cropped": "images/questions/s05_q14.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q14.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-15",
+          "id": "15",
+          "qnum": 15,
+          "type": "填空题",
+          "content": "设 $f(x, y) = \\begin{cases} \\mathrm{e}^{\\frac{1}{x^2 + y^2}}, & x^2 + y^2 \\neq 0, \\\\ 0, & x^2 + y^2 = 0, \\end{cases}$ 则 $f_{xx}''(0, 0) =$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 19,
+          "printed_page": 2,
+          "chapter": "模拟五",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 19,
+            "cropped": "images/questions/s05_q15.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q15.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-16",
+          "id": "16",
+          "qnum": 16,
+          "type": "填空题",
+          "content": "设 $A$ 为 $4 \\times 2$ 矩阵，$B$ 为 $2 \\times 4$ 矩阵。记 $A = \\begin{pmatrix} A_1 \\\\ A_2 \\end{pmatrix}$，$B = (B_1, B_2)$。其中 $A_1, A_2, B_1, B_2$ 均为二阶矩阵，令 $P = \\begin{pmatrix} 0 & -2 \\\\ 1 & 3 \\end{pmatrix}$。若 $A_1 B_1 = E_2, A_2 B_2 = P$，则 $BA$ 的特征多项式为 ___。",
+          "options": null,
+          "sub_questions": null,
+          "page": 19,
+          "printed_page": 2,
+          "chapter": "模拟五",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 19,
+            "cropped": "images/questions/s05_q16.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q16.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-17",
+          "id": "17",
+          "qnum": 17,
+          "type": "计算题",
+          "content": "设函数 $f(x)$ 在 $x=0$ 的某邻域内连续，在 $x=0$ 处可导，且 $f(0)=0$。令\n\n$$g (x) = \\left\\lbrace\\begin{array}{c c} \\frac {1}{x ^ {2}} \\int_ {0} ^ {x} (x - t) f (t) \\mathrm{d} t, & x \\neq 0, \\\\ 0, & x = 0. \\end{array} \\right.$$\n\n求 $g'(0)$，并判断 $g'(x)$ 在 $x = 0$ 处的连续性.",
+          "options": null,
+          "sub_questions": null,
+          "page": 19,
+          "printed_page": 2,
+          "chapter": "模拟五",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 19,
+            "cropped": "images/questions/s05_q17.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q17.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-18",
+          "id": "18",
+          "qnum": 18,
+          "type": "计算题",
+          "content": "设函数 $f(x)$ 在 $x=2$ 的某邻域内二阶可导，曲线 $y=f(x)$ 在点 $(2, f(2))$ 处的切线方程为 $y=2x-4$，且 $f''(2)=-4$。求极限 $\\lim_{x\\to0}\\frac{\\int_{0}^{x}e^{t}f(2+e^{x}-e^{t})dt-(e^{x}-1)^{2}}{x(e^{x}-1-x)}$。",
+          "options": null,
+          "sub_questions": null,
+          "page": 20,
+          "printed_page": 3,
+          "chapter": "模拟五",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 20,
+            "cropped": "images/questions/s05_q18.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q18.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-19",
+          "id": "19",
+          "qnum": 19,
+          "type": "计算题",
+          "content": "已知抛物线 $y = ax^2 + bx$，当 $0 \\leqslant x \\leqslant 1$ 时，$y \\geqslant 0$。求 $a, b$，使得该抛物线与直线 $x = 1, y = 0$ 所围成的图形面积为 $\\frac{4}{9}$，且该图形绕 $x$ 轴旋转一周而成的旋转体体积最小。",
+          "options": null,
+          "sub_questions": null,
+          "page": 20,
+          "printed_page": 3,
+          "chapter": "模拟五",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 20,
+            "cropped": "images/questions/s05_q19.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q19.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-20",
+          "id": "20",
+          "qnum": 20,
+          "type": "计算题",
+          "content": "设 $D = \\left\\{(x,y) \\mid 0 \\leqslant x \\leqslant 1, 0 \\leqslant y \\leqslant \\frac{\\pi}{2}\\right\\}$，求 $I = \\iint_{D} \\frac{x^3 \\sin y \\cos y e^{\\sqrt{x^2 + 2}}}{\\sqrt{x^2 + 2} \\cdot \\sqrt{x^2 \\cos^2 y + 2}} dx dy$.",
+          "options": null,
+          "sub_questions": null,
+          "page": 20,
+          "printed_page": 3,
+          "chapter": "模拟五",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 20,
+            "cropped": "images/questions/s05_q20.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q20.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-21",
+          "id": "21",
+          "qnum": 21,
+          "type": "证明题",
+          "content": "设 $f(x)$ 在 $[0,1]$ 上连续，在 $(0,1)$ 内可导，且 $f(0)=0, f(1)=1$。又设 $k_{1}, k_{2}, \\cdots, k_{n}$ 是满足 $k_{1}+k_{2}+\\cdots+k_{n}=1$ 的 $n$ 个正数。\n\n证明：在$(0,1)$中存在$n$个不相同的数$t_{1}, t_{2}, \\cdots, t_{n}$，使得$\\frac{k_{1}}{f'(t_{1})} + \\frac{k_{2}}{f'(t_{2})} + \\cdots + \\frac{k_{n}}{f'(t_{n})} = 1$.",
+          "options": null,
+          "sub_questions": null,
+          "page": 20,
+          "printed_page": 3,
+          "chapter": "模拟五",
+          "section": "证明题",
+          "has_image": false,
+          "image_ref": {
+            "page": 20,
+            "cropped": "images/questions/s05_q21.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q21.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟五-22",
+          "id": "22",
+          "qnum": 22,
+          "type": "计算题",
+          "content": "设 $\\alpha, \\beta$ 均为 3 维实单位列向量，且 $\\alpha^{\\mathrm{T}}\\beta = 0$，矩阵\n\n$$\\boldsymbol {A} = \\alpha \\boldsymbol {\\beta} ^ {\\mathrm{T}} + \\beta \\boldsymbol {\\alpha} ^ {\\mathrm{T}} + 2 \\boldsymbol {E},$$\n\n其中 E 为 3 阶单位矩阵.",
+          "options": null,
+          "sub_questions": [
+            "证明 A 为实对称矩阵；",
+            "写出经正交变换 $x = Qy$ 将二次型 $f = x^{\\mathrm{T}}Ax$ 化成的标准形；",
+            "若 $\\boldsymbol{\\alpha} = \\frac{1}{3}(1,2,2)^{\\mathrm{T}}, \\boldsymbol{\\beta} = \\frac{1}{3}(2,1,-2)^{\\mathrm{T}}$，求出(2)中的矩阵 $Q$."
+          ],
+          "page": 20,
+          "printed_page": 3,
+          "chapter": "模拟五",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 20,
+            "cropped": "images/questions/s05_q22.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s05_q22.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        }
+      ]
+    },
+    {
+      "name": "模拟六",
+      "question_count": 22,
+      "questions": [
+        {
+          "uid": "李永乐六套卷-模拟六-1",
+          "id": "1",
+          "qnum": 1,
+          "type": "选择题",
+          "content": "$\\lim_{x\\to 0}\\frac{1}{x}\\left[\\sqrt[3]{\\frac{(x + 1)(x + 2)(x + 3)}{(x - 1)(x - 2)(x - 3)}} +1\\right] =$",
+          "options": {
+            "A": "$\\frac{11}{9}$.",
+            "B": "$-\\frac{11}{9}$.",
+            "C": "$\\frac{11}{18}$.",
+            "D": "$-\\frac{11}{18}$."
+          },
+          "sub_questions": null,
+          "page": 22,
+          "printed_page": 1,
+          "chapter": "模拟六",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 22,
+            "cropped": "images/questions/s06_q01.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q01.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-2",
+          "id": "2",
+          "qnum": 2,
+          "type": "选择题",
+          "content": "已知 $f(x)=\\begin{cases}x\\left[\\frac{1}{x}\\right], & x \\neq 0, \\\\ 0, & x=0,\\end{cases}$ 其中 $\\left[\\frac{1}{x}\\right]$ 表示 $\\frac{1}{x}$ 的取整，即不大于 $\\frac{1}{x}$ 的最大整数. 则",
+          "options": {
+            "A": "$x=0$ 是 $f(x)$ 的第一类可去间断点.",
+            "B": "$x=0$ 是 $f(x)$ 的连续点.",
+            "C": "$x=0$ 是 $f(x)$ 的第一类跳跃间断点.",
+            "D": "$x=0$ 是 $f(x)$ 的第二类间断点."
+          },
+          "sub_questions": null,
+          "page": 22,
+          "printed_page": 1,
+          "chapter": "模拟六",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 22,
+            "cropped": "images/questions/s06_q02.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q02.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "A",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-3",
+          "id": "3",
+          "qnum": 3,
+          "type": "选择题",
+          "content": "已知二阶可导函数 $x = x(t)$ 由 $\\sin t - \\int_{t}^{x(t)} \\varphi(u) \\, du = 0$ 确定，其中 $\\varphi(u)$ 可导，且 $\\varphi(u) > 0$，$\\varphi(0) = \\varphi'(0) = 1$，则 $x''(0) =$",
+          "options": {
+            "A": "1.",
+            "B": "-1.",
+            "C": "3.",
+            "D": "-3."
+          },
+          "sub_questions": null,
+          "page": 22,
+          "printed_page": 1,
+          "chapter": "模拟六",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 22,
+            "cropped": "images/questions/s06_q03.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q03.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "D",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-4",
+          "id": "4",
+          "qnum": 4,
+          "type": "选择题",
+          "content": "设 $f(x)$ 在 $[0,1]$ 上连续，其值域为 $[0,1]$，则",
+          "options": {
+            "A": "$y = f(x)$ 的图像与直线 $y = x$ 有交点，与直线 $y = 1 - x$ 无交点.",
+            "B": "$y = f(x)$ 的图像与直线 $y = 1 - x$ 有交点，与直线 $y = x$ 无交点.",
+            "C": "$y = f(x)$ 的图像与直线 $y = x$ 和 $y = 1 - x$ 均有交点.",
+            "D": "$y = f(x)$ 的图像与直线 $y = x$ 和 $y = 1 - x$ 均无交点."
+          },
+          "sub_questions": null,
+          "page": 22,
+          "printed_page": 1,
+          "chapter": "模拟六",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 22,
+            "cropped": "images/questions/s06_q04.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q04.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-5",
+          "id": "5",
+          "qnum": 5,
+          "type": "选择题",
+          "content": "设 $ f(x, y) = \\begin{cases} \\frac{xy(x^2 - y^2)}{x^2 + y^2}, & x^2 + y^2 \\neq 0, \\\\ 0, & x^2 + y^2 = 0, \\end{cases} $ 则 $ f_{xy}''(0,0) $ 和 $ f_{yx}''(0,0) $ 分别为",
+          "options": {
+            "A": "1, 0.",
+            "B": "-1, 0.",
+            "C": "-1, 1.",
+            "D": "0, 1."
+          },
+          "sub_questions": null,
+          "page": 22,
+          "printed_page": 1,
+          "chapter": "模拟六",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 22,
+            "cropped": "images/questions/s06_q05.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q05.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-6",
+          "id": "6",
+          "qnum": 6,
+          "type": "选择题",
+          "content": "设 $f(x)=\\left\\lbrace\\begin{array}{l l}1+\\int_{0}^{x^{2}}\\ln t\\mathrm{d}t, & -1 \\leqslant x \\leqslant 1, x \\neq 0, \\\\ 1, & x=0,\\end{array}\\right.$ 则",
+          "options": {
+            "A": "$f(0)$ 是 $f$ 在 $[-1,1]$ 上的最小值.",
+            "B": "$f(0)$ 是 $f$ 在 $[-1,1]$ 上的最大值.",
+            "C": "$f$ 在 $x=0$ 处连续但不可导.",
+            "D": "$f$ 在 $x=0$ 处二阶可导."
+          },
+          "sub_questions": null,
+          "page": 22,
+          "printed_page": 1,
+          "chapter": "模拟六",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 22,
+            "cropped": "images/questions/s06_q06.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q06.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-7",
+          "id": "7",
+          "qnum": 7,
+          "type": "选择题",
+          "content": "已知 $g(x, y)$ 在 $(0, 0)$ 的某邻域内有定义，$\\lim_{(x, y) \\to (0, 0)} g(x, y) = 1$，$f(x, y) = 2 + \\sqrt{x^2 + y^2} g(x, y)$，则",
+          "options": {
+            "A": "$f(x, y)$ 在 $(0, 0)$ 处可偏导，但 $(0, 0)$ 不是 $f(x, y)$ 的驻点.",
+            "B": "$(0, 0)$ 是 $f(x, y)$ 的驻点，但不是 $f(x, y)$ 的极值点.",
+            "C": "$f(x, y)$ 在 $(0, 0)$ 不可偏导，但 $(0, 0)$ 是 $f(x, y)$ 的极值点.",
+            "D": "$f(x, y)$ 在 $(0, 0)$ 不可偏导，$(0, 0)$ 也不是 $f(x, y)$ 的极值点."
+          },
+          "sub_questions": null,
+          "page": 22,
+          "printed_page": 1,
+          "chapter": "模拟六",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 22,
+            "cropped": "images/questions/s06_q07.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q07.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "C",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-8",
+          "id": "8",
+          "qnum": 8,
+          "type": "选择题",
+          "content": "已知向量组 $\\alpha_{1}, \\alpha_{2}$ 线性无关，$\\alpha_{3} = \\alpha_{1} + \\alpha_{2}$，且 $\\alpha_{4}$ 不能由 $\\alpha_{1}, \\alpha_{2}$ 线性表示。令 $u = \\alpha_{3} + t\\alpha_{4}, v = \\alpha_{3} + s\\alpha_{4}$，则下列结论正确的是",
+          "options": {
+            "A": "$r(\\alpha_{1}, \\alpha_{2}, u) = 3$ 恒成立，且 $r(\\alpha_{1}, \\alpha_{2}, u, v)$ 与 $s, t$ 有关。",
+            "B": "$r(\\alpha_{1}, \\alpha_{2}, u)$ 与 $t$ 有关，且 $r(\\alpha_{1}, \\alpha_{2}, u, v) = 2$ 当且仅当 $s = t = 0$。",
+            "C": "$r(\\alpha_{1}, \\alpha_{2}, u) = 2$ 恒成立，且 $r(\\alpha_{1}, \\alpha_{2}, u, v) = 3$ 恒成立。",
+            "D": "$r(\\alpha_{1}, \\alpha_{2}, u)$ 与 $t$ 有关，且 $r(\\alpha_{1}, \\alpha_{2}, u, v) = 2$ 当且仅当 $s = t$。"
+          },
+          "sub_questions": null,
+          "page": 23,
+          "printed_page": 2,
+          "chapter": "模拟六",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 23,
+            "cropped": "images/questions/s06_q08.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q08.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-9",
+          "id": "9",
+          "qnum": 9,
+          "type": "选择题",
+          "content": "设二次型 $f(x_{1}, x_{2}, x_{3})$ 在正交变换 $x = P y$ 下化为标准形 $y_{1}^{2} + 2 y_{2}^{2} + 3 y_{3}^{2}$，其中 $\\boldsymbol{P} = (\\alpha_{1}, \\alpha_{2}, \\alpha_{3})$ 是正交矩阵。令\n\n$$\\boldsymbol {Q} = \\left(\\alpha_ {1} + \\alpha_ {2}, \\alpha_ {2} - 2 \\alpha_ {3}, \\alpha_ {1} + \\alpha_ {3}\\right),$$\n\n则变换 $x = Qz$ 将原二次型化为",
+          "options": {
+            "A": "$3z_{1}^{2} + 2z_{2}^{2} + z_{3}^{2}$.",
+            "B": "$3z_{1}^{2} + 14z_{2}^{2} + 4z_{3}^{2} + 4z_{1}z_{2} + 2z_{1}z_{3} - 12z_{2}z_{3}$.",
+            "C": "$3z_{1}^{2} + 2z_{2}^{2} + 4z_{3}^{2} + 4z_{1}z_{2} + 2z_{1}z_{3}$.",
+            "D": "$z_{1}^{2} + 2z_{2}^{2} + 3z_{3}^{2}$."
+          },
+          "sub_questions": null,
+          "page": 23,
+          "printed_page": 2,
+          "chapter": "模拟六",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 23,
+            "cropped": "images/questions/s06_q09.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q09.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "B",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-10",
+          "id": "10",
+          "qnum": 10,
+          "type": "选择题",
+          "content": "设 $A, B$ 为 $n$ 阶矩阵，$O$ 为 $n$ 阶零矩阵，令 $M = \\begin{pmatrix} A & B \\\\ O & E_n \\end{pmatrix}$. 若 $M^2 = E_{2n}$，则下列结论中不一定成立的是",
+          "options": {
+            "A": "$A^{-1} = A$.",
+            "B": "$AB = -B$.",
+            "C": "$r(A + E_n) + r(B) \\leqslant n$.",
+            "D": "$BA = -B$."
+          },
+          "sub_questions": null,
+          "page": 23,
+          "printed_page": 2,
+          "chapter": "模拟六",
+          "section": "选择题",
+          "has_image": false,
+          "image_ref": {
+            "page": 23,
+            "cropped": "images/questions/s06_q10.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q10.png",
+          "answer_incomplete": false,
+          "answer_structured": {
+            "kind": "choice",
+            "canonical": "D",
+            "judge_mode": "choice_exact"
+          }
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-11",
+          "id": "11",
+          "qnum": 11,
+          "type": "填空题",
+          "content": "已知当 $x > 0$ 时，$f(x) = \\lim_{n \\to \\infty} n^2 (\\sqrt[n]{x} - \\sqrt[n+1]{x})$，则函数 $f(x)$ 在 $[1, 2]$ 上的平均值为 ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 23,
+          "printed_page": 2,
+          "chapter": "模拟六",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 23,
+            "cropped": "images/questions/s06_q11.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q11.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-12",
+          "id": "12",
+          "qnum": 12,
+          "type": "填空题",
+          "content": "设 $f(x)=\\begin{cases}ax^{2}+bx+c, & x<0, \\\\ \\ln(1+x), & x \\geqslant 0,\\end{cases}$ 若 $f(x)$ 有连续的导数，但 $f(x)$ 在 $x=0$ 没有二阶导数，$a$，$b, c$ 的取值为 ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 23,
+          "printed_page": 2,
+          "chapter": "模拟六",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 23,
+            "cropped": "images/questions/s06_q12.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q12.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-13",
+          "id": "13",
+          "qnum": 13,
+          "type": "填空题",
+          "content": "设 $a > 1, f(x) = a^x - ax$ 在 $(- \\infty, +\\infty)$ 内的驻点为 $x(a)$，则 $x(a)$ 取最小时，$a =$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 23,
+          "printed_page": 2,
+          "chapter": "模拟六",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 23,
+            "cropped": "images/questions/s06_q13.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q13.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-14",
+          "id": "14",
+          "qnum": 14,
+          "type": "填空题",
+          "content": "设 $f(x)$ 二阶导数连续，且 $f(0)=f'(0)=0$，$\\int_{0}^{1} f(x) \\mathrm{d} x=3$，则 $\\int_{0}^{1} \\mathrm{d} x \\int_{0}^{x} \\sqrt{(1-x)(1-y)} f''(y) \\mathrm{d} y=$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 23,
+          "printed_page": 2,
+          "chapter": "模拟六",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 23,
+            "cropped": "images/questions/s06_q14.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q14.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-15",
+          "id": "15",
+          "qnum": 15,
+          "type": "填空题",
+          "content": "已知 $f(x)$ 可导，且 $x \\neq 0$ 时有 $f(x) \\neq 0$。又 $f^{2}(x) = \\int_{0}^{x} f(t)(t+1)^{2} \\, dt$，则曲线 $y = f(x)$ 的拐点为 ___。",
+          "options": null,
+          "sub_questions": null,
+          "page": 23,
+          "printed_page": 2,
+          "chapter": "模拟六",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 23,
+            "cropped": "images/questions/s06_q15.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q15.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-16",
+          "id": "16",
+          "qnum": 16,
+          "type": "填空题",
+          "content": "将3阶方阵A的第2行加到第1行得到B. 将3阶方阵C的第2列的-2倍加到第1列得到D.\n\n若 $BD = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 2 & 0 \\\\ 0 & 0 & 3 \\end{pmatrix}$，则 $|AC - E| =$ ___.",
+          "options": null,
+          "sub_questions": null,
+          "page": 23,
+          "printed_page": 2,
+          "chapter": "模拟六",
+          "section": "填空题",
+          "has_image": false,
+          "image_ref": {
+            "page": 23,
+            "cropped": "images/questions/s06_q16.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q16.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-17",
+          "id": "17",
+          "qnum": 17,
+          "type": "计算题",
+          "content": "求不定积分 $\\int \\frac{1 - x + x^2}{x\\sqrt{1 + x - x^2}}\\mathrm{d}x.$",
+          "options": null,
+          "sub_questions": null,
+          "page": 24,
+          "printed_page": 3,
+          "chapter": "模拟六",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 24,
+            "cropped": "images/questions/s06_q17.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q17.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-18",
+          "id": "18",
+          "qnum": 18,
+          "type": "计算题",
+          "content": "已知函数 $ y = y(x) $ 由方程 $ \\mathrm{e}^y + 6xy + x^2 - 1 = 0 $ 确定.",
+          "options": null,
+          "sub_questions": [
+            "求证：$y(x)$ 在 $x=0$ 处取极值，并判断是极大值还是极小值，并判断曲线 $y=y(x)$ 在 $x=0$ 附近的凹凸性.",
+            "求证：$y(x)$ 在 $x=1$ 的某邻域是单调递减的."
+          ],
+          "page": 24,
+          "printed_page": 3,
+          "chapter": "模拟六",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 24,
+            "cropped": "images/questions/s06_q18.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q18.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-19",
+          "id": "19",
+          "qnum": 19,
+          "type": "计算题",
+          "content": "已知 $f(x)$ 可导，且满足 $x = \\int_{0}^{x} f(t) \\, dt + \\int_{0}^{x} t f(t - x) \\, dt$. 求 $f(x)$.",
+          "options": null,
+          "sub_questions": null,
+          "page": 24,
+          "printed_page": 3,
+          "chapter": "模拟六",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 24,
+            "cropped": "images/questions/s06_q19.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q19.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-20",
+          "id": "20",
+          "qnum": 20,
+          "type": "证明题",
+          "content": "设 $0 < \\alpha < \\beta$，证明：$(x^{\\alpha} + y^{\\alpha})^{\\frac{1}{\\alpha}} > (x^{\\beta} + y^{\\beta})^{\\frac{1}{\\beta}}, x > 0, y > 0.$",
+          "options": null,
+          "sub_questions": null,
+          "page": 24,
+          "printed_page": 3,
+          "chapter": "模拟六",
+          "section": "证明题",
+          "has_image": false,
+          "image_ref": {
+            "page": 24,
+            "cropped": "images/questions/s06_q20.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q20.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-21",
+          "id": "21",
+          "qnum": 21,
+          "type": "计算题",
+          "content": "已知 $z = z(x, y)$ 具有连续的二阶偏导数，作变量代换：$\\left\\lbrace\\begin{array}{l} u = \\frac{x - y}{2}, \\\\ v = \\sqrt{xy} \\end{array} \\right.$ $x > 0, y > 0$ 可将等式\n\n$$\\frac {\\partial^ {2} z}{\\partial x ^ {2}} + \\frac {\\partial^ {2} z}{\\partial y ^ {2}} + \\frac {P (x , y)}{y} \\frac {\\partial z}{\\partial x} + \\frac {Q (x , y)}{x} \\frac {\\partial z}{\\partial y} = 0$$\n\n变换为关于 $u, v$ 不含一阶偏导数的等式.",
+          "options": null,
+          "sub_questions": [
+            "$P(x,y), Q(x,y)$;",
+            "$D = \\{(x,y) | 1 \\leqslant x^2 + y^2 \\leqslant 2, x > 0, y > 0\\}$, 计算二重积分 $\\iint_{D} \\min\\{P(x,y), Q(x,y)\\} \\, dx \\, dy$."
+          ],
+          "page": 24,
+          "printed_page": 3,
+          "chapter": "模拟六",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 24,
+            "cropped": "images/questions/s06_q21.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q21.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        },
+        {
+          "uid": "李永乐六套卷-模拟六-22",
+          "id": "22",
+          "qnum": 22,
+          "type": "计算题",
+          "content": "设 $A = \\begin{pmatrix} 1 & 0 & 1 \\\\ 0 & 1 & 2 \\\\ 1 & 1 & 3 \\end{pmatrix}, \\boldsymbol{\\beta} = \\begin{pmatrix} 1 \\\\ 1 \\\\ 0 \\end{pmatrix}, B = \\begin{pmatrix} 1 & 1 & 1 \\\\ 1 & -1 & 1 \\\\ 2 & 0 & 0 \\end{pmatrix}$，且 $(A, \\boldsymbol{\\beta}) = BC$.",
+          "options": null,
+          "sub_questions": [
+            "求齐次线性方程组 $Ax = 0$ 的通解，并求矩阵 $C$;",
+            "设 $E$ 为三阶单位矩阵，求满足 $(A, \\beta)Y = E$ 的所有矩阵 $Y$."
+          ],
+          "page": 24,
+          "printed_page": 3,
+          "chapter": "模拟六",
+          "section": "计算题",
+          "has_image": false,
+          "image_ref": {
+            "page": 24,
+            "cropped": "images/questions/s06_q22.png",
+            "note": "原题逐题裁图",
+            "original_page": null
+          },
+          "source": "2027李永乐数学决胜冲刺6套卷·数学二",
+          "answer_ref": "answer_crops/s06_q22.png",
+          "answer_incomplete": false,
+          "answer_structured": null
+        }
+      ]
+    }
+  ]
+}
