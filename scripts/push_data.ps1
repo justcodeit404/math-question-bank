@@ -62,8 +62,9 @@ if (-not $SkipGenerate) {
 }
 
 # Live tree is already outside the release. HTTP stamp check below is the real proof.
-& $Ssh -o BatchMode=yes -o ConnectTimeout=12 $Server "test -d $RemoteDir"
-if ($LASTEXITCODE -ne 0) { Die "remote $RemoteDir missing" }
+$remoteBookDirs = @($Books | ForEach-Object { "'$RemoteDir/$($_.Name)/math-bank'" }) -join ' '
+& $Ssh -o BatchMode=yes -o ConnectTimeout=12 $Server "test -d $RemoteDir && mkdir -p -- $remoteBookDirs"
+if ($LASTEXITCODE -ne 0) { Die "remote $RemoteDir missing or book directory initialization failed" }
 
 $old = @{}
 if (Test-Path -LiteralPath $StateFile) {
@@ -90,12 +91,14 @@ foreach ($b in $Books) {
     if (-not $ver) { Die "stamp missing in $($b.Name)" }
     $stamps[$b.Enc] = $ver
 }
-$stats = Join-Path $Root "stats.js"
-if (Test-Path -LiteralPath $stats) {
-    $h = Sha256 $stats
-    $new["stats.js"] = $h
-    if ($old["stats.js"] -ne $h) {
-        $toPush.Add([pscustomobject]@{ Key = "stats.js"; Local = $stats; RemoteSub = ""; Name = "stats.js"; Enc = "" })
+foreach ($rootName in @("index.html", "stats.js")) {
+    $rootFile = Join-Path $Root $rootName
+    if (Test-Path -LiteralPath $rootFile) {
+        $h = Sha256 $rootFile
+        $new[$rootName] = $h
+        if ($old[$rootName] -ne $h) {
+            $toPush.Add([pscustomobject]@{ Key = $rootName; Local = $rootFile; RemoteSub = ""; Name = $rootName; Enc = "" })
+        }
     }
 }
 
@@ -156,24 +159,32 @@ foreach ($k in @($cache.Keys)) {
 # 所有书目合并成一次 SSH，减少建连（云端对短时间多次 SSH 建连有限流）。
 if (@($assetFiles | Where-Object { -not $old.ContainsKey($_.Key) }).Count -gt 0) {
     $seedParts = foreach ($b in $Books) {
-        $dir = "`$D/$($b.Name)/math-bank"
-        "if [ -d `"$dir`" ]; then echo `"##$($b.Enc)`"; (cd `"$dir`" && find images answer_crops -type f -exec sha256sum {} + 2>/dev/null); fi"
-    }
-    $remoteSeed = "D='$RemoteDir'; " + ($seedParts -join '; ')
-    $currentEnc = $null
-    foreach ($line in @(& $Ssh -o BatchMode=yes -o ConnectTimeout=15 $Server $remoteSeed 2>$null)) {
-        if ($line -match '^##(.+)$') { $currentEnc = $matches[1]; continue }
-        if ($currentEnc -and $line -match '^([0-9a-f]{64})\s+(.+)$') {
-            $old["$currentEnc/$($matches[2])"] = $matches[1]
+        $hasBaseline = $false
+        foreach ($key in $old.Keys) {
+            if ($key.StartsWith("$($b.Enc)/")) { $hasBaseline = $true; break }
         }
+        if (-not $hasBaseline) { continue }
+        $dir = "$RemoteDir/$($b.Name)/math-bank"
+        # 远端命令只用单引号：PS5.1 传含内嵌双引号的参数给 ssh.exe 会截断（历年真题首次触发）
+        "if [ -d '$dir' ]; then echo '##$($b.Enc)'; (cd '$dir' && find images answer_crops -type f -exec sha256sum {} + 2>/dev/null); fi"
     }
-    Start-Sleep -Seconds 3
+    if ($seedParts) {
+        $remoteSeed = $seedParts -join '; '
+        $currentEnc = $null
+        foreach ($line in @(& $Ssh -o BatchMode=yes -o ConnectTimeout=15 $Server $remoteSeed 2>$null)) {
+            if ($line -match '^##(.+)$') { $currentEnc = $matches[1]; continue }
+            if ($currentEnc -and $line -match '^([0-9a-f]{64})\s+(.+)$') {
+                $old["$currentEnc/$($matches[2])"] = $matches[1]
+            }
+        }
+        Start-Sleep -Seconds 3
+    }
 }
 
 $assetDrift = @{}
 foreach ($a in $assetFiles) {
     $new[$a.Key] = $a.Hash
-    if ($old[$a.Key] -ne $a.Hash) { $assetDrift["$($a.Book)|$($a.Dir)"] = $true }
+    if ($old[$a.Key] -ne $a.Hash) { $assetDrift[$a.Book] = $true }
 }
 
 # ---- 本地删除/改名的文件云端也要删 ----
@@ -213,37 +224,39 @@ foreach ($g in ($toPush | Group-Object RemoteSub)) {
     Start-Sleep -Seconds 2
 }
 
-# 漂移的题图目录：整目录 tar → scp → 远端解包（PNG 已压缩，不再 -C）
-# 解包和文件数校验放在同一次 SSH 里，减少建连次数。
+# 漂移的题图目录：同一本书的 images + answer_crops 合并 tar → 一次 scp → 一次远端解包。
+# 解包和文件数校验放在同一次 SSH 里，减少短连接，避免云端限流。
 if ($assetDrift.Count -gt 0) {
     $Tar = Join-Path $env:SystemRoot "System32\tar.exe"
     if (-not (Test-Path -LiteralPath $Tar)) { Die "tar.exe not found for asset push" }
-    foreach ($item in @($assetDrift.Keys)) {
-        $bookName, $dirName = $item -split '\|', 2
+    foreach ($bookName in @($assetDrift.Keys)) {
         $bankDir = Join-Path $Root (Join-Path $bookName "math-bank")
         $remoteBank = "$RemoteDir/$bookName/math-bank"
+        $dirNames = @($assetDirs | Where-Object { Test-Path -LiteralPath (Join-Path $bankDir $_) -PathType Container })
+        if ($dirNames.Count -eq 0) { continue }
         $tarName = ".bankmath-$([guid]::NewGuid().ToString('N')).tar"
         $tmpTar = Join-Path $env:TEMP $tarName
-        $localCount = @($assetFiles | Where-Object { $_.Book -eq $bookName -and $_.Dir -eq $dirName }).Count
+        $localCount = @($assetFiles | Where-Object { $_.Book -eq $bookName }).Count
+        $findPaths = @($dirNames | ForEach-Object { "'$remoteBank/$_'" }) -join ' '
         try {
-            & $Tar -C $bankDir -cf $tmpTar $dirName
-            if ($LASTEXITCODE -ne 0) { Die "tar pack failed: $item" }
-            Invoke-WithRetry "scp $item" { & $Scp $tmpTar "${Server}:/tmp/$tarName" }
+            & $Tar -C $bankDir -cf $tmpTar $dirNames
+            if ($LASTEXITCODE -ne 0) { Die "tar pack failed: $bookName" }
+            Invoke-WithRetry "scp $bookName assets" { & $Scp $tmpTar "${Server}:/tmp/$tarName" }
             $remoteCount = $null
             for ($i = 1; $i -le 5 -and $null -eq $remoteCount; $i++) {
-                $out = & $Ssh -o BatchMode=yes -o ConnectTimeout=15 $Server "tar -C '$remoteBank' -xf '/tmp/$tarName' && rm -f '/tmp/$tarName' && find '$remoteBank/$dirName' -type f | wc -l" 2>&1
+                $out = & $Ssh -o BatchMode=yes -o ConnectTimeout=15 $Server "tar -C '$remoteBank' -xf '/tmp/$tarName' && rm -f '/tmp/$tarName' && find $findPaths -type f | wc -l" 2>&1
                 if ($LASTEXITCODE -eq 0 -and "$out".Trim() -match '^\d+$') {
                     $remoteCount = [int]("$out".Trim())
                 } else {
-                    Write-Host "ssh extract $item failed (attempt $i/5): $($out -join ' ')"
+                    Write-Host "ssh extract $bookName assets failed (attempt $i/5): $($out -join ' ')"
                     Start-Sleep -Seconds 15
                 }
             }
-            if ($null -eq $remoteCount) { Die "ssh extract failed: $item" }
+            if ($null -eq $remoteCount) { Die "ssh extract failed: $bookName assets" }
             if ($remoteCount -ne $localCount) {
-                Die "asset count mismatch at $item (local=$localCount remote=$remoteCount)"
+                Die "asset count mismatch at $bookName (local=$localCount remote=$remoteCount)"
             }
-            Write-Host "assets ok: $item ($localCount)"
+            Write-Host "assets ok: $bookName ($localCount)"
         } finally {
             if (Test-Path -LiteralPath $tmpTar) { Remove-Item -LiteralPath $tmpTar -Force }
         }
@@ -284,6 +297,12 @@ foreach ($pair in $stamps.GetEnumerator()) {
     if ($code -ne 200) { Die "$enc data $code" }
     Write-Host "remote: $enc stamp_ok data 200"
 }
+$homeHtml = (Get-Http "$httpBase/banks/math/index.html").Content
+foreach ($b in $Books) {
+    $bookLink = "./$($b.Name)/math-bank/index.html"
+    if ($homeHtml -notmatch [regex]::Escape($bookLink)) { Die "math home missing book link: $($b.Name)" }
+}
+Write-Host "remote: math home book links ok"
 
 ($new.GetEnumerator() | Sort-Object Name | ForEach-Object { "$($_.Key)=$($_.Value)" }) | Set-Content -LiteralPath $StateFile -Encoding UTF8
 Write-Host "OK: $($toPush.Count) file(s) + $($assetDrift.Count) asset dir(s) hot-updated (no service restart)"

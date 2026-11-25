@@ -120,7 +120,7 @@ console.log('ok');
 
 
 def test_all_generated_books_have_workbook_wiring():
-    for book in ("660题", "880题", "1000题", "大学深埋"):
+    for book in ("660题", "880题", "1000题", "大学深埋", "李永乐六套卷", "李林六套卷"):
         source = (ROOT / book / "math-bank" / "index.html").read_text(encoding="utf-8")
         assert 'id="btnExportWorkbook"' in source, book
         assert "pdf-export.js?v=" in source, book

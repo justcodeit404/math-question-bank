@@ -4,7 +4,7 @@ from pathlib import Path
 SCRIPTS_DIR = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
-from source_mapping import resolve_question_pdf, validate_mapping
+from source_mapping import resolve_answer_pdf, resolve_question_pdf, validate_mapping
 
 
 def test_660_high_and_linear_use_different_pdfs():
@@ -26,6 +26,21 @@ def test_university_linear_is_selected_by_chapter():
         {"_book": "大学深埋", "uid": "大学深埋-线代-例1-p1", "chapter": "线代 · 行列式和矩阵", "page": 1}
     )
     assert ref is not None and "线代讲义" in ref.path.name
+
+
+def test_liyongle6_uses_its_own_pdf():
+    ref = resolve_question_pdf({"_book": "李永乐六套卷", "uid": "李永乐六套卷-模拟一-1", "page": 2})
+    assert ref is not None and ref.path.name == "李永乐六套卷（数二）.pdf"
+    answer = resolve_answer_pdf({"_book": "李永乐六套卷", "uid": "李永乐六套卷-模拟一-1"})
+    assert answer is not None and answer.path.name == "李永乐六套卷（数二）答案解析.pdf"
+
+
+def test_linliu6_uses_its_own_pdfs():
+    question = {"_book": "李林六套卷", "uid": "李林六套卷-第一套-1", "page": 2}
+    ref = resolve_question_pdf(question)
+    assert ref is not None and ref.path.name == "李林六套卷（数二）.pdf"
+    answer = resolve_answer_pdf(question)
+    assert answer is not None and answer.path.name == "李林六套卷（数二）解析.pdf"
 
 
 def test_mapping_reports_missing_pdf_without_throwing(monkeypatch):
