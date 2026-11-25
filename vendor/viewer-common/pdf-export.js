@@ -156,7 +156,7 @@ body.viewer-pdf-body {
     return html;
   }
 
-  function documentShell(title, count) {
+  function documentShell(title, count, itemsHtml) {
     var sourceDoc = global.document || {};
     var baseURI = sourceDoc.baseURI || (global.location && global.location.href) || '';
     return '<!doctype html><html lang="zh-CN" data-theme="light"><head>' +
@@ -176,7 +176,7 @@ body.viewer-pdf-body {
       '<button type="button" id="viewerPdfClose">关闭</button>' +
       '<span class="viewer-pdf-toolbar-hint">打印设置：目标打印机选 <b>“另存为 PDF”</b>，纸张 A4、布局<b>横向</b>，并<b>取消勾选“页眉和页脚”</b>。' +
       '若用 Microsoft Print to PDF 等系统打印机且布局为纵向，横版页面会被旋转 90° 塞进竖纸。每题一页、不含答案，超长题自动续页。平台默认直接生成并下载带书签的 PDF；失败时才用打印导出，保存后可再点「为 PDF 加书签」手动补写。</span>' +
-      '</div><main class="viewer-pdf-items" id="viewerPdfItems"></main></body></html>';
+      '</div><main class="viewer-pdf-items" id="viewerPdfItems">' + (itemsHtml || '') + '</main></body></html>';
   }
 
   function questionShell(title, html, index, total) {
@@ -498,20 +498,31 @@ body.viewer-pdf-body {
     return !!(global.location && global.location.pathname.indexOf('/banks/') === 0);
   }
 
-  async function downloadWorkbookPdf(printDoc, title, titles, manualLink) {
+  /**
+   * 自动下载路径不在本地排版：直接把题目 HTML 拼进打印壳交给后端，
+   * 等字体题图、DOM 调整、量页和书签都由后端在同一次 Chromium 渲染里完成。
+   */
+  function buildWorkbookHtml(options, questions, title) {
+    var items = [];
+    for (var i = 0; i < questions.length; i++) {
+      items.push(questionShell(title, options.renderQuestion(questions[i], i), i, questions.length));
+    }
+    return documentShell(title, questions.length, items.join(''));
+  }
+
+  async function downloadWorkbookPdf(html, title, doc, manualLink) {
     var response = await global.fetch('/api/study/workbook-export.pdf', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         title: title,
-        html: '<!doctype html>' + printDoc.documentElement.outerHTML,
-        titles: titles,
+        html: html,
         filename: title + '-带书签.pdf',
       }),
     });
     if (!response.ok) throw new Error('PDF 生成接口返回 ' + response.status);
     var blob = await response.blob();
-    downloadBlob(printDoc, blob, title + '-带书签.pdf', manualLink);
+    downloadBlob(doc, blob, title + '-带书签.pdf', manualLink);
     return blob.size;
   }
 
@@ -567,40 +578,9 @@ body.viewer-pdf-body {
   }
 
   /**
-   * 自动下载路径的排版容器：屏幕外定位的隐藏 iframe。
-   * display:none 的 iframe 不布局、不加载题图，所以用 left:-10000px 隐藏。
-   */
-  function createRenderFrame() {
-    var doc = global.document;
-    if (!doc || typeof doc.createElement !== 'function') return null;
-    var parent = doc.body || doc.documentElement;
-    if (!parent || typeof parent.appendChild !== 'function') return null;
-    var iframe = doc.createElement('iframe');
-    if (!iframe || typeof iframe.setAttribute !== 'function') return null;
-    iframe.setAttribute('aria-hidden', 'true');
-    if (iframe.style) {
-      iframe.style.cssText = 'position:fixed;left:-10000px;top:0;width:1200px;height:800px;border:0;';
-    }
-    parent.appendChild(iframe);
-    return iframe;
-  }
-
-  function removeRenderFrame(iframe) {
-    if (!iframe || iframe.__workbookFrameRemoved) return;
-    iframe.__workbookFrameRemoved = true;
-    try {
-      if (typeof iframe.remove === 'function') iframe.remove();
-      else if (iframe.parentNode && typeof iframe.parentNode.removeChild === 'function') {
-        iframe.parentNode.removeChild(iframe);
-      }
-    } catch (error) {
-      // 已脱离文档时忽略
-    }
-  }
-
-  /**
-   * 把题目排版进目标文档（打印预览窗或隐藏 iframe）：渲染题目、等待字体题图、
-   * 量出每题页数。isClosed 用于预览窗中途被用户关闭；返回 null 表示已中止。
+   * 把题目排版进打印预览窗：渲染题目、等待字体题图、量出每题页数。
+   * isClosed 用于预览窗中途被用户关闭；返回 null 表示已中止。
+   * 仅打印预览/手动补书签路径使用；自动下载路径由后端排版，不走这里。
    */
   async function renderWorkbookDoc(printDoc, options, questions, title, isClosed) {
     var items = printDoc.getElementById('viewerPdfItems');
@@ -629,8 +609,9 @@ body.viewer-pdf-body {
    * Open a printable workbook. The popup is created before the first await so
    * browsers still treat it as part of the user's click gesture.
    *
-   * 平台 /banks/* 优先走静默路径：在隐藏 iframe 里排版并交给后端生成 PDF，
-   * 全程不弹任何窗口；接口失败才回退到打印预览窗。
+   * 平台 /banks/* 优先走静默路径：本地不排版，直接把拼好的题目 HTML 交给后端，
+   * 由后端一次 Chromium 渲染完成等图、量页并返回带书签 PDF，全程不弹任何窗口；
+   * 接口失败才回退到打印预览窗（本地排版、量页，供手动补书签与打印）。
    */
   async function open(options) {
     options = options || {};
@@ -651,25 +632,11 @@ body.viewer-pdf-body {
 
     var autoError = null;
     if (options.autoDownload !== false && canAutoDownload()) {
-      var iframe = createRenderFrame();
-      var frameDoc = iframe && (iframe.contentDocument ||
-        (iframe.contentWindow && iframe.contentWindow.document));
-      if (frameDoc) {
-        try {
-          frameDoc.open();
-          frameDoc.write(documentShell(title, questions.length));
-          frameDoc.close();
-          frameDoc.title = title;
-          var rendered = await renderWorkbookDoc(frameDoc, options, questions, title);
-          if (!rendered) return false;
-          if (rendered.failedImages) throw new Error(rendered.failedImages + ' 张题图未加载成功');
-          await downloadWorkbookPdf(frameDoc, title, rendered.pageTitles, null);
-          return true;
-        } catch (error) {
-          autoError = error;
-        } finally {
-          removeRenderFrame(iframe);
-        }
+      try {
+        await downloadWorkbookPdf(buildWorkbookHtml(options, questions, title), title, global.document, null);
+        return true;
+      } catch (error) {
+        autoError = error;
       }
     }
 
