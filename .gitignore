@@ -28,6 +28,7 @@ scripts/archive/
 # 大文件：PDF、原始页面图、裁剪图
 *.pdf
 */pdf_images*/
+*/answer_pdf_images/
 */cropped_images/
 */math-bank/images/
 */math-bank/crops/
